@@ -12,6 +12,7 @@ import os
 
 from dotenv import load_dotenv
 
+import cloudinary
 
 # --------------------------------------------------
 # BASE DIRECTORY
@@ -77,6 +78,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'myApp',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 
@@ -274,6 +277,15 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = BASE_DIR / 'media'
 
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
+
 
 # --------------------------------------------------
 # DEFAULT PRIMARY KEY
@@ -343,3 +355,13 @@ SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
 X_FRAME_OPTIONS = 'DENY'
+
+# --------------------------------------------------
+# Cloudinary
+# --------------------------------------------------
+
+cloudinary.config(
+    cloud_name=os.getenv('CLOUDINARY_CLOUD_NAME'),
+    api_key=os.getenv('CLOUDINARY_API_KEY'),
+    api_secret=os.getenv('CLOUDINARY_API_SECRET'),
+)
