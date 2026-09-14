@@ -1,0 +1,1478 @@
+/* ============================================ */
+/* ADMIN DASHBOARD - SKILLS SECTION CSS         */
+/* Clean, Light & Fully Responsive              */
+/* With Complete Nested Tree Support            */
+/* ============================================ */
+
+/* ---------- CSS VARIABLES ---------- */
+:root {
+    --primary: #4f8cf7;
+    --primary-light: #7aadff;
+    --primary-dark: #3a7bd5;
+    --secondary: #ff9f43;
+    --secondary-light: #ffbe76;
+    --secondary-dark: #e8893a;
+    --success: #2ecc71;
+    --success-light: #55efc4;
+    --danger: #ff6b6b;
+    --danger-light: #ff9f9f;
+    --warning: #fdcb6e;
+    --info: #74b9ff;
+    --bg-main: #f0f4f8;
+    --bg-white: #ffffff;
+    --bg-light: #f8fafc;
+    --bg-card: #fafcff;
+    --text-primary: #2d3748;
+    --text-secondary: #4a5568;
+    --text-muted: #718096;
+    --text-light: #a0aec0;
+    --border-light: #e2e8f0;
+    --border-medium: #cbd5e1;
+    --border-dark: #a0aec0;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.07);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
+    --shadow-xl: 0 12px 40px rgba(0, 0, 0, 0.1);
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --radius-xl: 18px;
+    --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ---------- GLOBAL RESET ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-sans);
+    background: var(--bg-main);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* ---------- TYPOGRAPHY ---------- */
+h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+}
+
+h2 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+/* ---------- SECTION HEADINGS ---------- */
+.section-heading {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    padding: 0.75rem 0 0.5rem 0;
+    border-bottom: 2px solid var(--border-light);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.section-heading::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border-light), transparent);
+}
+
+/* ---------- DASHBOARD HEADER ---------- */
+.dashboard-header {
+    background: var(--bg-white);
+    border-bottom: 1px solid var(--border-light);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+}
+
+.header-left .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.breadcrumb a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: var(--transition);
+}
+
+.breadcrumb a:hover {
+    color: var(--primary);
+    transform: translateX(-3px);
+}
+
+.divider {
+    color: var(--border-medium);
+}
+
+.dashboard-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.dashboard-title img {
+    width: 18px;
+    height: 18px;
+    opacity: 0.6;
+    transition: var(--transition);
+}
+
+.dashboard-title:hover img {
+    opacity: 1;
+    transform: rotate(30deg);
+}
+
+.header-right {
+    display: flex;
+    gap: 0.75rem;
+}
+
+/* ---------- BUTTONS ---------- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.2rem;
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: var(--transition);
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    font-family: var(--font-sans);
+}
+
+.btn.view {
+    background: var(--bg-white);
+    border: 1px solid var(--border-medium);
+    color: var(--text-secondary);
+}
+
+.btn.view:hover {
+    background: var(--bg-light);
+    border-color: var(--border-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn.orange {
+    background: var(--secondary);
+    color: white;
+}
+
+.btn.orange:hover {
+    background: var(--secondary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn.small {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.75rem;
+    border-radius: var(--radius-sm);
+}
+
+.btn.danger {
+    background: var(--danger);
+    color: white;
+}
+
+.btn.danger:hover {
+    background: #e55a5a;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn.gray {
+    background: var(--border-light);
+    color: var(--text-secondary);
+}
+
+.btn.gray:hover {
+    background: var(--border-medium);
+    transform: translateY(-2px);
+}
+
+.btn.full-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 0.75rem;
+}
+
+.btn.primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn.primary:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* ---------- MAIN CONTENT ---------- */
+.main-content {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* ---------- INTRO SECTION ---------- */
+.dashboard-intro {
+    margin-bottom: 2.5rem;
+    text-align: center;
+}
+
+.dashboard-intro h1 {
+    margin-bottom: 0.5rem;
+}
+
+.dashboard-intro p {
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+/* ---------- DASHBOARD MAIN LAYOUT ---------- */
+.dashboard-main {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+/* ---------- SIDEBAR ---------- */
+.sidebar {
+    width: 260px;
+    flex-shrink: 0;
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-light);
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.sidebar:hover {
+    box-shadow: var(--shadow-lg);
+}
+
+.tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1.25rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+    border-left: 3px solid transparent;
+}
+
+.tab-btn:hover {
+    background: var(--bg-light);
+    color: var(--text-primary);
+    padding-left: 1.6rem;
+}
+
+.tab-btn.active {
+    background: linear-gradient(90deg, rgba(79, 140, 247, 0.08) 0%, transparent 100%);
+    color: var(--primary);
+    border-left-color: var(--primary);
+    font-weight: 600;
+}
+
+/* ---------- CONTENT AREA ---------- */
+.content-area {
+    flex: 1;
+    min-width: 0;
+}
+
+.tab-pane {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-light);
+    padding: 1.75rem;
+    transition: var(--transition);
+}
+
+.tab-pane:hover {
+    box-shadow: var(--shadow-lg);
+}
+
+/* ---------- FORM STYLES ---------- */
+.skill-builder-form {
+    background: var(--bg-light);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid var(--border-light);
+}
+
+.form-header {
+    margin-bottom: 1.25rem;
+}
+
+.form-header .section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.form-header .section-subtitle {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.field-box {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.field-box label {
+    font-weight: 500;
+    color: var(--text-secondary);
+    font-size: 0.8125rem;
+}
+
+.field-box input,
+.field-box select {
+    padding: 0.625rem 0.875rem;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-family: var(--font-sans);
+    transition: var(--transition);
+    background: var(--bg-white);
+    width: 100%;
+    color: var(--text-primary);
+}
+
+.field-box input:focus,
+.field-box select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(79, 140, 247, 0.1);
+}
+
+.field-box input::placeholder {
+    color: var(--text-light);
+}
+
+.submit-wrap {
+    margin-top: 0.5rem;
+}
+
+/* ---------- DIVIDER ---------- */
+hr {
+    border: none;
+    border-top: 1px solid var(--border-light);
+    margin: 2rem 0;
+}
+
+/* ---------- SKILL SECTIONS ---------- */
+.skills-section {
+    margin-bottom: 2.5rem;
+}
+
+.skills-section:last-child {
+    margin-bottom: 0;
+}
+
+/* ---------- SKILL CARD ---------- */
+.skill-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-light);
+    transition: var(--transition);
+}
+
+.skill-card:hover {
+    border-color: var(--border-medium);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-1px);
+}
+
+/* ---------- SKILL HEADER ---------- */
+.skill-header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.skill-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+    min-width: 150px;
+}
+
+.skill-category-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.hidden-label {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.skill-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* ---------- INLINE EDIT FORM ---------- */
+
+.inline-edit-form {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+    width: 100%;
+}
+
+.inline-edit-form.active {
+    display: flex;
+}
+
+/* ---------- EDIT TOP ROW ---------- */
+
+.edit-top-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+/* ---------- EDIT ICON CONTROL ---------- */
+
+.edit-icon-control {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+.edit-icon-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+}
+
+.edit-icon-preview .node-icon {
+    width: 32px;
+    height: 32px;
+}
+
+/* ---------- EDIT NAME CONTROL ---------- */
+
+.edit-name-control {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+    min-width: 180px;
+}
+
+.edit-name-control input[type="text"] {
+    padding: 0.375rem 0.625rem;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    min-width: 120px;
+    flex: 1;
+    background: var(--bg-white);
+    color: var(--text-primary);
+    transition: var(--transition);
+}
+
+.edit-name-control input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(79, 140, 247, 0.1);
+}
+
+/* ---------- CHECKBOX CONTROL ---------- */
+
+.checkbox-control {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+}
+
+.checkbox-control input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: var(--primary);
+}
+
+.visibility-control {
+    opacity: 1;
+    transition: opacity 0.2s ease;
+}
+
+/* ---------- EDIT CATEGORY ---------- */
+
+.edit-category-select {
+    padding: 0.375rem 0.5rem;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+    font-size: 0.8125rem;
+    background: var(--bg-white);
+    cursor: pointer;
+    color: var(--text-primary);
+    transition: var(--transition);
+    flex-shrink: 0;
+}
+
+.edit-category-select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+/* ---------- EDIT ICON SELECT ---------- */
+
+.edit-icon-select {
+    padding: 0.375rem 0.5rem;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+    font-size: 0.8125rem;
+    background: var(--bg-white);
+    cursor: pointer;
+    color: var(--text-primary);
+    transition: var(--transition);
+    min-width: 130px;
+    flex-shrink: 0;
+}
+
+.edit-icon-select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+/* ---------- EDIT ACTIONS ---------- */
+
+.edit-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.edit-actions .btn {
+    flex-shrink: 0;
+}
+
+/* ---------- CHILD FORM ---------- */
+
+.child-form {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px dashed var(--border-medium);
+}
+
+.child-form-inner {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.child-form-inner input[type="text"] {
+    padding: 0.375rem 0.625rem;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+    font-size: 0.8125rem;
+    min-width: 160px;
+    flex: 1;
+    background: var(--bg-white);
+    color: var(--text-primary);
+    transition: var(--transition);
+}
+
+.child-form-inner input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(79, 140, 247, 0.1);
+}
+
+.child-form-inner input[type="text"]::placeholder {
+    color: var(--text-light);
+}
+
+.child-form-inner select {
+    padding: 0.375rem 0.5rem;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+    font-size: 0.8125rem;
+    background: var(--bg-white);
+    cursor: pointer;
+    color: var(--text-primary);
+    transition: var(--transition);
+}
+
+.child-form-inner select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+/* ---------- SKILL CHILDREN (Nested Tree) ---------- */
+
+.skill-children {
+    margin-top: 0.75rem;
+    padding-left: 1.5rem;
+    border-left: 2px solid var(--border-light);
+}
+
+/* ---------- SKILL TREE (Recursive Nodes) ---------- */
+
+.skill-tree {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.skill-node {
+    position: relative;
+}
+
+.skill-node-content {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--bg-white);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-light);
+    transition: var(--transition);
+}
+
+.skill-node-content:hover {
+    border-color: var(--border-medium);
+    background: var(--bg-light);
+    transform: translateX(2px);
+}
+
+.node-display {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+    min-width: 120px;
+}
+
+.node-indent {
+    color: var(--text-light);
+    font-size: 0.75rem;
+    font-weight: 300;
+}
+
+.node-icon {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.node-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.node-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    flex-wrap: wrap;
+}
+
+/* ---------- NESTED NODE EDIT FORM ---------- */
+
+.node-edit-form {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.625rem;
+    width: 100%;
+}
+
+.node-edit-form.active {
+    display: flex;
+}
+
+/* ---------- NESTED EDIT TOP ROW ---------- */
+
+.node-edit-form .edit-top-row {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+/* ---------- NESTED EDIT ICON ---------- */
+
+.node-edit-form .edit-icon-control {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-shrink: 0;
+}
+
+.node-edit-form .edit-icon-preview {
+    width: 34px;
+    height: 34px;
+}
+
+.node-edit-form .edit-icon-preview .node-icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* ---------- NESTED EDIT NAME ---------- */
+
+.node-edit-form .edit-name-control {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex: 1;
+    min-width: 150px;
+}
+
+.node-edit-form .edit-name-control input[type="text"] {
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+    font-size: 0.8125rem;
+    min-width: 100px;
+    flex: 1;
+    background: var(--bg-white);
+    color: var(--text-primary);
+    transition: var(--transition);
+}
+
+.node-edit-form .edit-name-control input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(79, 140, 247, 0.1);
+}
+
+/* ---------- NESTED CATEGORY ---------- */
+
+.node-edit-form .edit-category-select {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+}
+
+/* ---------- NESTED ICON SELECT ---------- */
+
+.node-edit-form .edit-icon-select {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    min-width: 120px;
+}
+
+/* ---------- NESTED EDIT ACTIONS ---------- */
+
+.node-edit-form .edit-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+}
+
+/* ---------- NESTED CHILD FORM ---------- */
+
+.nested-form {
+    margin-top: 0.5rem;
+    padding-left: 1.5rem;
+}
+
+.child-indent {
+    color: var(--text-light);
+    font-size: 0.75rem;
+    font-weight: 300;
+}
+
+/* ---------- EMPTY STATES ---------- */
+
+.empty-state {
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    color: var(--text-muted);
+    background: var(--bg-light);
+    border-radius: var(--radius-lg);
+    border: 1px dashed var(--border-medium);
+}
+
+.empty-state p {
+    font-size: 0.875rem;
+}
+
+.empty-children {
+    padding: 0.5rem 0 0.5rem 1.5rem;
+}
+
+.empty-hint {
+    font-size: 0.8125rem;
+    color: var(--text-light);
+    font-style: italic;
+}
+
+/* ---------- SESSION WARNING MODAL ---------- */
+
+.session-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(6px);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.session-modal.show {
+    display: flex;
+}
+
+.session-box {
+    background: var(--bg-white);
+    border-radius: var(--radius-xl);
+    width: 90%;
+    max-width: 420px;
+    padding: 2rem;
+    text-align: center;
+    animation: slideUp 0.3s ease-out;
+    box-shadow: var(--shadow-xl);
+    border-top: 4px solid var(--warning);
+}
+
+.session-box h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--warning);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.session-box p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.session-box #countdown {
+    display: inline-block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--danger);
+    background: var(--bg-light);
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-md);
+    margin: 0 0.25rem;
+    min-width: 50px;
+}
+
+.session-box .session-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.session-box .stay-btn {
+    padding: 0.625rem 1.25rem;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    background: var(--success);
+    color: white;
+}
+
+.session-box .stay-btn:hover {
+    background: #27ae60;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.session-box .logout-btn {
+    padding: 0.625rem 1.25rem;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    background: var(--bg-light);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-medium);
+}
+
+.session-box .logout-btn:hover {
+    background: var(--border-light);
+    transform: translateY(-2px);
+}
+
+#countdown.low {
+    animation: pulse 0.5s ease-in-out 3;
+    color: #dc2626;
+    background: #fee2e2;
+}
+
+/* ---------- RESPONSIVE DESIGN ---------- */
+
+@media (max-width: 1024px) {
+
+    .main-content {
+        padding: 1.5rem;
+    }
+
+    .dashboard-header {
+        padding: 0.875rem 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem;
+    }
+
+    .header-right {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .dashboard-main {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        border-radius: var(--radius-lg);
+    }
+
+    .tab-btn {
+        flex: 1;
+        text-align: center;
+        justify-content: center;
+        border-left: none;
+        border-bottom: 3px solid transparent;
+        padding: 0.75rem 0.5rem;
+        font-size: 0.8125rem;
+        min-width: 80px;
+    }
+
+    .tab-btn.active {
+        border-left-color: transparent;
+        border-bottom-color: var(--primary);
+    }
+
+    .tab-pane {
+        padding: 1.25rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .skill-builder-form {
+        padding: 1rem;
+    }
+
+    .skill-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .skill-title {
+        min-width: unset;
+    }
+
+    .skill-actions {
+        justify-content: flex-start;
+    }
+
+    /* ---------- EDIT RESPONSIVE ---------- */
+
+    .edit-top-row {
+        align-items: stretch;
+    }
+
+    .edit-icon-control,
+    .edit-name-control {
+        width: 100%;
+    }
+
+    .edit-name-control {
+        min-width: unset;
+    }
+
+    .edit-category-select,
+    .edit-icon-select {
+        width: 100%;
+    }
+
+    .edit-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    /* ---------- CHILD FORM ---------- */
+
+    .child-form-inner {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .child-form-inner input[type="text"] {
+        min-width: unset;
+    }
+
+    .child-form-inner select {
+        width: 100%;
+    }
+
+    .skill-children {
+        padding-left: 0.75rem;
+    }
+
+    /* ---------- NESTED EDIT ---------- */
+
+    .node-edit-form .edit-top-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .node-edit-form .edit-icon-control,
+    .node-edit-form .edit-name-control {
+        width: 100%;
+    }
+
+    .node-edit-form .edit-name-control {
+        min-width: unset;
+    }
+
+    .node-edit-form .edit-category-select,
+    .node-edit-form .edit-icon-select {
+        width: 100%;
+    }
+
+    .node-edit-form .edit-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .node-display {
+        min-width: unset;
+    }
+}
+
+@media (max-width: 640px) {
+
+    .main-content {
+        padding: 1rem;
+    }
+
+    .dashboard-intro h1 {
+        font-size: 1.6rem;
+    }
+
+    .dashboard-intro p {
+        font-size: 0.875rem;
+    }
+
+    .sidebar {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .tab-btn {
+        font-size: 0.75rem;
+        padding: 0.625rem 0.25rem;
+    }
+
+    .tab-pane {
+        padding: 1rem;
+    }
+
+    h2 {
+        font-size: 1.3rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .skill-card {
+        padding: 1rem;
+    }
+
+    .skill-node-content {
+        padding: 0.375rem 0.5rem;
+    }
+
+    .node-actions .btn.small {
+        font-size: 0.6875rem;
+        padding: 0.1875rem 0.5rem;
+    }
+
+    .edit-icon-preview {
+        width: 36px;
+        height: 36px;
+    }
+
+    .edit-icon-preview .node-icon {
+        width: 28px;
+        height: 28px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .sidebar {
+        grid-template-columns: 1fr;
+    }
+
+    .tab-btn {
+        justify-content: flex-start;
+        padding: 0.75rem 1rem;
+        font-size: 0.8125rem;
+    }
+
+    .breadcrumb {
+        font-size: 0.8125rem;
+    }
+
+    .dashboard-title img {
+        width: 14px;
+        height: 14px;
+    }
+
+    h2 {
+        font-size: 1.1rem;
+    }
+
+    .section-heading {
+        font-size: 1rem;
+    }
+
+    .skill-category-name {
+        font-size: 0.875rem;
+    }
+
+    .skill-icon {
+        width: 22px;
+        height: 22px;
+    }
+
+    .node-icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    .node-name {
+        font-size: 0.8125rem;
+    }
+
+    .session-box {
+        padding: 1.5rem;
+        width: 95%;
+    }
+
+    .session-box h3 {
+        font-size: 1.125rem;
+    }
+
+    .session-box #countdown {
+        font-size: 1.25rem;
+        padding: 0.2rem 0.6rem;
+    }
+}
+
+/* ---------- SCROLLBAR ---------- */
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-light);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-medium);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--border-dark);
+}
+
+/* ---------- PRINT STYLES ---------- */
+
+@media print {
+
+    .dashboard-header,
+    .sidebar,
+    .btn,
+    .child-form,
+    .skill-actions,
+    .inline-edit-form,
+    .node-edit-form,
+    .submit-wrap,
+    .form-actions,
+    .session-modal {
+        display: none !important;
+    }
+
+    .main-content {
+        padding: 0;
+    }
+
+    .tab-pane {
+        box-shadow: none;
+        border: 1px solid #ddd;
+        padding: 1rem;
+    }
+
+    body {
+        background: white;
+    }
+
+    .skill-card {
+        border: 1px solid #ddd;
+        background: transparent;
+        break-inside: avoid;
+        box-shadow: none;
+    }
+
+    .skill-node-content {
+        border: 1px solid #ddd;
+        background: transparent;
+    }
+
+    .skill-children {
+        border-left-color: #ddd;
+    }
+
+    .section-heading {
+        border-bottom-color: #ddd;
+    }
+
+    .skill-builder-form {
+        border: 1px solid #ddd;
+        background: transparent;
+    }
+}
+
+/* ---------- ANIMATIONS ---------- */
+
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.tab-pane {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.skill-card {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.skill-card:nth-child(2) {
+    animation-delay: 0.05s;
+}
+
+.skill-card:nth-child(3) {
+    animation-delay: 0.1s;
+}
+
+.skill-card:nth-child(4) {
+    animation-delay: 0.15s;
+}
+
+.skill-card:nth-child(5) {
+    animation-delay: 0.2s;
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+/* ---------- ACCESSIBILITY ---------- */
+
+:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+}
+
+::placeholder {
+    color: var(--text-light);
+    font-size: 0.8125rem;
+}
+
+/* ---------- BADGE/LABEL STYLES ---------- */
+
+.badge {
+    display: inline-block;
+    padding: 0.1rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.badge-technical {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.badge-other {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+/* ---------- SKILL ICONS ---------- */
+
+.skill-icon {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+/* ---------- ADMIN VISIBILITY STATES ---------- */
+/*
+   Used when a skill name or icon is disabled from
+   public display but must remain visible in admin.
+*/
+
+.admin-item-disabled {
+    opacity: 0.35;
+}
+
+.visibility-control {
+    opacity: 1;
+    transition: opacity 0.2s ease;
+}
+
+.visibility-control.visibility-disabled {
+    opacity: 0.45;
+}

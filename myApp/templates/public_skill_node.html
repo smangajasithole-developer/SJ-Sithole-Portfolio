@@ -1,0 +1,242 @@
+{% load static %}
+
+<!-- ============================================ -->
+<!-- PUBLIC SKILL NODE -->
+<!-- Recursive renderer for ALL skill levels -->
+<!-- ============================================ -->
+
+<div class="public-skill-tree">
+
+    {% for node in nodes %}
+
+        {% if node.public_visible %}
+
+            <div
+                class="public-skill-node"
+                data-skill-id="{{ node.id }}"
+            >
+
+                <div class="public-node-content">
+
+                    {% if node.show_icon and node.icon %}
+
+                        {% if node.icon == "python" %}
+                            <img src="{% static 'images/skills/python_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "php" %}
+                            <img src="{% static 'images/skills/php_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "javascript" %}
+                            <img src="{% static 'images/skills/javascript_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "java" %}
+                            <img src="{% static 'images/skills/java_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "cpp" %}
+                            <img src="{% static 'images/skills/c++_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "html" %}
+                            <img src="{% static 'images/skills/html_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "css" %}
+                            <img src="{% static 'images/skills/css_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "django" %}
+                            <img src="{% static 'images/skills/django_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "database" %}
+                            <img src="{% static 'images/skills/database_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "mysql" %}
+                            <img src="{% static 'images/skills/mysql_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "postgresql" %}
+                            <img src="{% static 'images/skills/postgresql_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "sqlite" %}
+                            <img src="{% static 'images/skills/sqlite_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "firebase" %}
+                            <img src="{% static 'images/skills/firebase_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "git" %}
+                            <img src="{% static 'images/skills/git_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "github" %}
+                            <img src="{% static 'images/skills/github_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "vscode" %}
+                            <img src="{% static 'images/skills/vscode_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "androidstudio" %}
+                            <img src="{% static 'images/skills/androidstudio_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "eclipse" %}
+                            <img src="{% static 'images/skills/eclipse_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "netbeans" %}
+                            <img src="{% static 'images/skills/netbeans_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "pycharm" %}
+                            <img src="{% static 'images/skills/pycharm_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "excel" %}
+                            <img src="{% static 'images/skills/excel_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "word" %}
+                            <img src="{% static 'images/skills/word_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "api" %}
+                            <img src="{% static 'images/skills/api_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "json" %}
+                            <img src="{% static 'images/skills/json_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "smtp" %}
+                            <img src="{% static 'images/skills/smpt_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "deepseek" %}
+                            <img src="{% static 'images/skills/deepseek_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "language" %}
+                            <img src="{% static 'images/skills/language_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "chatgpt" %}
+                            <img src="{% static 'images/skills/chatgpt_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "deploy" %}
+                            <img src="{% static 'images/skills/deploy_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "tools" %}
+                            <img src="{% static 'images/skills/tools_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "ide" %}
+                            <img src="{% static 'images/skills/ide_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "linux" %}
+                            <img src="{% static 'images/skills/linux_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "windows" %}
+                            <img src="{% static 'images/skills/windows_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "vercel" %}
+                            <img src="{% static 'images/skills/vercel_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "pythonanywhere" %}
+                            <img src="{% static 'images/skills/pythonanywhere_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "neon" %}
+                            <img src="{% static 'images/skills/neon_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "cloud" %}
+                            <img src="{% static 'images/skills/cloud_icon.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% elif node.icon == "settings" %}
+                            <img src="{% static 'images/skills/settings.png' %}" alt="{{ node.name }}" class="public-node-icon">
+
+                        {% endif %}
+
+                    {% endif %}
+
+
+                    {% if node.show %}
+
+                        <div class="public-node-name">
+
+                            {% if node.display_type == "bullet" %}
+
+                                {% if node.heading == "h1" %}
+                                    <h1>• {{ node.name }}</h1>
+
+                                {% elif node.heading == "h2" %}
+                                    <h2>• {{ node.name }}</h2>
+
+                                {% elif node.heading == "h3" %}
+                                    <h3>• {{ node.name }}</h3>
+
+                                {% elif node.heading == "h4" %}
+                                    <h4>• {{ node.name }}</h4>
+
+                                {% elif node.heading == "h5" %}
+                                    <h5>• {{ node.name }}</h5>
+
+                                {% else %}
+                                    <h6>• {{ node.name }}</h6>
+                                {% endif %}
+
+
+                            {% elif node.display_type == "plain" %}
+
+                                {% if node.heading == "h1" %}
+                                    <h1 style="font-weight:400;">{{ node.name }}</h1>
+
+                                {% elif node.heading == "h2" %}
+                                    <h2 style="font-weight:400;">{{ node.name }}</h2>
+
+                                {% elif node.heading == "h3" %}
+                                    <h3 style="font-weight:400;">{{ node.name }}</h3>
+
+                                {% elif node.heading == "h4" %}
+                                    <h4 style="font-weight:400;">{{ node.name }}</h1>
+
+                                {% elif node.heading == "h5" %}
+                                    <h5 style="font-weight:400;">{{ node.name }}</h5>
+
+                                {% else %}
+                                    <h6 style="font-weight:400;">{{ node.name }}</h6>
+                                {% endif %}
+
+
+                            {% else %}
+
+                                {% if node.heading == "h1" %}
+                                    <h1>{{ node.name }}</h1>
+
+                                {% elif node.heading == "h2" %}
+                                    <h2>{{ node.name }}</h2>
+
+                                {% elif node.heading == "h3" %}
+                                    <h3>{{ node.name }}</h3>
+
+                                {% elif node.heading == "h4" %}
+                                    <h4>{{ node.name }}</h4>
+
+                                {% elif node.heading == "h5" %}
+                                    <h5>{{ node.name }}</h5>
+
+                                {% else %}
+                                    <h6>{{ node.name }}</h6>
+                                {% endif %}
+
+                            {% endif %}
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                {% if node.public_children %}
+
+                    <div class="public-skill-children">
+
+                        {% include "public_skill_node.html" with nodes=node.public_children %}
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        {% endif %}
+
+    {% empty %}
+
+        <div class="empty-public-skills">
+            <p>No skills added yet.</p>
+        </div>
+
+    {% endfor %}
+
+</div>

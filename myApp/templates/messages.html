@@ -1,0 +1,330 @@
+{% extends "adminbase.html" %}
+{% load static %}
+
+{% block title %}
+    Admin Dashboard - Messages
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet"
+          href="{% static 'css/messages.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/messages.js' %}" defer></script>
+{% endblock %}
+
+{% block body_class %}
+    messages-page
+{% endblock %}
+
+{% block page_title %}
+    Portfolio Dashboard
+{% endblock %}
+
+{% block page_description %}
+    Manage all the content on your portfolio website.
+{% endblock %}
+
+{% block content %}
+
+    <div class="tab-pane">
+
+        <!-- Messages Header -->
+
+        <div class="messages-header">
+
+            <h2>
+                📩 Inbox Messages
+            </h2>
+
+            <p class="section-description">
+                Messages sent from your portfolio contact form.
+            </p>
+
+        </div>
+
+
+        <!-- ============================================ -->
+        <!-- MESSAGES LIST                               -->
+        <!-- ============================================ -->
+
+        <div class="messages-list">
+
+            {% for msg in all_messages %}
+
+                <div class="message-card">
+
+                    <!-- Message Header -->
+
+                    <div class="message-header">
+
+                        <div class="message-sender">
+
+                            <h3 class="sender-name">
+                                {{ msg.name }}
+                            </h3>
+
+                            <p class="sender-email">
+
+                                <span class="email-icon">
+                                    📧
+                                </span>
+
+                                <a href="mailto:{{ msg.email }}">
+                                    {{ msg.email }}
+                                </a>
+
+                            </p>
+
+
+                            {% if msg.company %}
+
+                                <p class="sender-company">
+
+                                    <span class="company-icon">
+                                        🏢
+                                    </span>
+
+                                    {{ msg.company }}
+
+                                </p>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="message-meta">
+
+                            <span class="message-date">
+                                📅 {{ msg.created_at|date:"M d, Y" }}
+                            </span>
+
+                            <span class="message-time">
+                                🕐 {{ msg.created_at|date:"H:i" }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Message Body -->
+
+                    <div class="message-body">
+
+                        <div class="message-content">
+
+                            <p>
+                                {{ msg.message|linebreaks }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Message Actions -->
+
+                    <div class="message-actions">
+
+                        <button
+                            type="button"
+                            class="reply-btn"
+                            onclick="replyToMessage('{{ msg.email }}', '{{ msg.name|escapejs }}')"
+                        >
+                            📧 Reply
+                        </button>
+
+
+                        <a
+                            href="mailto:{{ msg.email }}?subject=Re: Your message from {{ msg.name }}"
+                            class="email-client-btn"
+                        >
+                            ✉️ Open in Email Client
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+            {% empty %}
+
+                <div class="empty-messages">
+
+                    <div class="empty-icon">
+                        📭
+                    </div>
+
+                    <p>
+                        No messages received yet.
+                    </p>
+
+                    <p class="empty-hint">
+                        Messages from your portfolio contact form will appear here.
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <!-- Pagination (if needed) -->
+
+        {% if all_messages.has_other_pages %}
+
+            <div class="pagination">
+
+                {% if all_messages.has_previous %}
+
+                    <a
+                        href="?page={{ all_messages.previous_page_number }}"
+                        class="page-btn"
+                    >
+                        ← Previous
+                    </a>
+
+                {% endif %}
+
+
+                <span class="page-info">
+
+                    Page
+                    {{ all_messages.number }}
+                    of
+                    {{ all_messages.paginator.num_pages }}
+
+                </span>
+
+
+                {% if all_messages.has_next %}
+
+                    <a
+                        href="?page={{ all_messages.next_page_number }}"
+                        class="page-btn"
+                    >
+                        Next →
+
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- ============================================ -->
+    <!-- QUICK REPLY MODAL (Optional)                 -->
+    <!-- ============================================ -->
+
+    <div
+        id="replyModal"
+        class="modal"
+    >
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h3>
+                    📧 Quick Reply
+                </h3>
+
+                <button
+                    type="button"
+                    class="modal-close"
+                    onclick="closeReplyModal()"
+                >
+                    &times;
+                </button>
+
+            </div>
+
+
+            <form
+                id="replyForm"
+                method="POST"
+                action=""
+            >
+
+                {% csrf_token %}
+
+
+                <input
+                    type="hidden"
+                    name="recipient_email"
+                    id="reply_email"
+                >
+
+                <input
+                    type="hidden"
+                    name="recipient_name"
+                    id="reply_name"
+                >
+
+
+                <div class="modal-form-group">
+
+                    <label for="reply_subject">
+                        Subject
+                    </label>
+
+                    <input
+                        type="text"
+                        name="subject"
+                        id="reply_subject"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="modal-form-group">
+
+                    <label for="reply_message">
+                        Message
+                    </label>
+
+                    <textarea
+                        name="message"
+                        id="reply_message"
+                        rows="5"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <div class="modal-actions">
+
+                    <button
+                        type="submit"
+                        class="btn orange"
+                    >
+                        📤 Send Reply
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn cancel-btn"
+                        onclick="closeReplyModal()"
+                    >
+                        Cancel
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+{% endblock %}

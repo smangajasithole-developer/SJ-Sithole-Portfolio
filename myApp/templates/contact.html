@@ -1,0 +1,470 @@
+{% extends "adminbase.html" %}
+{% load static %}
+
+{% block title %}
+    Admin Dashboard - Contact Info
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet"
+          href="{% static 'css/contact.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/contact.js' %}"></script>
+{% endblock %}
+
+{% block body_class %}
+    contact-page
+{% endblock %}
+
+{% block page_title %}
+    Portfolio Dashboard
+{% endblock %}
+
+{% block page_description %}
+    Manage all the content on your portfolio website.
+{% endblock %}
+
+{% block content %}
+
+    <div class="tab-pane">
+
+        <h2>
+            📞 Contact Information
+        </h2>
+
+
+        <!-- ============================================ -->
+        <!-- CONTACT FORM                                 -->
+        <!-- ============================================ -->
+
+        <form
+            method="POST"
+            class="contact-form"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- Basic Contact Information -->
+
+            <div class="form-section">
+
+                <h3>
+                    Basic Information
+                </h3>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            📧 Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value="{{ contact.email }}"
+                            placeholder="your@email.com"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="phone">
+                            📱 Phone Number
+                        </label>
+
+                        <input
+                            type="text"
+                            id="phone"
+                            name="phone"
+                            value="{{ contact.phone }}"
+                            placeholder="+1 234 567 8900"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="location">
+                            📍 Location
+                        </label>
+
+                        <input
+                            type="text"
+                            id="location"
+                            name="location"
+                            value="{{ contact.location }}"
+                            placeholder="City, Country"
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Social Links Section -->
+
+            <div class="form-section">
+
+                <h3>
+                    🔗 Social Links
+                </h3>
+
+
+                <div class="social-group">
+
+                    <div class="social-header">
+
+                        <span class="social-icon">
+                            🐙
+                        </span>
+
+                        <span>
+                            GitHub
+                        </span>
+
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label for="github_name">
+                                Username
+                            </label>
+
+                            <input
+                                type="text"
+                                id="github_name"
+                                name="github_name"
+                                value="{{ contact.github_name }}"
+                                placeholder="e.g., johndoe"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="github_url">
+                                Profile URL
+                            </label>
+
+                            <input
+                                type="url"
+                                id="github_url"
+                                name="github_url"
+                                value="{{ contact.github_url }}"
+                                placeholder="https://github.com/username"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="social-group">
+
+                    <div class="social-header">
+
+                        <span class="social-icon">
+                            🔗
+                        </span>
+
+                        <span>
+                            LinkedIn
+                        </span>
+
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label for="linkedin_name">
+                                Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="linkedin_name"
+                                name="linkedin_name"
+                                value="{{ contact.linkedin_name }}"
+                                placeholder="e.g., John Doe"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="linkedin_url">
+                                Profile URL
+                            </label>
+
+                            <input
+                                type="url"
+                                id="linkedin_url"
+                                name="linkedin_url"
+                                value="{{ contact.linkedin_url }}"
+                                placeholder="https://linkedin.com/in/username"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Form Actions -->
+
+            <div class="form-actions">
+
+                <button
+                    type="submit"
+                    class="btn orange"
+                >
+                    💾 Save Changes
+                </button>
+
+            </div>
+
+        </form>
+
+
+        <!-- ============================================ -->
+        <!-- CURRENT CONTACT INFORMATION DISPLAY          -->
+        <!-- ============================================ -->
+
+        {% if contact.email or contact.phone or contact.location or contact.github_name or contact.linkedin_name %}
+
+            <div class="contact-info-display">
+
+                <h3>
+                    📋 Current Contact Information
+                </h3>
+
+
+                <div class="contact-cards">
+
+
+                    {% if contact.email %}
+
+                        <div class="contact-card">
+
+                            <div class="contact-icon">
+                                📧
+                            </div>
+
+                            <div class="contact-details">
+
+                                <div class="contact-label">
+                                    Email
+                                </div>
+
+                                <div class="contact-value">
+
+                                    <a href="mailto:{{ contact.email }}">
+                                        {{ contact.email }}
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+
+                    {% if contact.phone %}
+
+                        <div class="contact-card">
+
+                            <div class="contact-icon">
+                                📱
+                            </div>
+
+                            <div class="contact-details">
+
+                                <div class="contact-label">
+                                    Phone
+                                </div>
+
+                                <div class="contact-value">
+
+                                    <a href="tel:{{ contact.phone }}">
+                                        {{ contact.phone }}
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+
+                    {% if contact.location %}
+
+                        <div class="contact-card">
+
+                            <div class="contact-icon">
+                                📍
+                            </div>
+
+                            <div class="contact-details">
+
+                                <div class="contact-label">
+                                    Location
+                                </div>
+
+                                <div class="contact-value">
+                                    {{ contact.location }}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+
+                    {% if contact.github_name or contact.github_url %}
+
+                        <div class="contact-card">
+
+                            <div class="contact-icon">
+                                🐙
+                            </div>
+
+                            <div class="contact-details">
+
+                                <div class="contact-label">
+                                    GitHub
+                                </div>
+
+                                <div class="contact-value">
+
+                                    {% if contact.github_name %}
+
+                                        <div class="social-name">
+                                            {{ contact.github_name }}
+                                        </div>
+
+                                    {% endif %}
+
+
+                                    {% if contact.github_url %}
+
+                                        <a
+                                            href="{{ contact.github_url }}"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {{ contact.github_url|truncatechars:35 }}
+                                        </a>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+
+                    {% if contact.linkedin_name or contact.linkedin_url %}
+
+                        <div class="contact-card">
+
+                            <div class="contact-icon">
+                                💼
+                            </div>
+
+                            <div class="contact-details">
+
+                                <div class="contact-label">
+                                    LinkedIn
+                                </div>
+
+                                <div class="contact-value">
+
+                                    {% if contact.linkedin_name %}
+
+                                        <div class="social-name">
+                                            {{ contact.linkedin_name }}
+                                        </div>
+
+                                    {% endif %}
+
+
+                                    {% if contact.linkedin_url %}
+
+                                        <a
+                                            href="{{ contact.linkedin_url }}"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            {{ contact.linkedin_url|truncatechars:35 }}
+                                        </a>
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+        {% else %}
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    📭
+                </div>
+
+                <p>
+                    No contact information added yet.
+                </p>
+
+                <p class="empty-hint">
+                    Fill out the form above to add your contact details and social links.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+{% endblock %}

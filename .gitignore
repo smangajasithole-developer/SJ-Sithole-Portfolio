@@ -1,0 +1,34 @@
+# Environment variables / secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+myVenv/
+venv/
+.venv/
+
+# Django
+db.sqlite3
+db.sqlite3-journal
+db.json
+db_sqlite_backup.sqlite3
+
+# Media uploads
+media/
+
+# Collected static files
+staticfiles/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

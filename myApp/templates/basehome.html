@@ -1,0 +1,299 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}
+            SJ Sithole - Software Developer
+        {% endblock %}
+    </title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/basehome.css' %}">
+
+    {% block extra_css %}
+    {% endblock %}
+
+    <!--
+    <script src="{% static 'js/basehome.js' %}"
+            defer></script>
+    -->
+
+
+    {% block extra_js %}
+    {% endblock %}
+
+</head>
+
+<body>
+
+    <!-- ============================================ -->
+    <!-- HEADER                                       -->
+    <!-- ============================================ -->
+
+    <header>
+
+        <div class="logo">
+
+            <img src="{% if profile and profile.profile_photo %}{{ profile.profile_photo.url }}{% else %}{% static 'images/user icon.png' %}{% endif %}"
+                 alt="">
+
+            <div class="info">
+
+                <a href="#home">
+
+                    <h2>
+
+                        {% if profile %}
+
+                            {{ profile.first_name }}
+
+                            {% if profile.middle_name %}
+                                {{ profile.middle_name }}
+                            {% endif %}
+
+                            {% if profile.last_name %}
+                                {{ profile.last_name }}
+                            {% endif %}
+
+                        {% endif %}
+
+                    </h2>
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- ======================================== -->
+        <!-- MAIN NAVIGATION                           -->
+        <!-- ======================================== -->
+
+        <!-- ======================================== -->
+        <!-- MAIN NAVIGATION                           -->
+        <!-- ======================================== -->
+
+        <nav>
+
+            <ul>
+
+                <li>
+                    <a href="#home">
+                        Home
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#about">
+                        About
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#skills">
+                        Skills
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#projects">
+                        Projects
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#contact">
+                        Contact
+                    </a>
+                </li>
+
+            </ul>
+
+        </nav>
+
+        <!-- ======================================== -->
+        <!-- THEME TOGGLE (DAY / NIGHT)                -->
+        <!-- ======================================== -->
+
+        <button type="button"
+                class="theme-toggle"
+                id="themeToggle"
+                aria-label="Toggle light and dark mode"
+                aria-pressed="false">
+
+            <span class="theme-icon sun" aria-hidden="true">
+                ☀️
+            </span>
+
+            <span class="theme-icon moon" aria-hidden="true">
+                🌙
+            </span>
+
+        </button>
+
+    </header>
+
+
+    <!-- ============================================ -->
+    <!-- PAGE CONTENT                                  -->
+    <!-- ============================================ -->
+
+    <main>
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+
+    <!-- ============================================ -->
+    <!-- FOOTER                                       -->
+    <!-- ============================================ -->
+
+    <footer class="footer">
+
+        <div class="footer-top">
+
+
+            <div class="footer-left">
+
+                <p class="lastname">
+                    Smanga J Sithole
+                </p>
+
+                <p class="tagline">
+                    Turning ideas into functional solutions.
+                </p>
+
+            </div>
+
+
+            <!-- ==================================== -->
+            <!-- FOOTER NAVIGATION                     -->
+            <!-- ==================================== -->
+
+            <nav class="footer-nav">
+
+                <ul>
+
+                    <li>
+                        <a href="#home">
+                            Home
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#about">
+                            About
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#skills">
+                            Skills
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#projects">
+                            Projects
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#contact">
+                            Contact
+                        </a>
+                    </li>
+
+                </ul>
+
+            </nav>
+
+
+            <!-- ==================================== -->
+            <!-- SOCIAL LINKS                          -->
+            <!-- ==================================== -->
+
+            <div class="social-icons">
+
+                {% if contact and contact.github_url %}
+
+                    <a href="{{ contact.github_url }}"
+                       target="_blank"
+                       rel="noopener noreferrer">
+
+                        <img src="{% static 'images/GitHub.png' %}"
+                             alt="GitHub">
+
+                    </a>
+
+                {% endif %}
+
+
+                {% if contact and contact.linkedin_url %}
+
+                    <a href="{{ contact.linkedin_url }}"
+                       target="_blank"
+                       rel="noopener noreferrer">
+
+                        <img src="{% static 'images/Linkedin.png' %}"
+                             alt="LinkedIn">
+
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <hr class="footer-line">
+
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 Smanga J Sithole.
+                Crafted with 🧡 All rights reserved.
+            </p>
+
+        </div>
+
+    </footer>
+
+    <!-- ============================================ -->
+    <!-- ANTI-FLASH THEME SCRIPT                      -->
+    <!-- Runs after DOM is parsed, before paint       -->
+    <!-- ============================================ -->
+
+    <script>
+        (function () {
+            try {
+                var theme = localStorage.getItem('theme');
+                if (!theme) {
+                    theme = window.matchMedia('(prefers-color-scheme: dark)').matches
+                        ? 'dark'
+                        : 'light';
+                }
+                if (theme === 'dark') {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                }
+            } catch (e) {}
+        })();
+    </script>
+
+
+</body>
+
+</html>

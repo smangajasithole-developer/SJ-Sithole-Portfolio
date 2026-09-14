@@ -1,0 +1,175 @@
+{% extends "adminbase.html" %}
+{% load static %}
+
+{% block title %}
+    Admin Dashboard - About
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet"
+          href="{% static 'css/about.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/about.js' %}" defer></script>
+{% endblock %}
+
+{% block body_class %}
+    about-page
+{% endblock %}
+
+{% block page_title %}
+    Portfolio Dashboard
+{% endblock %}
+
+{% block page_description %}
+    Manage all the content on your portfolio website.
+{% endblock %}
+
+{% block content %}
+
+    <!-- CONTENT AREA - ABOUT SECTION -->
+    <div class="tab-pane">
+
+        <h2>About Section</h2>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <!-- TEXT CONTENT -->
+
+            <div class="form-group">
+
+                <label for="subheading">
+                    Subheading
+                </label>
+
+                <input type="text"
+                       id="subheading"
+                       name="subheading"
+                       value="{{ about.subheading }}"
+                       placeholder="Enter a catchy subheading...">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="paragraph1">
+                    Paragraph 1
+                </label>
+
+                <textarea id="paragraph1"
+                          name="paragraph1"
+                          rows="5"
+                          placeholder="Write the first paragraph about yourself...">{{ about.paragraph1 }}</textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="paragraph2">
+                    Paragraph 2
+                </label>
+
+                <textarea id="paragraph2"
+                          name="paragraph2"
+                          rows="5"
+                          placeholder="Write the second paragraph about yourself...">{{ about.paragraph2 }}</textarea>
+
+            </div>
+
+
+            <!-- STATS SECTION -->
+
+            <div class="stats-section">
+
+                <h3>
+                    📊 Stats & Achievements
+                </h3>
+
+                <p class="section-hint">
+                    Update your professional statistics and location
+                </p>
+
+
+                <div class="form-row">
+
+                    <div class="stat-field">
+
+                        <label>
+                            Years Experience
+                        </label>
+
+                        <input type="text"
+                               name="years_experience"
+                               placeholder="e.g., 5+ years"
+                               value="{{ about.years_experience }}">
+
+                    </div>
+
+
+                    <div class="stat-field">
+
+                        <label>
+                            Projects Completed
+                        </label>
+
+                        <input type="text"
+                               name="projects_completed"
+                               placeholder="e.g., 50+ projects"
+                               value="{{ about.projects_completed }}">
+
+                    </div>
+
+
+                    <div class="stat-field">
+
+                        <label>
+                            Certifications
+                        </label>
+
+                        <input type="text"
+                               name="certifications"
+                               placeholder="e.g., 8 certifications"
+                               value="{{ about.certifications }}">
+
+                    </div>
+
+
+                    <div class="stat-field">
+
+                        <label>
+                            Location
+                        </label>
+
+                        <input type="text"
+                               name="location"
+                               placeholder="e.g., Pretoria, South Africa"
+                               value="{{ about.location }}">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- FORM ACTIONS -->
+
+            <div class="form-actions">
+
+                <button type="submit"
+                        class="btn orange">
+                    💾 Save Changes
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+{% endblock %}

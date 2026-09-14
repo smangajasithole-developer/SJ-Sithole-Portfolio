@@ -1,0 +1,206 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}
+            Admin Dashboard
+        {% endblock %}
+    </title>
+
+    <link rel="stylesheet"
+          href="{% static 'css/adminbase.css' %}">
+
+    {% block extra_css %}
+    {% endblock %}
+
+    <script src="{% static 'js/session_timeout.js' %}" defer></script>
+
+    {% block extra_js %}
+    {% endblock %}
+
+</head>
+
+<body class="{% block body_class %}{% endblock %}"
+      data-authenticated="{{ request.user.is_authenticated|yesno:'true,false' }}">
+
+    <!-- ============================================ -->
+    <!-- DASHBOARD HEADER                              -->
+    <!-- ============================================ -->
+
+    <section class="dashboard-header">
+
+        <div class="header-left">
+
+            <div class="breadcrumb">
+
+                <a href="{% url 'home' %}">
+                    ← Back to Portfolio
+                </a>
+
+                <span class="divider">|</span>
+
+                <span class="dashboard-title">
+
+                    Dashboard
+
+                    <img src="{% static 'images/settings.png' %}"
+                         alt="Settings">
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="header-right">
+
+            <a href="{% url 'home' %}"
+               class="btn view">
+                👁️ View Portfolio
+            </a>
+
+            <a href="{% url 'logout' %}"
+               class="btn orange">
+                Logout
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- ============================================ -->
+    <!-- MAIN CONTENT                                 -->
+    <!-- ============================================ -->
+
+    <div class="main-content">
+
+        <!-- ======================================== -->
+        <!-- DASHBOARD INTRO                           -->
+        <!-- ======================================== -->
+
+        <section class="dashboard-intro">
+
+            <h1>
+                {% block page_title %}
+                    Portfolio Dashboard
+                {% endblock %}
+            </h1>
+
+            <p>
+                {% block page_description %}
+                    Manage all the content on your portfolio website.
+                {% endblock %}
+            </p>
+
+        </section>
+
+
+        <!-- ======================================== -->
+        <!-- DASHBOARD MAIN LAYOUT                     -->
+        <!-- ======================================== -->
+
+        <section class="dashboard-main">
+
+
+            <!-- ==================================== -->
+            <!-- SIDEBAR NAVIGATION                    -->
+            <!-- ==================================== -->
+
+            <aside class="sidebar">
+
+                <a href="{% url 'dashboard' %}"
+                   class="tab-btn {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+                    Dashboard
+                </a>
+
+                <a href="{% url 'profile' %}"
+                   class="tab-btn {% if request.resolver_match.url_name == 'profile' %}active{% endif %}">
+                    Profile
+                </a>
+
+                <a href="{% url 'about' %}"
+                   class="tab-btn {% if request.resolver_match.url_name == 'about' %}active{% endif %}">
+                    About
+                </a>
+
+                <a href="{% url 'skills' %}"
+                   class="tab-btn {% if request.resolver_match.url_name == 'skills' %}active{% endif %}">
+                    Skills
+                </a>
+
+                <a href="{% url 'projects' %}"
+                   class="tab-btn {% if request.resolver_match.url_name == 'projects' %}active{% endif %}">
+                    Projects
+                </a>
+
+                <a href="{% url 'messages' %}"
+                   class="tab-btn {% if request.resolver_match.url_name == 'messages' %}active{% endif %}">
+                    Messages
+                </a>
+
+                <a href="{% url 'contact' %}"
+                   class="tab-btn {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">
+                    Contact Info
+                </a>
+
+            </aside>
+
+
+            <!-- ==================================== -->
+            <!-- PAGE CONTENT                          -->
+            <!-- ==================================== -->
+
+            <div class="content-area">
+
+                {% block content %}
+                {% endblock %}
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <!-- ============================================ -->
+    <!-- SESSION WARNING                              -->
+    <!-- ============================================ -->
+
+    <div id="sessionWarning"
+         class="session-modal">
+
+        <div class="session-box">
+
+            <h3>
+                ⚠️ Session Expiring
+            </h3>
+
+            <p>
+                Your session will expire in
+                <span id="countdown">30</span>
+                seconds
+            </p>
+
+            <button onclick="resetTimer()">
+                Stay Logged In
+            </button>
+
+            <button onclick="window.location.href='/logout/'">
+                Logout Now
+            </button>
+
+        </div>
+
+    </div>
+
+
+</body>
+</html>

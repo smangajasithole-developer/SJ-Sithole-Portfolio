@@ -1,0 +1,460 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Documents</title>
+    <link rel="stylesheet" href="{% static 'css/documents.css' %}">
+    <script src="{% static 'js/documents.js' %}" defer></script>
+    <script src="{% static 'js/session_timeout.js' %}" defer></script>
+</head>
+
+<body data-authenticated="{{ request.user.is_authenticated|yesno:'true,false' }}">
+
+    <!-- ============================================ -->
+    <!-- DASHBOARD HEADER                              -->
+    <!-- ============================================ -->
+    <section class="dashboard-header">
+        <div class="header-left">
+            <div class="breadcrumb">
+                <a href="{% url 'home' %}">← Back to Portfolio</a>
+                <span class="divider">|</span>
+                <span class="dashboard-title">
+                    Dashboard
+                    <img src="{% static 'images/settings.png' %}" alt="Settings">
+                </span>
+            </div>
+        </div>
+
+        <div class="header-right">
+            <a href="{% url 'home' %}" class="btn view">👁️ View Portfolio</a>
+            <a href="{% url 'logout' %}" class="btn orange">Logout</a>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- MAIN CONTENT                                 -->
+    <!-- ============================================ -->
+    <div class="main-content">
+
+        <!-- DASHBOARD INTRO -->
+        <section class="dashboard-intro">
+            <h1>Portfolio Dashboard</h1>
+            <p>Manage all the content on your portfolio website.</p>
+        </section>
+
+        <!-- DASHBOARD MAIN LAYOUT -->
+        <section class="dashboard-main">
+
+            <!-- SIDEBAR NAVIGATION -->
+            <aside class="sidebar">
+                <a href="{% url 'dashboard' %}" class="tab-btn">Dashboard</a>
+                <a href="{% url 'profile' %}" class="tab-btn">Profile</a>
+                <a href="{% url 'about' %}" class="tab-btn">About</a>
+                <a href="{% url 'skills' %}" class="tab-btn">Skills</a>
+                <a href="{% url 'projects' %}" class="tab-btn">Projects</a>
+                <a href="{% url 'documents' %}" class="tab-btn active">Documents</a>
+                <a href="{% url 'messages' %}" class="tab-btn">Messages</a>
+                <a href="{% url 'contact' %}" class="tab-btn">Contact Info</a>
+            </aside>
+
+            <!-- CONTENT AREA - DOCUMENTS MANAGEMENT -->
+            <div class="content-area">
+                <div class="tab-pane">
+                    <h2>Manage Documents</h2>
+                    <p class="section-description">Upload files that recruiters and HR can view or download.</p>
+
+                    <!-- ============================================ -->
+                    <!-- DOCUMENTS PREVIEW & MANAGEMENT               -->
+                    <!-- ============================================ -->
+                    <div class="documents-preview">
+                        <h3>📎 Uploaded Documents</h3>
+
+                        <div class="doc-list">
+
+                            <!-- ==================================== -->
+                            <!-- CV / RESUME SECTION                   -->
+                            <!-- ==================================== -->
+                            <div class="doc-card">
+                                <div class="doc-card-header">
+                                    <span class="doc-icon">📄</span>
+                                    <strong>CV / Resume</strong>
+                                </div>
+
+                                <div class="doc-card-body">
+                                    {% for doc in cv_docs %}
+                                        <div class="doc-item" data-doc-id="{{ doc.id }}">
+                                            <div class="doc-info">
+                                                <h4 class="doc-title">{{ doc.title }}</h4>
+                                                <div class="doc-meta">
+                                                    <span class="doc-size">{{ doc.file.size|filesizeformat }}</span>
+                                                    <span class="doc-date">{{ doc.uploaded_at|date:"M d, Y" }}</span>
+                                                    <span class="doc-filename">{{ doc.file.name|cut:"documents/" }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="doc-actions">
+                                                <a href="{{ doc.file.url }}" target="_blank" class="view-btn">👁️ View</a>
+                                                <a href="{{ doc.file.url }}" download class="download-btn">⬇️ Download</a>
+                                                <a href="{% url 'delete_document' doc.id %}" class="delete-btn" onclick="return confirm('Delete this document?')">🗑️ Delete</a>
+                                                <button type="button"
+                                                        class="replace-btn"
+                                                        onclick="openReplaceModal('{{ doc.id }}')">
+                                                    🔁 Replace File
+                                                </button>
+                                            </div>
+                                        </div>
+                                    {% empty %}
+                                        <div class="empty-doc-state">
+                                            <p>📭 No CV uploaded yet</p>
+                                            <form method="POST" enctype="multipart/form-data" class="inline-form">
+                                                {% csrf_token %}
+                                                <div class="file-input-wrapper">
+                                                    <input type="file" name="cv" id="cv_upload" required>
+                                                    <button type="submit" class="btn orange small">📤 Upload CV</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <!-- ==================================== -->
+                            <!-- CERTIFICATES SECTION                  -->
+                            <!-- ==================================== -->
+                            <div class="doc-card">
+                                <div class="doc-card-header">
+                                    <span class="doc-icon">🏆</span>
+                                    <strong>Certificates</strong>
+                                </div>
+
+                                <div class="doc-card-body">
+                                    {% for doc in certificate_docs %}
+                                        <div class="doc-item" data-doc-id="{{ doc.id }}">
+                                            <div class="doc-info">
+                                                <h4 class="doc-title">{{ doc.title }}</h4>
+                                                {% if doc.place_obtained %}
+                                                    <p><strong>📍 Place:</strong> <span class="doc-place">{{ doc.place_obtained }}</span></p>
+                                                {% endif %}
+                                                {% if doc.description %}
+                                                    <p><strong>📝 Description:</strong> <span class="doc-description">{{ doc.description|truncatewords:30 }}</span></p>
+                                                {% endif %}
+                                                <div class="doc-meta">
+                                                    <span class="doc-size">{{ doc.file.size|filesizeformat }}</span>
+                                                    <span class="doc-date">{{ doc.uploaded_at|date:"M d, Y" }}</span>
+                                                    <span class="doc-filename">{{ doc.file.name|cut:"documents/" }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="doc-actions">
+                                                <a href="{{ doc.file.url }}" target="_blank" class="view-btn">👁️ View</a>
+                                                <a href="{{ doc.file.url }}" download class="download-btn">⬇️ Download</a>
+                                                <a href="{% url 'delete_document' doc.id %}" class="delete-btn" onclick="return confirm('Delete this certificate?')">🗑️ Delete</a>
+                                                <button type="button"
+                                                        class="edit-btn"
+                                                        onclick="openEditModal(
+                                                            '{{ doc.id }}',
+                                                            '{{ doc.title|escapejs }}',
+                                                            '{{ doc.place_obtained|default_if_none:""|escapejs }}',
+                                                            '{{ doc.description|default_if_none:""|escapejs }}'
+                                                        )">
+                                                    ✏️ Edit
+                                                </button>
+                                                <button type="button"
+                                                        class="replace-btn"
+                                                        onclick="openReplaceModal('{{ doc.id }}')">
+                                                    🔁 Replace File
+                                                </button>
+                                            </div>
+                                        </div>
+                                    {% empty %}
+                                        <div class="empty-doc-state">
+                                            <p>📭 No certificates uploaded yet</p>
+                                        </div>
+                                    {% endfor %}
+
+                                    <!-- Certificate Upload Form -->
+                                    <form method="POST" enctype="multipart/form-data" class="upload-form">
+                                        {% csrf_token %}
+                                        <h4>📤 Upload New Certificate</h4>
+                                        <div class="form-row">
+                                            <input type="text" name="certificate_title" placeholder="Certificate Name" required>
+                                            <input type="text" name="certificate_place" placeholder="Place Obtained" required>
+                                        </div>
+                                        <textarea name="certificate_description" placeholder="Certificate Description" rows="3"></textarea>
+                                        <div class="file-input-wrapper">
+                                            <input type="file" name="certificates" multiple required accept=".pdf,.jpg,.png,.doc,.docx">
+                                            <button type="submit" class="btn orange">➕ Add Certificates</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <!-- ==================================== -->
+                            <!-- ACADEMIC RECORDS SECTION              -->
+                            <!-- ==================================== -->
+                            <div class="doc-card">
+                                <div class="doc-card-header">
+                                    <span class="doc-icon">🎓</span>
+                                    <strong>Academic Records</strong>
+                                </div>
+
+                                <div class="doc-card-body">
+                                    {% for doc in academic_docs %}
+                                        <div class="doc-item" data-doc-id="{{ doc.id }}">
+                                            <div class="doc-info">
+                                                <h4 class="doc-title">{{ doc.title }}</h4>
+                                                {% if doc.place_obtained %}
+                                                    <p><strong>📍 Institution:</strong> <span class="doc-place">{{ doc.place_obtained }}</span></p>
+                                                {% endif %}
+                                                {% if doc.description %}
+                                                    <p><strong>📝 Description:</strong> <span class="doc-description">{{ doc.description|truncatewords:30 }}</span></p>
+                                                {% endif %}
+                                                <div class="doc-meta">
+                                                    <span class="doc-size">{{ doc.file.size|filesizeformat }}</span>
+                                                    <span class="doc-date">{{ doc.uploaded_at|date:"M d, Y" }}</span>
+                                                    <span class="doc-filename">{{ doc.file.name|cut:"documents/" }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="doc-actions">
+                                                <a href="{{ doc.file.url }}" target="_blank" class="view-btn">👁️ View</a>
+                                                <a href="{{ doc.file.url }}" download class="download-btn">⬇️ Download</a>
+                                                <a href="{% url 'delete_document' doc.id %}" class="delete-btn" onclick="return confirm('Delete this academic record?')">🗑️ Delete</a>
+                                                <button type="button"
+                                                        class="edit-btn"
+                                                        onclick="openEditModal(
+                                                            '{{ doc.id }}',
+                                                            '{{ doc.title|escapejs }}',
+                                                            '{{ doc.place_obtained|default_if_none:""|escapejs }}',
+                                                            '{{ doc.description|default_if_none:""|escapejs }}'
+                                                        )">
+                                                    ✏️ Edit
+                                                </button>
+                                                <button type="button"
+                                                        class="replace-btn"
+                                                        onclick="openReplaceModal('{{ doc.id }}')">
+                                                    🔁 Replace File
+                                                </button>
+                                            </div>
+                                        </div>
+                                    {% empty %}
+                                        <div class="empty-doc-state">
+                                            <p>📭 No academic records uploaded yet</p>
+                                        </div>
+                                    {% endfor %}
+
+                                    <!-- Academic Record Upload Form -->
+                                    <form method="POST" enctype="multipart/form-data" class="upload-form">
+                                        {% csrf_token %}
+                                        <h4>📤 Upload Academic Record</h4>
+                                        <div class="form-row">
+                                            <input type="text" name="academic_title" placeholder="Academic Record Name" required>
+                                            <input type="text" name="academic_place" placeholder="Institution Name" required>
+                                        </div>
+                                        <textarea name="academic_description" placeholder="Description (e.g., Degree, GPA, Year)" rows="3"></textarea>
+                                        <div class="file-input-wrapper">
+                                            <input type="file" name="academic_record" multiple required accept=".pdf,.jpg,.png,.doc,.docx">
+                                            <button type="submit" class="btn orange">➕ Add Academic Records</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <!-- ==================================== -->
+                            <!-- ID DOCUMENT SECTION                   -->
+                            <!-- ==================================== -->
+                            <div class="doc-card">
+                                <div class="doc-card-header">
+                                    <span class="doc-icon">🪪</span>
+                                    <strong>ID Document</strong>
+                                </div>
+
+                                <div class="doc-card-body">
+                                    {% for doc in id_docs %}
+                                        <div class="doc-item" data-doc-id="{{ doc.id }}">
+                                            <div class="doc-info">
+                                                <h4 class="doc-title">{{ doc.title }}</h4>
+                                                <div class="doc-meta">
+                                                    <span class="doc-size">{{ doc.file.size|filesizeformat }}</span>
+                                                    <span class="doc-date">{{ doc.uploaded_at|date:"M d, Y" }}</span>
+                                                    <span class="doc-filename">{{ doc.file.name|cut:"documents/" }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="doc-actions">
+                                                <a href="{{ doc.file.url }}" target="_blank" class="view-btn">👁️ View</a>
+                                                <a href="{{ doc.file.url }}" download class="download-btn">⬇️ Download</a>
+                                                <a href="{% url 'delete_document' doc.id %}" class="delete-btn" onclick="return confirm('Delete this ID document?')">🗑️ Delete</a>
+                                                <button type="button"
+                                                        class="replace-btn"
+                                                        onclick="openReplaceModal('{{ doc.id }}')">
+                                                    🔁 Replace File
+                                                </button>
+                                            </div>
+                                        </div>
+                                    {% empty %}
+                                        <div class="empty-doc-state">
+                                            <p>📭 No ID uploaded yet</p>
+                                            <form method="POST" enctype="multipart/form-data" class="inline-form">
+                                                {% csrf_token %}
+                                                <div class="file-input-wrapper">
+                                                    <input type="file" name="id_document" id="id_upload" required accept=".pdf,.jpg,.png">
+                                                    <button type="submit" class="btn orange small">📤 Upload ID</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <!-- ==================================== -->
+                            <!-- OTHER DOCUMENTS SECTION               -->
+                            <!-- ==================================== -->
+                            <div class="doc-card">
+                                <div class="doc-card-header">
+                                    <span class="doc-icon">📁</span>
+                                    <strong>Other Documents</strong>
+                                </div>
+
+                                <div class="doc-card-body">
+                                    {% for doc in other_docs %}
+                                        <div class="doc-item" data-doc-id="{{ doc.id }}">
+                                            <div class="doc-info">
+                                                <h4 class="doc-title">{{ doc.title }}</h4>
+                                                {% if doc.description %}
+                                                    <p><strong>📝 Description:</strong> <span class="doc-description">{{ doc.description|truncatewords:30 }}</span></p>
+                                                {% endif %}
+                                                <div class="doc-meta">
+                                                    <span class="doc-size">{{ doc.file.size|filesizeformat }}</span>
+                                                    <span class="doc-date">{{ doc.uploaded_at|date:"M d, Y" }}</span>
+                                                    <span class="doc-filename">{{ doc.file.name|cut:"documents/" }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="doc-actions">
+                                                <a href="{{ doc.file.url }}" target="_blank" class="view-btn">👁️ View</a>
+                                                <a href="{{ doc.file.url }}" download class="download-btn">⬇️ Download</a>
+                                                <a href="{% url 'delete_document' doc.id %}" class="delete-btn" onclick="return confirm('Delete this document?')">🗑️ Delete</a>
+                                                <button type="button"
+                                                        class="edit-btn"
+                                                        onclick="openEditModal(
+                                                            '{{ doc.id }}',
+                                                            '{{ doc.title|escapejs }}',
+                                                            '{{ doc.place_obtained|default_if_none:""|escapejs }}',
+                                                            '{{ doc.description|default_if_none:""|escapejs }}'
+                                                        )">
+                                                    ✏️ Edit
+                                                </button>
+                                                <button type="button"
+                                                        class="replace-btn"
+                                                        onclick="openReplaceModal('{{ doc.id }}')">
+                                                    🔁 Replace File
+                                                </button>
+                                            </div>
+                                        </div>
+                                    {% empty %}
+                                        <div class="empty-doc-state">
+                                            <p>📭 No other documents uploaded yet</p>
+                                        </div>
+                                    {% endfor %}
+
+                                    <!-- Other Documents Upload Form -->
+                                    <form method="POST" enctype="multipart/form-data" class="upload-form">
+                                        {% csrf_token %}
+                                        <h4>📤 Upload Other Document</h4>
+                                        <input type="text" name="other_title" placeholder="Document Name" required>
+                                        <textarea name="other_description" placeholder="Document Description" rows="3"></textarea>
+                                        <div class="file-input-wrapper">
+                                            <input type="file" name="other_document" multiple required accept=".pdf,.jpg,.png,.doc,.docx,.txt">
+                                            <button type="submit" class="btn orange">➕ Add Documents</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+
+    <!-- ============================================ -->
+    <!-- EDIT MODAL                                   -->
+    <!-- ============================================ -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>✏️ Edit Document</h3>
+                <button type="button" class="modal-close" onclick="closeEditModal()">&times;</button>
+            </div>
+
+            <form method="POST" action="{% url 'edit_document' %}" id="editDocumentForm">
+                {% csrf_token %}
+                <input type="hidden" name="doc_id" id="edit_doc_id">
+
+                <div class="modal-form-group">
+                    <label for="edit_title">Title</label>
+                    <input type="text" name="title" id="edit_title" required>
+                </div>
+
+                <div class="modal-form-group">
+                    <label for="edit_place">Place Obtained</label>
+                    <input type="text" name="place_obtained" id="edit_place">
+                </div>
+
+                <div class="modal-form-group">
+                    <label for="edit_description">Description</label>
+                    <textarea name="description" id="edit_description" rows="4"></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="submit" class="btn orange">💾 Update Document</button>
+                    <button type="button" class="btn cancel-btn" onclick="closeEditModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- REPLACE FILE MODAL                           -->
+    <!-- ============================================ -->
+    <div id="replaceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🔁 Replace Document File</h3>
+                <button type="button" class="modal-close" onclick="closeReplaceModal()">&times;</button>
+            </div>
+
+            <form method="POST" action="{% url 'replace_document' %}" enctype="multipart/form-data" id="replaceForm">
+                {% csrf_token %}
+                <input type="hidden" name="doc_id" id="replace_doc_id">
+
+                <div class="modal-form-group">
+                    <label for="replace_file">Select New File</label>
+                    <input type="file" name="new_file" id="replace_file" required accept=".pdf,.jpg,.png,.doc,.docx,.txt">
+                    <small class="form-hint">Supported formats: PDF, JPG, PNG, DOC, DOCX, TXT</small>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="submit" class="btn orange">🔁 Replace File</button>
+                    <button type="button" class="btn cancel-btn" onclick="closeReplaceModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="sessionWarning" class="session-modal">
+    <div class="session-box">
+        <h3>⚠️ Session Expiring</h3>
+        <p>Your session will expire in <span id="countdown">30</span> seconds</p>
+
+        <button onclick="resetTimer()">Stay Logged In</button>
+        <button onclick="window.location.href='/logout/'">Logout Now</button>
+    </div>
+</div>
+
+</body>
+</html>
+
+

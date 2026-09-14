@@ -1,0 +1,250 @@
+{% extends "adminbase.html" %}
+{% load static %}
+
+{% block title %}
+    Admin Dashboard - Profile
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/profile.js' %}" defer></script>
+{% endblock %}
+
+{% block body_class %}
+    profile-page
+{% endblock %}
+
+{% block page_title %}
+    Portfolio Dashboard
+{% endblock %}
+
+{% block page_description %}
+    Manage all the content on your portfolio website.
+{% endblock %}
+
+{% block content %}
+
+<form method="POST" enctype="multipart/form-data" id="profileForm">
+    {% csrf_token %}
+
+    <!-- Hidden input for resume delete action -->
+    <input type="hidden" name="resume_action" id="resumeActionInput" value="">
+
+    <div class="tab-pane">
+
+        <!-- ============================================ -->
+        <!-- PERSONAL INFO HEADER                        -->
+        <!-- ============================================ -->
+        <h2 class="section-title">Personal Info</h2>
+
+        <!-- ============================================ -->
+        <!-- PROFILE PHOTO                               -->
+        <!-- ============================================ -->
+        <div class="form-row top-row">
+            <div class="photo-wrapper">
+                <div class="photo-preview">
+                    <img id="profilePreview"
+                         src="{% if profile.profile_photo %}{{ profile.profile_photo.url }}{% else %}{% static 'images/user icon.png' %}{% endif %}"
+                         alt="Profile Photo">
+                </div>
+
+                <label for="profilePhotoInput" class="edit-photo-btn">
+                    Edit Photo
+                </label>
+
+                <input type="file"
+                       name="profile_photo"
+                       id="profilePhotoInput"
+                       accept="image/*"
+                       hidden>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- NAME FIELDS                                 -->
+        <!-- ============================================ -->
+        <div class="form-row">
+            <div class="field-group">
+                <label for="firstName">First Name</label>
+                <input type="text"
+                       id="firstName"
+                       name="first_name"
+                       value="{{ profile.first_name }}"
+                       placeholder="Enter first name">
+            </div>
+
+            <div class="field-group">
+                <label for="lastName">Last Name</label>
+                <input type="text"
+                       id="lastName"
+                       name="last_name"
+                       value="{{ profile.last_name }}"
+                       placeholder="Enter last name">
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- JOB TITLE                                   -->
+        <!-- ============================================ -->
+        <div class="form-row">
+            <div class="field-group full-width">
+                <label for="jobTitle">Job Title</label>
+                <input type="text"
+                       id="jobTitle"
+                       name="job_title"
+                       value="{{ profile.job_title }}"
+                       placeholder="Example: Full Stack Developer">
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- LOCATION & AVAILABILITY                     -->
+        <!-- ============================================ -->
+        <div class="form-row">
+            <div class="field-group">
+                <label for="location">Location</label>
+                <input type="text"
+                       id="location"
+                       name="location"
+                       value="{{ profile.location }}"
+                       placeholder="Example: Pretoria, South Africa">
+            </div>
+
+            <div class="field-group">
+                <label for="availability">Available for Work</label>
+                <select id="availability" name="availability">
+                    <option value="True"
+                            {% if profile.availability %}selected{% endif %}>
+                        Yes, I am available
+                    </option>
+                    <option value="False"
+                            {% if not profile.availability %}selected{% endif %}>
+                        No, not available
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- BIO / PROFESSIONAL SUMMARY                  -->
+        <!-- ============================================ -->
+        <div class="form-row">
+            <div class="field-group full-width">
+                <label for="bio">Professional Summary / Bio</label>
+                <textarea id="bio"
+                          name="bio"
+                          rows="5"
+                          placeholder="Write a short introduction about yourself...">{{ profile.bio }}</textarea>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- RESUME SECTION                              -->
+        <!-- ============================================ -->
+        <div class="form-row">
+            <div class="field-group full-width">
+                <label>Resume</label>
+
+                {% if profile.resume %}
+
+                    <!-- EXISTING RESUME CARD -->
+                    <div class="resume-card" id="resumeCard">
+
+                        <div class="resume-preview">
+                            {% if profile.resume_preview %}
+                                <div class="resume-document-preview">
+                                    <img src="{{ profile.resume_preview.url }}"
+                                         alt="Resume Preview">
+                                </div>
+                            {% else %}
+                                <div class="resume-icon">📄</div>
+                            {% endif %}
+
+                            <div class="resume-info">
+                                <strong>{{ profile.resume.name|cut:"resumes/" }}</strong>
+                                <span>Resume Document</span>
+                            </div>
+                        </div>
+
+                        <div class="resume-actions">
+                            <button type="button"
+                                    class="resume-btn edit"
+                                    id="editResumeBtn">
+                                ✏️ Edit
+                            </button>
+
+                            <a href="{{ profile.resume.url }}"
+                               target="_blank"
+                               rel="noopener"
+                               class="resume-btn view">
+                                👁️ View
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- EDIT OPTIONS (hidden by default) -->
+                    <div class="resume-edit-options" id="resumeEditOptions">
+
+                        <label for="resumeInput" class="resume-btn replace">
+                            🔄 Replace
+                        </label>
+
+                        <button type="button"
+                                class="resume-btn delete"
+                                id="deleteResumeBtn">
+                            🗑️ Delete
+                        </button>
+                    </div>
+
+                    <!-- HIDDEN RESUME INPUT (for replace) -->
+                    <input type="file"
+                           name="resume"
+                           id="resumeInput"
+                           accept=".pdf,.doc,.docx"
+                           hidden>
+
+                {% else %}
+
+                    <!-- NO RESUME YET -->
+                    <div class="resume-card empty">
+                        <div class="resume-preview">
+                            <div class="resume-icon">📄</div>
+
+                            <div class="resume-info">
+                                <strong>No Resume Uploaded</strong>
+                                <span>Upload a resume to display it on your portfolio.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DEFAULT FILE INPUT -->
+                    <div class="resume-upload">
+                        <input type="file"
+                               name="resume"
+                               id="resumeInput"
+                               accept=".pdf,.doc,.docx">
+                    </div>
+
+                {% endif %}
+
+                <small class="form-hint">Accepted formats: PDF, DOC, DOCX.</small>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ============================================ -->
+    <!-- FORM ACTIONS                                -->
+    <!-- ============================================ -->
+    <div class="form-actions">
+        <button type="submit" class="btn orange">
+            💾 Save Changes
+        </button>
+    </div>
+
+</form>
+
+{% endblock %}

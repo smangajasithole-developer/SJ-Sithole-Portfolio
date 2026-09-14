@@ -1,0 +1,1093 @@
+{% extends "adminbase.html" %}
+{% load static %}
+{% load project_extras %}
+
+{% block title %}
+    Admin Dashboard - Projects
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet"
+          href="{% static 'css/projects.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/projects.js' %}" defer></script>
+{% endblock %}
+
+{% block body_class %}
+    projects-page
+{% endblock %}
+
+{% block page_title %}
+    Portfolio Dashboard
+{% endblock %}
+
+{% block page_description %}
+    Manage all the content on your portfolio website.
+{% endblock %}
+
+{% block content %}
+
+    <div class="tab-pane">
+
+        <h2>
+            Manage Projects
+        </h2>
+
+
+        <!-- ============================================ -->
+        <!-- PROJECT FORM -->
+        <!-- ============================================ -->
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+            class="project-form"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- ============================================ -->
+            <!-- PROJECT TYPE -->
+            <!-- ============================================ -->
+
+            <div class="form-group">
+
+                <label for="project_type">
+                    📁 Project Type
+                </label>
+
+                <select
+                    id="project_type"
+                    name="project_type"
+                    required
+                >
+
+                    <option value="">
+                        Choose Project Type
+                    </option>
+
+                    <option
+                        value="link"
+                        {% if edit_project and edit_project.project_type == 'link' %}
+                            selected
+                        {% endif %}
+                    >
+                        🔗 Link Project
+                    </option>
+
+                    <option
+                        value="file"
+                        {% if edit_project and edit_project.project_type == 'file' %}
+                            selected
+                        {% endif %}
+                    >
+                        🖼️ File/Media Project
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ============================================ -->
+            <!-- PROJECT CATEGORY -->
+            <!-- HIDDEN - PRESERVES EXISTING DATA FLOW -->
+            <!-- ============================================ -->
+
+            {% if edit_project %}
+
+                <input
+                    type="hidden"
+                    name="is_featured"
+                    value="{% if edit_project.is_featured %}True{% else %}False{% endif %}"
+                >
+
+            {% else %}
+
+                <input
+                    type="hidden"
+                    name="is_featured"
+                    value="True"
+                >
+
+            {% endif %}
+
+
+            <!-- ============================================ -->
+            <!-- COMMON PROJECT INFORMATION -->
+            <!-- HIDDEN UNTIL PROJECT TYPE IS SELECTED -->
+            <!-- ============================================ -->
+
+            <div
+                id="common-project-fields"
+                class="project-common-fields"
+                hidden
+            >
+
+
+                <!-- PROJECT NAME -->
+
+                <div class="form-group">
+
+                    <label for="project_title">
+                        📌 Project Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="project_title"
+                        name="title"
+                        placeholder="e.g., EDCreator"
+                        value="{{ edit_project.title|default:'' }}"
+                    >
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="form-group">
+
+                    <label for="project_description">
+                        📝 Description
+                    </label>
+
+                    <textarea
+                        id="project_description"
+                        name="description"
+                        rows="4"
+                        placeholder="Briefly describe what this project is..."
+                    >{{ edit_project.description|default:'' }}</textarea>
+
+                </div>
+
+
+                <!-- TECHNOLOGIES -->
+
+                <div class="form-group">
+
+                    <label for="project_tech">
+                        🛠️ Tools / Technologies Used
+                    </label>
+
+                    <input
+                        type="text"
+                        id="project_tech"
+                        name="tech"
+                        placeholder="e.g., Django, Python, PostgreSQL, JavaScript"
+                        value="{{ edit_project.tech|default:'' }}"
+                    >
+
+                    <small class="form-hint">
+                        Separate technologies with commas.
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- ============================================ -->
+            <!-- LINK PROJECT FIELDS -->
+            <!-- HIDDEN UNTIL LINK PROJECT IS SELECTED -->
+            <!-- ============================================ -->
+
+            <div
+                id="link-project-fields"
+                class="project-type-fields"
+                hidden
+            >
+
+                <h3>
+                    🔗 Link Project Details
+                </h3>
+
+
+                <!-- EXISTING THUMBNAIL -->
+
+                {% if edit_project and edit_project.thumbnail %}
+
+                    <div class="current-media">
+
+                        <strong>
+                            🖼️ Current Thumbnail:
+                        </strong>
+
+                        <div class="media-preview">
+
+                            <img
+                                src="{{ edit_project.thumbnail.url }}"
+                                alt="{{ edit_project.title }} thumbnail"
+                            >
+
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- THUMBNAIL UPLOAD -->
+
+                <div class="form-group">
+
+                    <label for="thumbnail_upload">
+                        🖼️ Project Thumbnail
+                    </label>
+
+                    <input
+                        type="file"
+                        id="thumbnail_upload"
+                        name="thumbnail"
+                        accept="image/*"
+                    >
+
+                    <small class="form-hint">
+                        Upload an image that represents this project.
+                    </small>
+
+                </div>
+
+
+                <!-- PROJECT LINK -->
+
+                <div class="form-group">
+
+                    <label for="project_url">
+                        🔗 Project Link
+                    </label>
+
+                    <input
+                        type="url"
+                        id="project_url"
+                        name="url"
+                        placeholder="https://example.com/project"
+                        value="{{ edit_project.url|default:'' }}"
+                    >
+
+                    <small class="form-hint">
+                        The live website or deployed application URL.
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- ============================================ -->
+            <!-- FILE / MEDIA PROJECT FIELDS -->
+            <!-- HIDDEN UNTIL FILE/MEDIA PROJECT IS SELECTED -->
+            <!-- ============================================ -->
+
+            <div
+                id="file-project-fields"
+                class="project-type-fields"
+                hidden
+            >
+
+                <h3>
+                    🖼️ File / Media Project Details
+                </h3>
+
+
+                <!-- EXISTING MEDIA -->
+
+                {% if edit_project and edit_project.file %}
+
+                    <div class="current-media">
+
+                        <strong>
+                            📷 Current Media:
+                        </strong>
+
+                        <div class="media-preview">
+
+                            {% with edit_project.file.url as file_url %}
+
+                                {% if file_url|lower|slice:"-4:" == ".mp4" or file_url|lower|slice:"-5:" == ".webm" or file_url|lower|slice:"-4:" == ".ogg" %}
+
+                                    <video controls>
+
+                                        <source
+                                            src="{{ edit_project.file.url }}"
+                                        >
+
+                                    </video>
+
+                                {% else %}
+
+                                    <img
+                                        src="{{ edit_project.file.url }}"
+                                        alt="Current project media"
+                                    >
+
+                                {% endif %}
+
+                            {% endwith %}
+
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- MEDIA UPLOAD -->
+
+                <div class="form-group">
+
+                    <label for="file_upload">
+                        📎 Upload Media
+                    </label>
+
+                    <input
+                        type="file"
+                        id="file_upload"
+                        name="file"
+                        accept="image/*,video/*"
+                    >
+
+                    <small class="form-hint">
+                        Upload an image or video for this project.
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- ============================================ -->
+            <!-- CASE STUDY -->
+            <!-- HIDDEN UNTIL USER CLICKS ADD CASE STUDY -->
+            <!-- ============================================ -->
+
+            <div class="case-study-wrapper">
+
+                <button
+                    type="button"
+                    id="toggle-case-study"
+                    class="case-study-toggle"
+                >
+                    📊 Add Case Study
+                </button>
+
+
+                <div
+                    id="case-study-fields"
+                    class="case-study-section"
+                    hidden
+                >
+
+                    <h3>
+                        📊 Case Study
+                    </h3>
+
+                    <p class="section-hint">
+                        This section is optional. You can add it now or come back later.
+                    </p>
+
+
+                    <!-- PROBLEM -->
+
+                    <div class="case-field">
+
+                        <label>
+                            🧩 Problem
+                        </label>
+
+                        <textarea
+                            name="problem"
+                            rows="3"
+                            placeholder="What problem did this project solve?"
+                        >{{ edit_project.problem|default:'' }}</textarea>
+
+                    </div>
+
+
+                    <!-- APPROACH -->
+
+                    <div class="case-field">
+
+                        <label>
+                            🧠 Approach
+                        </label>
+
+                        <textarea
+                            name="approach"
+                            rows="3"
+                            placeholder="How did you approach the solution?"
+                        >{{ edit_project.approach|default:'' }}</textarea>
+
+                    </div>
+
+
+                    <!-- CHALLENGES -->
+
+                    <div class="case-field">
+
+                        <label>
+                            ⚔️ Challenges
+                        </label>
+
+                        <textarea
+                            name="challenges"
+                            rows="3"
+                            placeholder="What challenges did you face?"
+                        >{{ edit_project.challenges|default:'' }}</textarea>
+
+                    </div>
+
+
+                    <!-- SOLUTION -->
+
+                    <div class="case-field">
+
+                        <label>
+                            🚀 Solution
+                        </label>
+
+                        <textarea
+                            name="solution"
+                            rows="3"
+                            placeholder="How did you solve the challenges?"
+                        >{{ edit_project.solution|default:'' }}</textarea>
+
+                    </div>
+
+
+                    <!-- OUTCOME -->
+
+                    <div class="case-field">
+
+                        <label>
+                            📈 Outcome
+                        </label>
+
+                        <textarea
+                            name="outcome"
+                            rows="3"
+                            placeholder="What were the results of the project?"
+                        >{{ edit_project.outcome|default:'' }}</textarea>
+
+                    </div>
+
+
+                    <!-- WHAT I LEARNED -->
+
+                    <div class="case-field">
+
+                        <label>
+                            📚 What I Learned
+                        </label>
+
+                        <textarea
+                            name="what_i_learned"
+                            rows="3"
+                            placeholder="What did you learn from building this project?"
+                        >{{ edit_project.what_i_learned|default:'' }}</textarea>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ============================================ -->
+            <!-- FORM ACTIONS -->
+            <!-- ============================================ -->
+
+            <div class="form-actions">
+
+                <button
+                    type="submit"
+                    class="btn orange"
+                >
+
+                    {% if edit_project %}
+
+                        💾 Update Project
+
+                    {% else %}
+
+                        ➕ Add Project
+
+                    {% endif %}
+
+                </button>
+
+
+                {% if edit_project %}
+
+                    <a
+                        href="{% url 'projects' %}"
+                        class="btn cancel"
+                    >
+                        ✗ Cancel Edit
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </form>
+
+
+        <hr>
+
+
+        <!-- ============================================ -->
+        <!-- FEATURED PROJECTS -->
+        <!-- ============================================ -->
+
+        <div class="projects-section">
+
+            <h3 class="section-heading">
+                🌟 Featured Projects
+            </h3>
+
+
+            <div class="projects-grid">
+
+
+                {% for project in projects %}
+
+                    <div class="project-card featured">
+
+
+                        <!-- LINK PROJECT THUMBNAIL -->
+
+                        {% if project.project_type == 'link' and project.thumbnail %}
+
+                            <div class="project-media">
+
+                                <img
+                                    src="{{ project.thumbnail.url }}"
+                                    alt="{{ project.title }}"
+                                    class="project-image"
+                                >
+
+                            </div>
+
+                        {% endif %}
+
+
+                        <!-- FILE / MEDIA PROJECT -->
+
+                        {% if project.project_type == 'file' and project.file %}
+
+                            <div class="project-media">
+
+                                {% with project.file.url as file_url %}
+
+                                    {% if file_url|lower|slice:"-4:" == ".mp4" or file_url|lower|slice:"-5:" == ".webm" or file_url|lower|slice:"-4:" == ".ogg" %}
+
+                                        <video
+                                            class="project-image"
+                                            controls
+                                        >
+
+                                            <source
+                                                src="{{ project.file.url }}"
+                                            >
+
+                                        </video>
+
+                                    {% else %}
+
+                                        <img
+                                            src="{{ project.file.url }}"
+                                            alt="{{ project.title }}"
+                                            class="project-image"
+                                        >
+
+                                    {% endif %}
+
+                                {% endwith %}
+
+                            </div>
+
+                        {% endif %}
+
+
+                        <div class="project-content">
+
+
+                            <!-- FEATURED BADGE -->
+
+                            <div class="featured-badge">
+
+                                <span>
+                                    ⭐ Featured
+                                </span>
+
+                            </div>
+
+
+                            <!-- PROJECT TITLE -->
+
+                            <div class="project-title">
+                                {{ project.title }}
+                            </div>
+
+
+                            <!-- PROJECT DESCRIPTION -->
+
+                            <div class="project-description">
+                                {{ project.description|truncatewords:20 }}
+                            </div>
+
+
+                            <!-- CASE STUDY PREVIEW -->
+
+                            <div class="case-preview">
+
+                                {% if project.problem %}
+
+                                    <p>
+
+                                        <strong>
+                                            🧩 Problem:
+                                        </strong>
+
+                                        {{ project.problem|truncatewords:15 }}
+
+                                    </p>
+
+                                {% endif %}
+
+
+                                {% if project.approach %}
+
+                                    <p>
+
+                                        <strong>
+                                            🧠 Approach:
+                                        </strong>
+
+                                        {{ project.approach|truncatewords:15 }}
+
+                                    </p>
+
+                                {% endif %}
+
+
+                                {% if project.challenges %}
+
+                                    <p>
+
+                                        <strong>
+                                            ⚔️ Challenges:
+                                        </strong>
+
+                                        {{ project.challenges|truncatewords:15 }}
+
+                                    </p>
+
+                                {% endif %}
+
+
+                                {% if project.solution %}
+
+                                    <p>
+
+                                        <strong>
+                                            🚀 Solution:
+                                        </strong>
+
+                                        {{ project.solution|truncatewords:15 }}
+
+                                    </p>
+
+                                {% endif %}
+
+
+                                {% if project.outcome %}
+
+                                    <p>
+
+                                        <strong>
+                                            📈 Outcome:
+                                        </strong>
+
+                                        {{ project.outcome|truncatewords:15 }}
+
+                                    </p>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- ============================================ -->
+                            <!-- TECH STACK -->
+                            <!-- COMMA SEPARATED -->
+                            <!-- ============================================ -->
+
+                            <div class="project-tech">
+
+                                {% for tech in project.tech|split_by_comma %}
+
+                                    <span class="tech-tag">
+                                        {{ tech }}
+                                    </span>
+
+                                {% endfor %}
+
+                            </div>
+
+
+                            <!-- ACTION BUTTONS -->
+
+                            <div class="project-actions">
+
+
+                                {% if project.project_type == 'link' and project.url %}
+
+                                    <a
+                                        href="{{ project.url }}"
+                                        target="_blank"
+                                        class="action-btn view"
+                                    >
+                                        🌐 Visit
+                                    </a>
+
+                                {% elif project.project_type == 'file' and project.file %}
+
+                                    <a
+                                        href="{{ project.file.url }}"
+                                        target="_blank"
+                                        class="action-btn view"
+                                    >
+                                        👁️ View Media
+                                    </a>
+
+                                {% endif %}
+
+
+                                <a
+                                    href="{% url 'edit_project' project.id %}"
+                                    class="action-btn edit"
+                                >
+                                    ✏️ Edit
+                                </a>
+
+
+                                <form
+                                    action="{% url 'delete_project' project.id %}"
+                                    method="POST"
+                                    class="delete-form"
+                                >
+
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="action-btn delete"
+                                        onclick="return confirm('Are you sure you want to delete &quot;{{ project.title }}&quot;?')"
+                                    >
+                                        🗑️ Delete
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                {% empty %}
+
+                    <div class="empty-state">
+
+                        <p>
+                            📭 No featured projects yet. Add your first project above!
+                        </p>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <hr>
+
+
+        <!-- ============================================ -->
+        <!-- OTHER PROJECTS -->
+        <!-- ============================================ -->
+
+        <div class="projects-section">
+
+            <h3 class="section-heading">
+                📁 Other Projects
+            </h3>
+
+
+            <div class="projects-grid">
+
+
+                {% for project in other_projects %}
+
+                    <div class="project-card">
+
+
+                        <!-- LINK PROJECT THUMBNAIL -->
+
+                        {% if project.project_type == 'link' and project.thumbnail %}
+
+                            <div class="project-media">
+
+                                <img
+                                    src="{{ project.thumbnail.url }}"
+                                    alt="{{ project.title }}"
+                                    class="project-image"
+                                >
+
+                            </div>
+
+                        {% endif %}
+
+
+                        <!-- FILE / MEDIA PROJECT -->
+
+                        {% if project.project_type == 'file' and project.file %}
+
+                            <div class="project-media">
+
+                                {% with project.file.url as file_url %}
+
+                                    {% if file_url|lower|slice:"-4:" == ".mp4" or file_url|lower|slice:"-5:" == ".webm" or file_url|lower|slice:"-4:" == ".ogg" %}
+
+                                        <video
+                                            class="project-image"
+                                            controls
+                                        >
+
+                                            <source
+                                                src="{{ project.file.url }}"
+                                            >
+
+                                        </video>
+
+                                    {% else %}
+
+                                        <img
+                                            src="{{ project.file.url }}"
+                                            alt="{{ project.title }}"
+                                            class="project-image"
+                                        >
+
+                                    {% endif %}
+
+                                {% endwith %}
+
+                            </div>
+
+                        {% endif %}
+
+
+                        <div class="project-content">
+
+
+                            <!-- PROJECT TITLE -->
+
+                            <div class="project-title">
+                                {{ project.title }}
+                            </div>
+
+
+                            <!-- PROJECT DESCRIPTION -->
+
+                            <div class="project-description">
+                                {{ project.description|truncatewords:20 }}
+                            </div>
+
+
+                            <!-- CASE STUDY PREVIEW -->
+
+                            <div class="case-preview">
+
+                                {% if project.problem %}
+
+                                    <p>
+
+                                        <strong>
+                                            🧩 Problem:
+                                        </strong>
+
+                                        {{ project.problem|truncatewords:15 }}
+
+                                    </p>
+
+                                {% endif %}
+
+
+                                {% if project.approach %}
+
+                                    <p>
+
+                                        <strong>
+                                            🧠 Approach:
+                                        </strong>
+
+                                        {{ project.approach|truncatewords:15 }}
+
+                                    </p>
+
+                                {% endif %}
+
+
+                                {% if project.challenges %}
+
+                                    <p>
+
+                                        <strong>
+                                            ⚔️ Challenges:
+                                        </strong>
+
+                                        {{ project.challenges|truncatewords:15 }}
+
+                                    </p>
+
+                                {% endif %}
+
+
+                                {% if project.solution %}
+
+                                    <p>
+
+                                        <strong>
+                                            🚀 Solution:
+                                        </strong>
+
+                                        {{ project.solution|truncatewords:15 }}
+
+                                    </p>
+
+                                {% endif %}
+
+
+                                {% if project.outcome %}
+
+                                    <p>
+
+                                        <strong>
+                                            📈 Outcome:
+                                        </strong>
+
+                                        {{ project.outcome|truncatewords:15 }}
+
+                                    </p>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- ============================================ -->
+                            <!-- TECH STACK -->
+                            <!-- COMMA SEPARATED -->
+                            <!-- ============================================ -->
+
+                            <div class="project-tech">
+
+                                {% for tech in project.tech|split_by_comma %}
+
+                                    <span class="tech-tag">
+                                        {{ tech }}
+                                    </span>
+
+                                {% endfor %}
+
+                            </div>
+
+
+                            <!-- ACTION BUTTONS -->
+
+                            <div class="project-actions">
+
+
+                                {% if project.project_type == 'link' and project.url %}
+
+                                    <a
+                                        href="{{ project.url }}"
+                                        target="_blank"
+                                        class="action-btn view"
+                                    >
+                                        🌐 Visit
+                                    </a>
+
+                                {% elif project.project_type == 'file' and project.file %}
+
+                                    <a
+                                        href="{{ project.file.url }}"
+                                        target="_blank"
+                                        class="action-btn view"
+                                    >
+                                        👁️ View Media
+                                    </a>
+
+                                {% endif %}
+
+
+                                <a
+                                    href="{% url 'edit_project' project.id %}"
+                                    class="action-btn edit"
+                                >
+                                    ✏️ Edit
+                                </a>
+
+
+                                <form
+                                    action="{% url 'delete_project' project.id %}"
+                                    method="POST"
+                                    class="delete-form"
+                                >
+
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="action-btn delete"
+                                        onclick="return confirm('Are you sure you want to delete &quot;{{ project.title }}&quot;?')"
+                                    >
+                                        🗑️ Delete
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                {% empty %}
+
+                    <div class="empty-state">
+
+                        <p>
+                            📭 No other projects yet. Add your first project above!
+                        </p>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}

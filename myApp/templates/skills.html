@@ -1,0 +1,1183 @@
+{% extends "adminbase.html" %}
+{% load static %}
+
+{% block title %}
+    Admin Dashboard - Skills
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet"
+          href="{% static 'css/skills.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/skills.js' %}" defer></script>
+{% endblock %}
+
+{% block body_class %}
+    skills-page
+{% endblock %}
+
+{% block page_title %}
+    Portfolio Dashboard
+{% endblock %}
+
+{% block page_description %}
+    Manage all the content on your portfolio website.
+{% endblock %}
+
+{% block content %}
+
+    <div class="tab-pane">
+
+        <h2>Manage Skills</h2>
+
+
+        <!-- ============================================ -->
+        <!-- ADD NEW SKILL / CATEGORY -->
+        <!-- ============================================ -->
+
+        <form
+            method="POST"
+            action="{% url 'skills' %}"
+            class="skill-builder-form"
+        >
+
+            {% csrf_token %}
+
+            <div class="form-header">
+
+                <h3 class="section-title">
+                    ✨ Add Skill
+                </h3>
+
+                <p class="section-subtitle">
+                    Add a skill category first, then add individual skills inside it.
+                </p>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <!-- SKILL SECTION -->
+
+                <div class="field-box">
+
+                    <label for="category">
+                        Skill Section
+                    </label>
+
+                    <select
+                        id="category"
+                        name="category"
+                    >
+
+                        <option value="technical">
+                            💻 Technical Skills
+                        </option>
+
+                        <option value="other">
+                            🎯 Other Skills
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- SKILL NAME -->
+
+                <div class="field-box">
+
+                    <label for="skill_name">
+                        Skill / Category Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="skill_name"
+                        name="name"
+                        placeholder="Example: Database"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- ICON -->
+
+                <div class="field-box">
+
+                    <label for="icon">
+                        Icon
+                    </label>
+
+                    <select
+                        id="icon"
+                        name="icon"
+                    >
+
+                        {% include "skill_icon_options.html" with selected_icon="" %}
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- SUBMIT -->
+
+            <div class="submit-wrap">
+
+                <button
+                    type="submit"
+                    class="btn orange full-btn"
+                >
+                    ➕ Add Skill
+                </button>
+
+            </div>
+
+        </form>
+
+
+        <hr>
+
+
+        <!-- ============================================ -->
+        <!-- TECHNICAL SKILLS -->
+        <!-- ============================================ -->
+
+        <div class="skills-section">
+
+            <h2 class="section-heading">
+                💻 Technical Skills
+            </h2>
+
+
+            <!--
+                IMPORTANT:
+                This wrapper makes the top-level technical
+                skills siblings inside one direct container.
+                This allows drag-and-drop to reorder mothers
+                without changing their parent relationship.
+            -->
+
+            <div class="skill-tree">
+
+                {% for skill in technical_skills %}
+
+                    <div
+                        class="skill-card skill-node"
+                        data-skill-id="{{ skill.id }}"
+                        data-node-id="{{ skill.id }}"
+                        data-parent-id=""
+                        draggable="true"
+                    >
+
+                        <!-- ============================================ -->
+                        <!-- SKILL HEADER -->
+                        <!-- ============================================ -->
+
+                        <div class="skill-header">
+
+
+                            <!-- ============================================ -->
+                            <!-- NORMAL VIEW -->
+                            <!-- ============================================ -->
+
+                            <div
+                                class="skill-title"
+                                id="view-{{ skill.id }}"
+                            >
+
+                                {% if skill.icon %}
+
+                                    <span
+                                        class="{% if not skill.show_icon %}admin-item-disabled{% endif %}"
+                                    >
+
+                                        {% if skill.icon == 'python' %}
+                                            <img src="{% static 'images/skills/python_icon.png' %}" alt="" class="skill-icon">
+
+{% elif skill.icon == 'deepseek' %}
+    <img src="{% static 'images/skills/deepseek_icon.png' %}" alt="" class="skill-icon">
+
+{% elif skill.icon == 'language' %}
+    <img src="{% static 'images/skills/language_icon.png' %}" alt="" class="skill-icon">
+
+{% elif skill.icon == 'chatgpt' %}
+    <img src="{% static 'images/skills/chatgpt_icon.png' %}" alt="" class="skill-icon">
+
+
+{% elif skill.icon == 'deploy' %}
+    <img src="{% static 'images/skills/deploy_icon.png' %}" alt="" class="skill-icon">
+
+{% elif skill.icon == 'tools' %}
+    <img src="{% static 'images/skills/tools_icon.png' %}" alt="" class="skill-icon">
+
+{% elif skill.icon == 'ide' %}
+    <img src="{% static 'images/skills/ide_icon.png' %}" alt="" class="skill-icon">
+
+
+
+
+                                        {% elif skill.icon == 'php' %}
+                                            <img src="{% static 'images/skills/php_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'javascript' %}
+                                            <img src="{% static 'images/skills/javascript_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'java' %}
+                                            <img src="{% static 'images/skills/java_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'cpp' %}
+                                            <img src="{% static 'images/skills/c++_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'html' %}
+                                            <img src="{% static 'images/skills/html_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'css' %}
+                                            <img src="{% static 'images/skills/css_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'django' %}
+                                            <img src="{% static 'images/skills/django_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'database' %}
+                                            <img src="{% static 'images/skills/database_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'mysql' %}
+                                            <img src="{% static 'images/skills/mysql_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'postgresql' %}
+                                            <img src="{% static 'images/skills/postgresql_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'sqlite' %}
+                                            <img src="{% static 'images/skills/sqlite_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'firebase' %}
+                                            <img src="{% static 'images/skills/firebase_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'git' %}
+                                            <img src="{% static 'images/skills/git_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'github' %}
+                                            <img src="{% static 'images/skills/github_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'vscode' %}
+                                            <img src="{% static 'images/skills/vscode_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'androidstudio' %}
+                                            <img src="{% static 'images/skills/androidstudio_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'eclipse' %}
+                                            <img src="{% static 'images/skills/eclipse_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'netbeans' %}
+                                            <img src="{% static 'images/skills/netbeans_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'pycharm' %}
+                                            <img src="{% static 'images/skills/pycharm_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'excel' %}
+                                            <img src="{% static 'images/skills/excel_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'word' %}
+                                            <img src="{% static 'images/skills/word_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'api' %}
+                                            <img src="{% static 'images/skills/api_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'json' %}
+                                            <img src="{% static 'images/skills/json_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'linux' %}
+                                            <img src="{% static 'images/skills/linux_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'windows' %}
+                                            <img src="{% static 'images/skills/windows_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'vercel' %}
+                                            <img src="{% static 'images/skills/vercel_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'pythonanywhere' %}
+                                            <img src="{% static 'images/skills/pythonanywhere_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'neon' %}
+                                            <img src="{% static 'images/skills/neon_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'cloud' %}
+                                            <img src="{% static 'images/skills/cloud_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'smtp' %}
+                                            <img src="{% static 'images/skills/smpt_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'settings' %}
+                                            <img src="{% static 'images/skills/settings.png' %}" alt="" class="skill-icon">
+                                        {% endif %}
+
+                                    </span>
+
+                                {% endif %}
+
+
+                                <span
+                                    class="skill-category-name {% if not skill.show %}admin-item-disabled{% endif %}"
+                                >
+                                    {{ skill.name }}
+                                </span>
+
+                            </div>
+
+
+                            <!-- ============================================ -->
+                            <!-- EDIT MODE -->
+                            <!-- ============================================ -->
+
+                            <form
+                                method="POST"
+                                action="{% url 'skills' %}"
+                                class="inline-edit-form"
+                                id="edit-{{ skill.id }}"
+                            >
+
+                                {% csrf_token %}
+
+                                <input
+                                    type="hidden"
+                                    name="update_id"
+                                    value="{{ skill.id }}"
+                                >
+
+
+                                <div class="edit-top-row">
+
+
+                                    <!-- ICON + SHOW -->
+
+                                    <div class="edit-icon-control">
+
+                                        <div class="edit-icon-preview">
+
+                                            {% if skill.icon %}
+
+                                                {% if skill.icon == 'python' %}
+                                                    <img src="{% static 'images/skills/python_icon.png' %}" alt="" class="skill-icon">
+                                                
+
+{% elif skill.icon == 'deepseek' %}
+    <img src="{% static 'images/skills/deepseek_icon.png' %}" alt="" class="skill-icon">
+
+{% elif skill.icon == 'language' %}
+    <img src="{% static 'images/skills/language_icon.png' %}" alt="" class="skill-icon">
+
+{% elif skill.icon == 'chatgpt' %}
+    <img src="{% static 'images/skills/chatgpt_icon.png' %}" alt="" class="skill-icon">
+
+
+{% elif skill.icon == 'deploy' %}
+    <img src="{% static 'images/skills/deploy_icon.png' %}" alt="" class="skill-icon">
+
+{% elif skill.icon == 'tools' %}
+    <img src="{% static 'images/skills/tools_icon.png' %}" alt="" class="skill-icon">
+
+{% elif skill.icon == 'ide' %}
+    <img src="{% static 'images/skills/ide_icon.png' %}" alt="" class="skill-icon">
+
+
+
+                                                {% elif skill.icon == 'php' %}
+                                                    <img src="{% static 'images/skills/php_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'javascript' %}
+                                                    <img src="{% static 'images/skills/javascript_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'java' %}
+                                                    <img src="{% static 'images/skills/java_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'cpp' %}
+                                                    <img src="{% static 'images/skills/c++_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'html' %}
+                                                    <img src="{% static 'images/skills/html_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'css' %}
+                                                    <img src="{% static 'images/skills/css_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'django' %}
+                                                    <img src="{% static 'images/skills/django_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'database' %}
+                                                    <img src="{% static 'images/skills/database_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'mysql' %}
+                                                    <img src="{% static 'images/skills/mysql_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'postgresql' %}
+                                                    <img src="{% static 'images/skills/postgresql_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'sqlite' %}
+                                                    <img src="{% static 'images/skills/sqlite_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'firebase' %}
+                                                    <img src="{% static 'images/skills/firebase_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'git' %}
+                                                    <img src="{% static 'images/skills/git_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'github' %}
+                                                    <img src="{% static 'images/skills/github_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'vscode' %}
+                                                    <img src="{% static 'images/skills/vscode_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'androidstudio' %}
+                                                    <img src="{% static 'images/skills/androidstudio_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'eclipse' %}
+                                                    <img src="{% static 'images/skills/eclipse_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'netbeans' %}
+                                                    <img src="{% static 'images/skills/netbeans_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'pycharm' %}
+                                                    <img src="{% static 'images/skills/pycharm_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'excel' %}
+                                                    <img src="{% static 'images/skills/excel_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'word' %}
+                                                    <img src="{% static 'images/skills/word_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'api' %}
+                                                    <img src="{% static 'images/skills/api_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'json' %}
+                                                    <img src="{% static 'images/skills/json_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'linux' %}
+                                                    <img src="{% static 'images/skills/linux_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'windows' %}
+                                                    <img src="{% static 'images/skills/windows_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'vercel' %}
+                                                    <img src="{% static 'images/skills/vercel_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'pythonanywhere' %}
+                                                    <img src="{% static 'images/skills/pythonanywhere_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'neon' %}
+                                                    <img src="{% static 'images/skills/neon_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'cloud' %}
+                                                    <img src="{% static 'images/skills/cloud_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'smtp' %}
+                                                    <img src="{% static 'images/skills/smpt_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'settings' %}
+                                                    <img src="{% static 'images/skills/settings.png' %}" alt="" class="skill-icon">
+                                                {% endif %}
+
+                                            {% endif %}
+
+                                        </div>
+
+
+                                        <label class="checkbox-control visibility-control">
+
+                                            <input
+                                                type="checkbox"
+                                                name="show_icon"
+                                                {% if skill.show_icon %}checked{% endif %}
+                                            >
+
+                                            <span>
+                                                Show
+                                            </span>
+
+                                        </label>
+
+                                    </div>
+
+
+                                    <!-- SKILL NAME + SHOW -->
+
+                                    <div class="edit-name-control">
+
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            value="{{ skill.name }}"
+                                            required
+                                        >
+
+                                        <label class="checkbox-control visibility-control">
+
+                                            <input
+                                                type="checkbox"
+                                                name="show"
+                                                {% if skill.show %}checked{% endif %}
+                                            >
+
+                                            <span>
+                                                Show
+                                            </span>
+
+                                        </label>
+
+                                    </div>
+
+
+                                    <!-- CATEGORY -->
+
+                                    <select
+                                        name="category"
+                                        class="edit-category-select"
+                                    >
+
+                                        <option
+                                            value="technical"
+                                            {% if skill.category == 'technical' %}
+                                                selected
+                                            {% endif %}
+                                        >
+                                            💻 Technical
+                                        </option>
+
+                                        <option
+                                            value="other"
+                                            {% if skill.category == 'other' %}
+                                                selected
+                                            {% endif %}
+                                        >
+                                            🎯 Other
+                                        </option>
+
+                                    </select>
+
+
+                                    <!-- ICON SELECTOR -->
+
+                                    <select
+                                        name="icon"
+                                        class="edit-icon-select"
+                                    >
+
+                                        {% include "skill_icon_options.html" with selected_icon=skill.icon %}
+
+                                    </select>
+
+                                </div>
+
+
+                                <!-- EDIT ACTIONS -->
+
+                                <div class="edit-actions">
+
+                                    <button
+                                        type="button"
+                                        class="btn small gray cancel-edit"
+                                        data-id="{{ skill.id }}"
+                                    >
+                                        ✗ Cancel
+                                    </button>
+
+                                    <button
+                                        type="submit"
+                                        class="btn small orange"
+                                    >
+                                        ✓ Update
+                                    </button>
+
+                                </div>
+
+                            </form>
+
+
+                            <!-- ACTION BUTTONS -->
+
+                            <div class="skill-actions">
+
+                                <button
+                                    type="button"
+                                    class="btn small edit-toggle"
+                                    data-id="{{ skill.id }}"
+                                >
+                                    ✏️ Edit
+                                </button>
+
+                                <form
+                                    action="{% url 'delete_skill' skill.id %}"
+                                    method="POST"
+                                    class="delete-form"
+                                >
+
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="btn small danger"
+                                    >
+                                        🗑️ Delete
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ============================================ -->
+                        <!-- ADD CHILD SKILL -->
+                        <!-- ============================================ -->
+
+                        <form
+                            method="POST"
+                            action="{% url 'skills' %}"
+                            class="child-form"
+                        >
+
+                            {% csrf_token %}
+
+                            <input
+                                type="hidden"
+                                name="category"
+                                value="{{ skill.category }}"
+                            >
+
+                            <input
+                                type="hidden"
+                                name="parent_id"
+                                value="{{ skill.id }}"
+                            >
+
+                            <div class="child-form-inner">
+
+                                <input
+                                    type="text"
+                                    name="name"
+                                    placeholder="Add skill under {{ skill.name }}"
+                                    required
+                                >
+
+                                <select name="icon">
+
+                                    {% include "skill_icon_options.html" with selected_icon="" %}
+
+                                </select>
+
+                                <button
+                                    type="submit"
+                                    class="btn small orange"
+                                >
+                                    + Add Skill
+                                </button>
+
+                            </div>
+
+                        </form>
+
+
+                        <!-- ============================================ -->
+                        <!-- CHILDREN -->
+                        <!-- ============================================ -->
+
+                        {% with children=skill.children.all %}
+
+                            {% if children %}
+
+                                <div class="skill-children">
+
+                                    {% include "skill_node.html" with nodes=children %}
+
+                                </div>
+
+                            {% endif %}
+
+                        {% endwith %}
+
+                    </div>
+
+                {% empty %}
+
+                    <div class="empty-state">
+
+                        <p>
+                            📭 No technical skills yet.
+                            Create your first skill above!
+                        </p>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <hr>
+
+
+        <!-- ============================================ -->
+        <!-- OTHER SKILLS -->
+        <!-- ============================================ -->
+
+        <div class="skills-section">
+
+            <h2 class="section-heading">
+                🎯 Other Skills
+            </h2>
+
+
+            <!--
+                Same top-level sibling container for
+                Other Skills mothers.
+            -->
+
+            <div class="skill-tree">
+
+                {% for skill in other_skills %}
+
+                    <div
+                        class="skill-card skill-node"
+                        data-skill-id="{{ skill.id }}"
+                        data-node-id="{{ skill.id }}"
+                        data-parent-id=""
+                        draggable="true"
+                    >
+
+                        <!-- ============================================ -->
+                        <!-- SKILL HEADER -->
+                        <!-- ============================================ -->
+
+                        <div class="skill-header">
+
+
+                            <!-- ============================================ -->
+                            <!-- NORMAL VIEW -->
+                            <!-- ============================================ -->
+
+                            <div
+                                class="skill-title"
+                                id="view-{{ skill.id }}"
+                            >
+
+                                {% if skill.icon %}
+
+                                    <span
+                                        class="{% if not skill.show_icon %}admin-item-disabled{% endif %}"
+                                    >
+
+                                        {% if skill.icon == 'python' %}
+                                            <img src="{% static 'images/skills/python_icon.png' %}" alt="" class="skill-icon">
+
+
+{% elif skill.icon == 'deepseek' %}
+    <img src="{% static 'images/skills/deepseek_icon.png' %}" alt="" class="skill-icon">
+
+{% elif skill.icon == 'language' %}
+    <img src="{% static 'images/skills/language_icon.png' %}" alt="" class="skill-icon">
+
+{% elif skill.icon == 'chatgpt' %}
+    <img src="{% static 'images/skills/chatgpt_icon.png' %}" alt="" class="skill-icon">
+
+
+
+{% elif skill.icon == 'deploy' %}
+    <img src="{% static 'images/skills/deploy_icon.png' %}" alt="" class="skill-icon">
+
+{% elif skill.icon == 'tools' %}
+    <img src="{% static 'images/skills/tools_icon.png' %}" alt="" class="skill-icon">
+
+{% elif skill.icon == 'ide' %}
+    <img src="{% static 'images/skills/ide_icon.png' %}" alt="" class="skill-icon">
+
+
+
+
+                                        {% elif skill.icon == 'php' %}
+                                            <img src="{% static 'images/skills/php_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'javascript' %}
+                                            <img src="{% static 'images/skills/javascript_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'java' %}
+                                            <img src="{% static 'images/skills/java_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'cpp' %}
+                                            <img src="{% static 'images/skills/c++_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'html' %}
+                                            <img src="{% static 'images/skills/html_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'css' %}
+                                            <img src="{% static 'images/skills/css_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'django' %}
+                                            <img src="{% static 'images/skills/django_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'database' %}
+                                            <img src="{% static 'images/skills/database_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'mysql' %}
+                                            <img src="{% static 'images/skills/mysql_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'postgresql' %}
+                                            <img src="{% static 'images/skills/postgresql_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'sqlite' %}
+                                            <img src="{% static 'images/skills/sqlite_icon-removebg-preview.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'firebase' %}
+                                            <img src="{% static 'images/skills/firebase_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'git' %}
+                                            <img src="{% static 'images/skills/git_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'github' %}
+                                            <img src="{% static 'images/skills/github_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'vscode' %}
+                                            <img src="{% static 'images/skills/vscode_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'androidstudio' %}
+                                            <img src="{% static 'images/skills/androidstudio_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'eclipse' %}
+                                            <img src="{% static 'images/skills/eclipse_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'netbeans' %}
+                                            <img src="{% static 'images/skills/netbeans_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'pycharm' %}
+                                            <img src="{% static 'images/skills/pycharm_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'excel' %}
+                                            <img src="{% static 'images/skills/excel_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'word' %}
+                                            <img src="{% static 'images/skills/word_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'api' %}
+                                            <img src="{% static 'images/skills/api_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'json' %}
+                                            <img src="{% static 'images/skills/json_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'linux' %}
+                                            <img src="{% static 'images/skills/linux_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'windows' %}
+                                            <img src="{% static 'images/skills/windows_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'vercel' %}
+                                            <img src="{% static 'images/skills/vercel_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'pythonanywhere' %}
+                                            <img src="{% static 'images/skills/pythonanywhere_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'neon' %}
+                                            <img src="{% static 'images/skills/neon_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'cloud' %}
+                                            <img src="{% static 'images/skills/cloud_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'smtp' %}
+                                            <img src="{% static 'images/skills/smpt_icon.png' %}" alt="" class="skill-icon">
+                                        {% elif skill.icon == 'settings' %}
+                                            <img src="{% static 'images/skills/settings.png' %}" alt="" class="skill-icon">
+                                        {% endif %}
+
+                                    </span>
+
+                                {% endif %}
+
+
+                                <span
+                                    class="skill-category-name {% if not skill.show %}admin-item-disabled{% endif %}"
+                                >
+                                    {{ skill.name }}
+                                </span>
+
+                            </div>
+
+
+                            <!-- ============================================ -->
+                            <!-- EDIT MODE -->
+                            <!-- ============================================ -->
+
+                            <form
+                                method="POST"
+                                action="{% url 'skills' %}"
+                                class="inline-edit-form"
+                                id="edit-{{ skill.id }}"
+                            >
+
+                                {% csrf_token %}
+
+                                <input
+                                    type="hidden"
+                                    name="update_id"
+                                    value="{{ skill.id }}"
+                                >
+
+
+                                <div class="edit-top-row">
+
+
+                                    <!-- ICON + SHOW -->
+
+                                    <div class="edit-icon-control">
+
+                                        <div class="edit-icon-preview">
+
+                                            {% if skill.icon %}
+
+                                                {% if skill.icon == 'python' %}
+                                                    <img src="{% static 'images/skills/python_icon.png' %}" alt="" class="skill-icon">
+
+{% elif skill.icon == 'deepseek' %}
+    <img src="{% static 'images/skills/deepseek_icon.png' %}" alt="" class="skill-icon">
+
+{% elif skill.icon == 'language' %}
+    <img src="{% static 'images/skills/language_icon.png' %}" alt="" class="skill-icon">
+
+{% elif skill.icon == 'chatgpt' %}
+    <img src="{% static 'images/skills/chatgpt_icon.png' %}" alt="" class="skill-icon">
+
+
+
+
+{% elif skill.icon == 'deploy' %}
+    <img src="{% static 'images/skills/deploy_icon.png' %}" alt="" class="skill-icon">
+
+{% elif skill.icon == 'tools' %}
+    <img src="{% static 'images/skills/tools_icon.png' %}" alt="" class="skill-icon">
+
+{% elif skill.icon == 'ide' %}
+    <img src="{% static 'images/skills/ide_icon.png' %}" alt="" class="skill-icon">
+
+
+
+
+                                                {% elif skill.icon == 'php' %}
+                                                    <img src="{% static 'images/skills/php_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'javascript' %}
+                                                    <img src="{% static 'images/skills/javascript_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'java' %}
+                                                    <img src="{% static 'images/skills/java_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'cpp' %}
+                                                    <img src="{% static 'images/skills/c++_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'html' %}
+                                                    <img src="{% static 'images/skills/html_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'css' %}
+                                                    <img src="{% static 'images/skills/css_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'django' %}
+                                                    <img src="{% static 'images/skills/django_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'database' %}
+                                                    <img src="{% static 'images/skills/database_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'mysql' %}
+                                                    <img src="{% static 'images/skills/mysql_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'postgresql' %}
+                                                    <img src="{% static 'images/skills/postgresql_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'sqlite' %}
+                                                    <img src="{% static 'images/skills/sqlite_icon-removebg-preview.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'firebase' %}
+                                                    <img src="{% static 'images/skills/firebase_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'git' %}
+                                                    <img src="{% static 'images/skills/git_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'github' %}
+                                                    <img src="{% static 'images/skills/github_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'vscode' %}
+                                                    <img src="{% static 'images/skills/vscode_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'androidstudio' %}
+                                                    <img src="{% static 'images/skills/androidstudio_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'eclipse' %}
+                                                    <img src="{% static 'images/skills/eclipse_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'netbeans' %}
+                                                    <img src="{% static 'images/skills/netbeans_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'pycharm' %}
+                                                    <img src="{% static 'images/skills/pycharm_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'excel' %}
+                                                    <img src="{% static 'images/skills/excel_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'word' %}
+                                                    <img src="{% static 'images/skills/word_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'api' %}
+                                                    <img src="{% static 'images/skills/api_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'json' %}
+                                                    <img src="{% static 'images/skills/json_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'linux' %}
+                                                    <img src="{% static 'images/skills/linux_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'windows' %}
+                                                    <img src="{% static 'images/skills/windows_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'vercel' %}
+                                                    <img src="{% static 'images/skills/vercel_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'pythonanywhere' %}
+                                                    <img src="{% static 'images/skills/pythonanywhere_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'neon' %}
+                                                    <img src="{% static 'images/skills/neon_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'cloud' %}
+                                                    <img src="{% static 'images/skills/cloud_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'smtp' %}
+                                                    <img src="{% static 'images/skills/smpt_icon.png' %}" alt="" class="skill-icon">
+                                                {% elif skill.icon == 'settings' %}
+                                                    <img src="{% static 'images/skills/settings.png' %}" alt="" class="skill-icon">
+                                                {% endif %}
+
+                                            {% endif %}
+
+                                        </div>
+
+
+                                        <label class="checkbox-control visibility-control">
+
+                                            <input
+                                                type="checkbox"
+                                                name="show_icon"
+                                                {% if skill.show_icon %}checked{% endif %}
+                                            >
+
+                                            <span>
+                                                Show
+                                            </span>
+
+                                        </label>
+
+                                    </div>
+
+
+                                    <!-- SKILL NAME + SHOW -->
+
+                                    <div class="edit-name-control">
+
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            value="{{ skill.name }}"
+                                            required
+                                        >
+
+                                        <label class="checkbox-control visibility-control">
+
+                                            <input
+                                                type="checkbox"
+                                                name="show"
+                                                {% if skill.show %}checked{% endif %}
+                                            >
+
+                                            <span>
+                                                Show
+                                            </span>
+
+                                        </label>
+
+                                    </div>
+
+
+                                    <!-- CATEGORY -->
+
+                                    <select
+                                        name="category"
+                                        class="edit-category-select"
+                                    >
+
+                                        <option
+                                            value="technical"
+                                            {% if skill.category == 'technical' %}
+                                                selected
+                                            {% endif %}
+                                        >
+                                            💻 Technical
+                                        </option>
+
+                                        <option
+                                            value="other"
+                                            {% if skill.category == 'other' %}
+                                                selected
+                                            {% endif %}
+                                        >
+                                            🎯 Other
+                                        </option>
+
+                                    </select>
+
+
+                                    <!-- ICON SELECTOR -->
+
+                                    <select
+                                        name="icon"
+                                        class="edit-icon-select"
+                                    >
+
+                                        {% include "skill_icon_options.html" with selected_icon=skill.icon %}
+
+                                    </select>
+
+                                </div>
+
+
+                                <!-- EDIT ACTIONS -->
+
+                                <div class="edit-actions">
+
+                                    <button
+                                        type="button"
+                                        class="btn small gray cancel-edit"
+                                        data-id="{{ skill.id }}"
+                                    >
+                                        ✗ Cancel
+                                    </button>
+
+                                    <button
+                                        type="submit"
+                                        class="btn small orange"
+                                    >
+                                        ✓ Update
+                                    </button>
+
+                                </div>
+
+                            </form>
+
+
+                            <!-- ACTION BUTTONS -->
+
+                            <div class="skill-actions">
+
+                                <button
+                                    type="button"
+                                    class="btn small edit-toggle"
+                                    data-id="{{ skill.id }}"
+                                >
+                                    ✏️ Edit
+                                </button>
+
+                                <form
+                                    action="{% url 'delete_skill' skill.id %}"
+                                    method="POST"
+                                    class="delete-form"
+                                >
+
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="btn small danger"
+                                    >
+                                        🗑️ Delete
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ============================================ -->
+                        <!-- ADD CHILD -->
+                        <!-- ============================================ -->
+
+                        <form
+                            method="POST"
+                            action="{% url 'skills' %}"
+                            class="child-form"
+                        >
+
+                            {% csrf_token %}
+
+                            <input
+                                type="hidden"
+                                name="category"
+                                value="{{ skill.category }}"
+                            >
+
+                            <input
+                                type="hidden"
+                                name="parent_id"
+                                value="{{ skill.id }}"
+                            >
+
+                            <div class="child-form-inner">
+
+                                <input
+                                    type="text"
+                                    name="name"
+                                    placeholder="Add skill under {{ skill.name }}"
+                                    required
+                                >
+
+                                <select name="icon">
+
+                                    {% include "skill_icon_options.html" with selected_icon="" %}
+
+                                </select>
+
+                                <button
+                                    type="submit"
+                                    class="btn small orange"
+                                >
+                                    + Add Skill
+                                </button>
+
+                            </div>
+
+                        </form>
+
+
+                        <!-- ============================================ -->
+                        <!-- CHILDREN -->
+                        <!-- ============================================ -->
+
+                        {% with children=skill.children.all %}
+
+                            {% if children %}
+
+                                <div class="skill-children">
+
+                                    {% include "skill_node.html" with nodes=children %}
+
+                                </div>
+
+                            {% endif %}
+
+                        {% endwith %}
+
+                    </div>
+
+                {% empty %}
+
+                    <div class="empty-state">
+
+                        <p>
+                            📭 No other skills yet.
+                        </p>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
