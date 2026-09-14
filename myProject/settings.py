@@ -151,6 +151,15 @@ USE_TIDB = os.getenv(
 
 
 if USE_TIDB:
+    import pymysql
+
+    pymysql.version_info = (2, 2, 6, "final", 0)
+    pymysql.__version__ = "2.2.6"
+
+    pymysql.install_as_MySQLdb()
+
+
+if USE_TIDB:
 
     DATABASES = {
         'default': {
@@ -167,9 +176,10 @@ if USE_TIDB:
                 '4000'
             ),
             'OPTIONS': {
-                'ssl_mode': 'VERIFY_IDENTITY',
                 'ssl': {
-                    'ca': str(BASE_DIR / os.getenv('TIDB_CA_PATH')),
+                    'ca': str(
+                        BASE_DIR / os.getenv('TIDB_CA_PATH')
+                    ),
                 },
             },
         }
