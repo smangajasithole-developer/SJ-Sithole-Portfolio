@@ -6,7 +6,7 @@ Django==6.0.3
 django-cloudinary-storage==0.3.0
 django-tidb==6.0.1
 idna==3.19
-mysqlclient==2.2.6
+mysqlclient==2.2.6; sys_platform == "win32"
 pillow==12.1.1
 pymupdf==1.28.2
 PyMySQL==1.1.2
