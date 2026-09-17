@@ -147,7 +147,7 @@ class Project(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
-    tech = models.CharField(max_length=200, blank=True)
+    tech = models.TextField(blank=True)
 
     project_type = models.CharField(
         max_length=10,
