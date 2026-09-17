@@ -12,11 +12,18 @@
         {% if node.public_visible %}
 
             <div
-                class="public-skill-node"
+                class="public-skill-node{% if node.public_children %} has-children{% endif %}"
                 data-skill-id="{{ node.id }}"
             >
 
-                <div class="public-node-content">
+                <div
+                    class="public-node-content{% if node.public_children %} skill-parent{% endif %}"
+                    {% if node.public_children %}
+                        role="button"
+                        tabindex="0"
+                        aria-expanded="false"
+                    {% endif %}
+                >
 
                     {% if node.show_icon and node.icon %}
 
@@ -177,7 +184,7 @@
                                     <h3 style="font-weight:400;">{{ node.name }}</h3>
 
                                 {% elif node.heading == "h4" %}
-                                    <h4 style="font-weight:400;">{{ node.name }}</h1>
+                                    <h4 style="font-weight:400;">{{ node.name }}</h4>
 
                                 {% elif node.heading == "h5" %}
                                     <h5 style="font-weight:400;">{{ node.name }}</h5>

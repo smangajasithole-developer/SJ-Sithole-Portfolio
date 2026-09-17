@@ -268,3 +268,114 @@
         });
     }
 })();
+
+
+
+/* ============================================================
+   SKILLS DROPDOWNS
+   ============================================================
+   Handles:
+   - Hover preview on desktop
+   - Click/tap to lock a parent open
+   - Click/tap again to close it
+   - Locked dropdowns stay open when the pointer leaves
+   - Keyboard support with Enter / Space
+   ============================================================ */
+
+(function () {
+    'use strict';
+
+    function setupSkillDropdowns() {
+        const skillParents = document.querySelectorAll(
+            '.public-node-content.skill-parent'
+        );
+
+        if (!skillParents.length) {
+            return;
+        }
+
+        skillParents.forEach((parent) => {
+            const skillNode = parent.closest('.public-skill-node');
+
+            if (!skillNode) {
+                return;
+            }
+
+
+            /* ------------------------------------------------
+               HOVER — TEMPORARY OPEN
+               ------------------------------------------------ */
+
+            parent.addEventListener('mouseenter', () => {
+                skillNode.classList.add('is-hover-open');
+            });
+
+            parent.addEventListener('mouseleave', () => {
+                if (!skillNode.classList.contains('is-open')) {
+                    skillNode.classList.remove('is-hover-open');
+                }
+            });
+
+
+            /* ------------------------------------------------
+               CLICK / TAP — LOCK OPEN
+               ------------------------------------------------ */
+
+            parent.addEventListener('click', () => {
+                const isOpen = skillNode.classList.contains('is-open');
+
+                if (isOpen) {
+                    skillNode.classList.remove('is-open');
+                    parent.setAttribute('aria-expanded', 'false');
+
+                    skillNode.classList.remove('is-hover-open');
+                } else {
+                    skillNode.classList.add('is-open');
+                    parent.setAttribute('aria-expanded', 'true');
+                }
+            });
+
+
+            /* ------------------------------------------------
+               KEYBOARD SUPPORT
+               ------------------------------------------------ */
+
+            parent.addEventListener('keydown', (event) => {
+                if (event.key !== 'Enter' && event.key !== ' ') {
+                    return;
+                }
+
+                event.preventDefault();
+                parent.click();
+            });
+
+
+            /* ------------------------------------------------
+               KEEP HOVER PREVIEW OPEN WHEN MOVING FROM
+               PARENT INTO ITS CHILDREN
+               ------------------------------------------------ */
+
+            skillNode.addEventListener('mouseenter', () => {
+                if (!skillNode.classList.contains('is-open')) {
+                    skillNode.classList.add('is-hover-open');
+                }
+            });
+
+            skillNode.addEventListener('mouseleave', () => {
+                if (!skillNode.classList.contains('is-open')) {
+                    skillNode.classList.remove('is-hover-open');
+                }
+            });
+        });
+    }
+
+
+    if (document.readyState === 'loading') {
+        document.addEventListener(
+            'DOMContentLoaded',
+            setupSkillDropdowns
+        );
+    } else {
+        setupSkillDropdowns();
+    }
+})();
