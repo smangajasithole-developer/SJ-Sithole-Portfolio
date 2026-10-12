@@ -143,17 +143,21 @@ TEMPLATES = [
 ]
 
 
+
 # --------------------------------------------------
 # DATABASE
 # --------------------------------------------------
 
-USE_TIDB = os.getenv(
-    'USE_TIDB',
-    'False'
-).lower() == 'true'
+# Vercel automatically sets VERCEL=1 in its environment.
+# Local development must always use the local MySQL database.
+# Production on Vercel uses the existing TiDB Cloud database.
 
+IS_VERCEL = os.getenv("VERCEL") == "1"
+
+USE_TIDB = IS_VERCEL
 
 if USE_TIDB:
+
     import pymysql
 
     pymysql.version_info = (2, 2, 6, "final", 0)
@@ -161,28 +165,24 @@ if USE_TIDB:
 
     pymysql.install_as_MySQLdb()
 
+    TIDB_CA_PATH = os.getenv("TIDB_CA_PATH")
 
-if USE_TIDB:
+    if not TIDB_CA_PATH:
+        raise RuntimeError(
+            "TIDB_CA_PATH must be configured on Vercel."
+        )
 
     DATABASES = {
-        'default': {
-            'ENGINE': 'django_tidb',
-            'NAME': os.getenv(
-                'TIDB_DATABASE',
-                'test'
-            ),
-            'USER': os.getenv('TIDB_USER'),
-            'PASSWORD': os.getenv('TIDB_PASSWORD'),
-            'HOST': os.getenv('TIDB_HOST'),
-            'PORT': os.getenv(
-                'TIDB_PORT',
-                '4000'
-            ),
-            'OPTIONS': {
-                'ssl': {
-                    'ca': str(
-                        BASE_DIR / os.getenv('TIDB_CA_PATH')
-                    ),
+        "default": {
+            "ENGINE": "django_tidb",
+            "NAME": os.getenv("TIDB_DATABASE"),
+            "USER": os.getenv("TIDB_USER"),
+            "PASSWORD": os.getenv("TIDB_PASSWORD"),
+            "HOST": os.getenv("TIDB_HOST"),
+            "PORT": os.getenv("TIDB_PORT", "4000"),
+            "OPTIONS": {
+                "ssl": {
+                    "ca": str(BASE_DIR / TIDB_CA_PATH),
                 },
             },
         }
@@ -191,29 +191,25 @@ if USE_TIDB:
 else:
 
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': os.getenv(
-                'LOCAL_DB_NAME',
-                'sjs_portfolio'
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": os.getenv(
+                "LOCAL_DB_NAME",
+                "sjs_portfolio"
             ),
-            'USER': os.getenv(
-                'LOCAL_DB_USER',
-                'sjs_portfolio_user'
+            "USER": os.getenv(
+                "LOCAL_DB_USER",
+                "sjs_portfolio_user"
             ),
-            'PASSWORD': os.getenv(
-                'LOCAL_DB_PASSWORD'
+            "PASSWORD": os.getenv("LOCAL_DB_PASSWORD"),
+            "HOST": os.getenv(
+                "LOCAL_DB_HOST",
+                "localhost"
             ),
-            'HOST': os.getenv(
-                'LOCAL_DB_HOST',
-                'localhost'
-            ),
-            'PORT': os.getenv(
-                'LOCAL_DB_PORT',
-                '3306'
-            ),
+            "PORT": os.getenv("LOCAL_DB_PORT", "3306"),
         }
     }
+
 
 # --------------------------------------------------
 # PASSWORD VALIDATION

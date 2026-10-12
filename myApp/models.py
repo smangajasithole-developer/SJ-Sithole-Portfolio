@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from .cloudinary_storage import ProjectMediaCloudinaryStorage
 
 # ==============================
 # MODELS.PY
@@ -138,6 +139,8 @@ class Skill(models.Model):
 
 
 
+
+
 class Project(models.Model):
     PROJECT_TYPE_CHOICES = [
         ('link', 'Link'),
@@ -165,6 +168,7 @@ class Project(models.Model):
 
     file = models.FileField(
         upload_to='project_media/',
+        storage=ProjectMediaCloudinaryStorage(),
         blank=True,
         null=True
     )
@@ -184,6 +188,8 @@ class Project(models.Model):
 
 
 
+
+
 class Contact(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
@@ -200,9 +206,6 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.user.username
-
-
-
 
 
 # models.py
@@ -249,7 +252,6 @@ class Document(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.document_type}"
-
 
 
 # ============================================

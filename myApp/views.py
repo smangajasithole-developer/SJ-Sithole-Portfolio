@@ -775,87 +775,102 @@ def delete_skill(request, id):
 # PROJECTS
 # =========================================================
 
+
+
 @never_cache
 @login_required(login_url='admin_login')
 def projects(request):
 
-    projects = Project.objects.filter(
-        user=request.user,
-        is_featured=True
-    )
-
-    other_projects = Project.objects.filter(
-        user=request.user,
-        is_featured=False
-    )
-
     if request.method == "POST":
 
-        title = request.POST.get('title')
-        description = request.POST.get('description')
-        tech = request.POST.get('tech')
-        is_featured = request.POST.get('is_featured') == 'True'
-        project_type = request.POST.get('project_type')
-        url = request.POST.get('url', '')
+        title = request.POST.get("title", "").strip()
+        description = request.POST.get("description", "").strip()
+        tech = request.POST.get("tech", "").strip()
+        project_type = request.POST.get("project_type", "").strip()
 
-        file = request.FILES.get('file')
-        thumbnail = request.FILES.get('thumbnail')
+        # Validate the selected project type.
+        valid_types = dict(Project.PROJECT_TYPE_CHOICES)
 
-        # CASE STUDY FIELDS
+        if project_type not in valid_types:
+            return redirect("projects")
 
-        problem = request.POST.get('problem')
-        approach = request.POST.get('approach')
-        challenges = request.POST.get('challenges')
-        solution = request.POST.get('solution')
-        outcome = request.POST.get('outcome')
-        what_i_learned = request.POST.get(
-            'what_i_learned'
+        # Determine the correct project section.
+        is_featured = project_type == "link"
+
+        # Read uploads.
+        uploaded_file = request.FILES.get("file")
+        uploaded_thumbnail = request.FILES.get("thumbnail")
+
+        # A media project must have media when first created.
+        if project_type == "file" and not uploaded_file:
+            return redirect("projects")
+
+        # Read the project URL only for link projects.
+        project_url = (
+            request.POST.get("url", "").strip()
+            if project_type == "link"
+            else ""
         )
 
+        # Create the project using the explicitly selected type.
         Project.objects.create(
             user=request.user,
             title=title,
             description=description,
             tech=tech,
-            is_featured=is_featured,
             project_type=project_type,
-            url=url if project_type == 'link' else '',
+            is_featured=is_featured,
+            url=project_url,
             thumbnail=(
-                thumbnail
-                if project_type == 'link'
+                uploaded_thumbnail
+                if project_type == "link"
                 else None
             ),
             file=(
-                file
-                if project_type == 'file'
+                uploaded_file
+                if project_type == "file"
                 else None
             ),
 
-            # SAVE CASE STUDY DATA
-
-            problem=problem,
-            approach=approach,
-            challenges=challenges,
-            solution=solution,
-            outcome=outcome,
-            what_i_learned=what_i_learned
+            # Case study fields.
+            problem=request.POST.get("problem", ""),
+            approach=request.POST.get("approach", ""),
+            challenges=request.POST.get("challenges", ""),
+            solution=request.POST.get("solution", ""),
+            outcome=request.POST.get("outcome", ""),
+            what_i_learned=request.POST.get(
+                "what_i_learned", ""
+            ),
         )
 
-        return redirect('projects')
+        return redirect("projects")
+
+    # Always retrieve both project sections for the dashboard.
+    projects = Project.objects.filter(
+        user=request.user,
+        is_featured=True
+    ).order_by("-id")
+
+    other_projects = Project.objects.filter(
+        user=request.user,
+        is_featured=False
+    ).order_by("-id")
 
     return render(
         request,
-        'projects.html',
+        "projects.html",
         {
-            'projects': projects,
-            'other_projects': other_projects
+            "projects": projects,
+            "other_projects": other_projects,
         }
     )
+
 
 
 # =========================================================
 # EDIT PROJECT
 # =========================================================
+
 
 @never_cache
 @login_required(login_url='admin_login')
@@ -869,51 +884,91 @@ def edit_project(request, id):
 
     if request.method == "POST":
 
-        project.title = request.POST.get("title")
-        project.description = request.POST.get(
-            "description"
-        )
-        project.tech = request.POST.get("tech")
-        project.url = request.POST.get("url")
-        project.project_type = request.POST.get(
-            "project_type"
-        )
-        project.is_featured = (
-            request.POST.get("is_featured") == "True"
-        )
+        title = request.POST.get("title", "").strip()
+        description = request.POST.get("description", "").strip()
+        tech = request.POST.get("tech", "").strip()
+        project_type = request.POST.get("project_type", "").strip()
 
-        if request.FILES.get("file"):
+        # Validate the selected project type.
+        valid_types = dict(Project.PROJECT_TYPE_CHOICES)
 
-            project.file = request.FILES["file"]
+        if project_type not in valid_types:
+            return redirect("projects")
 
-        if request.FILES.get("thumbnail"):
+        uploaded_file = request.FILES.get("file")
+        uploaded_thumbnail = request.FILES.get("thumbnail")
 
-            project.thumbnail = request.FILES[
-                "thumbnail"
-            ]
+        # Do not switch to a media project without media.
+        if project_type == "file" and not (
+            uploaded_file or project.file
+        ):
+            return redirect("projects")
 
-        project.problem = request.POST.get("problem")
-        project.approach = request.POST.get("approach")
+        # Update common information.
+        project.title = title
+        project.description = description
+        project.tech = tech
+        project.project_type = project_type
+
+        # Keep the section consistent with the selected type.
+        project.is_featured = project_type == "link"
+
+        # Link-specific information.
+        if project_type == "link":
+            project.url = request.POST.get("url", "").strip()
+
+            if uploaded_thumbnail:
+                project.thumbnail = uploaded_thumbnail
+
+        else:
+            # A media project does not use a project URL.
+            project.url = ""
+
+        # Replace media only when a new file is uploaded.
+        if uploaded_file:
+            project.file = uploaded_file
+
+        # Update case study fields.
+        project.problem = request.POST.get("problem", "")
+        project.approach = request.POST.get("approach", "")
         project.challenges = request.POST.get(
-            "challenges"
+            "challenges", ""
         )
-        project.solution = request.POST.get("solution")
-        project.outcome = request.POST.get("outcome")
+        project.solution = request.POST.get("solution", "")
+        project.outcome = request.POST.get("outcome", "")
         project.what_i_learned = request.POST.get(
-            "what_i_learned"
+            "what_i_learned", ""
         )
 
         project.save()
 
         return redirect("projects")
 
+    # Supply the dashboard lists as well as the edit object.
+    projects = Project.objects.filter(
+        user=request.user,
+        is_featured=True
+    ).order_by("-id")
+
+    other_projects = Project.objects.filter(
+        user=request.user,
+        is_featured=False
+    ).order_by("-id")
+
     return render(
         request,
         "projects.html",
         {
-            "edit_project": project
+            "edit_project": project,
+            "projects": projects,
+            "other_projects": other_projects,
         }
     )
+
+
+
+
+
 
 
 # =========================================================

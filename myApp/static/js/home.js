@@ -40,24 +40,20 @@
 })();
 
 
+
+
+
 /* ============================================================
    PROJECT MODALS
    ============================================================
    Handles:
-   - Opening project information modals
-   - Closing project information modals
-   - Closing by clicking the backdrop
-   - Closing with Escape
+   - Opening and closing project information modals
+   - Closing by clicking the backdrop or pressing Escape
    - Preventing background scrolling while a modal is open
-
-   Important:
-   Before opening, the modal is moved to <body>. This is done
-   because the modal lives inside `.project-card`, which has a
-   `transform` applied (from entrance animation + hover). A
-   transformed ancestor becomes the containing block for any
-   `position: fixed` descendant — which makes the modal anchor
-   to the card instead of the viewport. Moving it to <body>
-   restores viewport-centered positioning.
+   - Stopping thumbnail videos when a modal opens
+   - Stopping and resetting videos when a modal closes
+   - Ensuring only one showcase/modal video plays at a time
+   - Synchronising volume between each thumbnail and its modal
    ============================================================ */
 
 (function () {
@@ -73,17 +69,205 @@
 
     let activeProjectModal = null;
 
+    // Remember the volume and mute state for each project.
+    const projectVolumeSettings = new Map();
+
+
+    /* --------------------------------------------------------
+       GET PROJECT ID
+       -------------------------------------------------------- */
+
+    function getProjectId(video) {
+        const modal = video.closest('.project-modal');
+
+        if (modal && modal.id) {
+            return modal.id.replace('project-modal-', '');
+        }
+
+        const card = video.closest('.showcase-card');
+
+        if (card) {
+            const button = card.querySelector('[data-project-modal]');
+
+            if (button) {
+                return button.dataset.projectModal.replace(
+                    'project-modal-',
+                    ''
+                );
+            }
+        }
+
+        return null;
+    }
+
+
+    /* --------------------------------------------------------
+       SAVE AND APPLY PROJECT VOLUME SETTINGS
+       -------------------------------------------------------- */
+
+    function saveProjectVolume(video) {
+        const projectId = getProjectId(video);
+
+        if (!projectId) {
+            return;
+        }
+
+        projectVolumeSettings.set(projectId, {
+            volume: video.volume,
+            muted: video.muted
+        });
+    }
+
+    function applyProjectVolume(video) {
+        const projectId = getProjectId(video);
+
+        if (!projectId) {
+            return;
+        }
+
+        const settings = projectVolumeSettings.get(projectId);
+
+        if (settings) {
+            video.volume = settings.volume;
+            video.muted = settings.muted;
+        }
+    }
+
+
+    /* --------------------------------------------------------
+       INITIALISE VIDEO VOLUME SYNCHRONISATION
+       -------------------------------------------------------- */
+
+    function setupVideoVolumeSync() {
+        document.querySelectorAll(
+            '.other-showcase video, .project-modal video'
+        ).forEach((video) => {
+            // Give each project video a shared starting volume.
+            applyProjectVolume(video);
+
+            // Synchronise whenever the user changes the volume.
+            video.addEventListener('volumechange', () => {
+                saveProjectVolume(video);
+
+                const projectId = getProjectId(video);
+
+                if (!projectId) {
+                    return;
+                }
+
+                const settings = projectVolumeSettings.get(projectId);
+
+                document.querySelectorAll(
+                    '.other-showcase video, .project-modal video'
+                ).forEach((otherVideo) => {
+                    if (
+                        otherVideo !== video &&
+                        getProjectId(otherVideo) === projectId
+                    ) {
+                        if (otherVideo.volume !== settings.volume) {
+                            otherVideo.volume = settings.volume;
+                        }
+
+                        if (otherVideo.muted !== settings.muted) {
+                            otherVideo.muted = settings.muted;
+                        }
+                    }
+                });
+            });
+        });
+    }
+
+
+    /* --------------------------------------------------------
+       STOP AND RESET ONE VIDEO
+       -------------------------------------------------------- */
+
+    function stopVideo(video) {
+        if (!video) {
+            return;
+        }
+
+        video.pause();
+
+        try {
+            video.currentTime = 0;
+        } catch (error) {
+            // Ignore videos that are not ready to seek.
+        }
+    }
+
+
+    /* --------------------------------------------------------
+       STOP ALL SHOWCASE AND MODAL VIDEOS
+       -------------------------------------------------------- */
+
+    function stopAllProjectVideos() {
+        document.querySelectorAll(
+            '.other-showcase video, .project-modal video'
+        ).forEach((video) => {
+            stopVideo(video);
+        });
+    }
+
+
+    /* --------------------------------------------------------
+       STOP VIDEOS INSIDE A SPECIFIC MODAL
+       -------------------------------------------------------- */
+
+    function stopModalVideos(modal) {
+        if (!modal) {
+            return;
+        }
+
+        modal.querySelectorAll('video').forEach((video) => {
+            stopVideo(video);
+        });
+    }
+
+
+    /* --------------------------------------------------------
+       ENSURE ONLY ONE PROJECT VIDEO PLAYS AT A TIME
+       -------------------------------------------------------- */
+
+    document.addEventListener('play', (event) => {
+        const playingVideo = event.target;
+
+        if (!(playingVideo instanceof HTMLVideoElement)) {
+            return;
+        }
+
+        if (!playingVideo.closest('.other-showcase, .project-modal')) {
+            return;
+        }
+
+        document.querySelectorAll(
+            '.other-showcase video, .project-modal video'
+        ).forEach((video) => {
+            if (video !== playingVideo && !video.paused) {
+                stopVideo(video);
+            }
+        });
+    }, true);
+
+
+    /* --------------------------------------------------------
+       OPEN PROJECT MODAL
+       -------------------------------------------------------- */
+
     function openProjectModal(modal) {
         if (!modal) {
             return;
         }
 
-        /* ----------------------------------------------------
-           DETACH FROM TRANSFORMED ANCESTOR
-           ----------------------------------------------------
-           Move the modal to <body> so `position: fixed` is
-           relative to the viewport, not the project card.
-           ---------------------------------------------------- */
+        // Stop thumbnail playback without losing saved volume.
+        stopAllProjectVideos();
+
+        // Apply the project's saved volume to its modal video.
+        modal.querySelectorAll('video').forEach((video) => {
+            applyProjectVolume(video);
+        });
+
+        // Move the modal out of its transformed project card.
         if (modal.parentElement !== document.body) {
             document.body.appendChild(modal);
         }
@@ -106,10 +290,17 @@
         }
     }
 
+
+    /* --------------------------------------------------------
+       CLOSE PROJECT MODAL
+       -------------------------------------------------------- */
+
     function closeProjectModal(modal) {
         if (!modal) {
             return;
         }
+
+        stopModalVideos(modal);
 
         modal.setAttribute('aria-hidden', 'true');
         modal.classList.remove('is-open');
@@ -127,8 +318,9 @@
         }
     }
 
+
     /* --------------------------------------------------------
-       OPEN PROJECT MODAL
+       OPEN MODAL FROM "VIEW MORE INFO"
        -------------------------------------------------------- */
 
     projectInfoButtons.forEach((button) => {
@@ -147,7 +339,7 @@
 
 
     /* --------------------------------------------------------
-       CLOSE PROJECT MODAL
+       CLOSE BUTTONS AND BACKDROP
        -------------------------------------------------------- */
 
     projectModals.forEach((modal) => {
@@ -161,11 +353,6 @@
             });
         });
 
-
-        /* ----------------------------------------------------
-           CLOSE WHEN CLICKING THE BACKDROP
-           ---------------------------------------------------- */
-
         modal.addEventListener('click', (event) => {
             if (event.target === modal) {
                 closeProjectModal(modal);
@@ -175,7 +362,7 @@
 
 
     /* --------------------------------------------------------
-       CLOSE WITH ESCAPE KEY
+       CLOSE WITH ESCAPE
        -------------------------------------------------------- */
 
     document.addEventListener('keydown', (event) => {
@@ -190,10 +377,12 @@
 
 
     /* --------------------------------------------------------
-       RESET MODALS WHEN USING BROWSER BACK/FORWARD CACHE
+       RESET MODALS AND VIDEOS AFTER BROWSER NAVIGATION
        -------------------------------------------------------- */
 
     window.addEventListener('pageshow', () => {
+        stopAllProjectVideos();
+
         projectModals.forEach((modal) => {
             modal.setAttribute('aria-hidden', 'true');
             modal.classList.remove('is-open');
@@ -202,7 +391,25 @@
         activeProjectModal = null;
         document.body.classList.remove('modal-open');
     });
+
+
+    /* --------------------------------------------------------
+       START VOLUME SYNCHRONISATION
+       -------------------------------------------------------- */
+
+    setupVideoVolumeSync();
 })();
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* ============================================================

@@ -1,0 +1,1661 @@
+[
+{
+  "model": "auth.user",
+  "fields": {
+    "password": classified
+    "last_login": "2026-09-11T05:19:04.400Z",
+    "is_superuser": true,
+    "username": "smangajsithole@gmail.com",
+    "first_name": "",
+    "last_name": "",
+    "email": "smangajsithole@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-03-19T20:12:14.189Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "2zy2onbjce177ccaho9d5sotmo5uadzr",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1w4Cuv:yPXcaSGrGqfE-2cJKCg7Ume-JIt4--BtBr11-QJXMsM",
+    "expire_date": "2026-04-05T07:08:09.996Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "4oj5sh8o4vcgbwgyb0oo70fk38tp774d",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1wOcc3:BDz-0wESho2wk58z5A1uei33P4QljE3-9bZnScQeE54",
+    "expire_date": "2026-05-17T14:38:33.857Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "6qfzzpfugtmnvqj0srwgl1nikbcsqsd6",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1w3ugf:Yx9t3V0Vg1ruvT6_WL4kxZH7gC-feweANC_lRbFKNko",
+    "expire_date": "2026-04-04T11:40:13.064Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "6xsiwain8pm8c7b7btmygymvjsilpu0y",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1wOYIG:pIgOLYjP_KqLN6rTL9jfKK9PMqViKa390NRNGpIH13M",
+    "expire_date": "2026-05-17T10:01:50.180Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "70nxfoq5sokh81s9appprzyvp026iamz",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1wOZ9L:P1youtvJ9yo4jC-TIIk3hNsm5nuRIVxwm6d2mISsNAU",
+    "expire_date": "2026-05-17T10:56:41.008Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "7n7w8urfn3wvzsostdi8d0lxj68hx27o",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1w3yQT:dxO3o7ZnzEI1_z1EayTsMr_6yGh2U2ShRCyK4k017sw",
+    "expire_date": "2026-04-04T15:39:45.566Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "7tbz9nrqwgcnawh3et6k2wdogdljwlfz",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1wOaZY:BIsD5ryrddg1p_-q_0hPEB-Hpnibk3uIdv3PYHRijXg",
+    "expire_date": "2026-05-17T12:27:50.926Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "9ees4oelfq0yrvfhzw31ujl1hnho5lzh",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1w3vQl:KrVx2Couv-vJhrMheRTbzflu-4MKpGpwLSqX42q9-1g",
+    "expire_date": "2026-04-04T12:27:51.525Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "9qqgh1w6qs6z5kn1cqjqmkaxekupli31",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1wOs2I:k-lVRQNIp654XOEgD_yqjlEekXqkjwFtIgvRqtiVXj4",
+    "expire_date": "2026-05-18T08:45:10.317Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "9vctm32h56igys6d3vf3kgj320n3f1cn",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1w3zKk:W1bysjL14xUc4zdZ9IyxBpis_Qx-r_to8cL-jFRaL-I",
+    "expire_date": "2026-04-04T16:37:54.691Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "a0bwfeeyn8591q8p6sswyeqbs8l8gdc8",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1wOZ5T:jigvENJ8pAyXUiI7QoJNcWYmRWeYPM1jGYXFXHFhwBY",
+    "expire_date": "2026-05-17T10:52:41.934Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "a4dvjg1l5fiwhal8hkbvj619inmjrh99",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1wOZjB:F3fh7tQ6dcufuAYcARhhBjtjvHxdueAlDS_S2VewAfI",
+    "expire_date": "2026-05-17T11:33:43.226Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "bef3sczv51ohz6t1o3u208jp108arbrd",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1w3xfV:Z81gclNCKF8xHUmz7QckxKes5QCwBHLPdPfpiKev7SQ",
+    "expire_date": "2026-04-04T14:51:13.773Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "duh8bl5oa7hk0sqy6tkpwizgcqb8045r",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1w3xqK:8vAKG0sRkcfKD4lMDErD-KqC8kAkui05ImC2anZ1CXw",
+    "expire_date": "2026-04-04T15:02:24.568Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "eor3nqy8sabghnp6kik20t4cp0vyfc5i",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1wPEXI:ERJfA4kj7FegX2sOYxrDi6GolB-qIcLcpn73EU71J5I",
+    "expire_date": "2026-05-19T08:46:40.032Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "gv24nelw554a8cqgfj6jy5l002myqb6i",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1w3yQV:wikFhSDmzivcZp4EyNEv1BNixwDYWiYxSOpDY1K82dk",
+    "expire_date": "2026-04-04T15:39:47.598Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "hq7kykh1bvuo6cytrjg9hhcmnpurdzh0",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1x3xnc:BQlZ1enWpBkFqTso_TaHN2EjtRL6QpS7zVbCqZ-k-Oc",
+    "expire_date": "2026-09-08T17:11:52.929Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "ketix0x32658gby6x1fyn1b12q2d2wk2",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1wOZYE:NRlrZFwtC387kGV8pRqPzt_xikRje6jGXFVt10QCRBw",
+    "expire_date": "2026-05-17T11:22:24.998Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "l2c2z8vjkpcdzjtjnndv0snqs0ic576o",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1wOrWv:9s5ZoXNdNmyFuhP_ZXcgk7ftcqA981RSX78vJ03Gb6s",
+    "expire_date": "2026-05-18T06:34:15.550Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "lsaseadjdbt7rpdosrd5e8xtwizlu6hs",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1x4u6X:AhSQwY6gusDSSvtQaNJr9WbaZZPt6L6N6nV2gm1WWHo",
+    "expire_date": "2026-09-11T07:27:17.532Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "mimvrwwqieu4dhrkhyhma39o0rtb8ibr",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1x3z8Z:4zwMO0O8i9vL5vasYJiRJeXmxgU4yVKSTFNMYOa7CKo",
+    "expire_date": "2026-09-08T18:37:35.027Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "mirvdwmn6t2f9dxoqp1bewui0w912ffd",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1wPBeZ:goQw9dCRVUtCFgfY17LmclXdvOi0mWpeDs46CGEAQT0",
+    "expire_date": "2026-05-19T05:41:59.056Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "ng6ajrjt34len8irfvimgqb1i48xd6zl",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1wOuXg:hQpjEqNBzWPo_bWhq-qh-QW5POiSOHPlBEmcDDOC9Qk",
+    "expire_date": "2026-05-18T11:25:44.571Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "od39bgcoed5slpvqfuin3yfj5qnuwvor",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1x2shu:-9DLg1AR386TegNg8JAMTHc8cZrtTkje7rIxfFd2utk",
+    "expire_date": "2026-09-05T17:33:30.802Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "oi9ma3bukow6lw4djroxjzavfp4wtcnu",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1w3v7h:T3tcvnKqiCzv9ho7GMWJ1jecWkbr2IidmXXPdoJGIvs",
+    "expire_date": "2026-04-04T12:08:09.093Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "pf9ux4kc3v9l6m6udj5rpkp2cudpcp7q",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1wOZCh:n2iyOhnIiGgM38mDw8z6c07Hg5M2OfM3tB0SBtIAdn4",
+    "expire_date": "2026-05-17T11:00:09.236Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "pxvdbfjepjgopf00th8mj60itb8h0vnp",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1wOZUQ:DhrUIel91VwhykQUiG0mtQojUVxEK_lqM1SyXmuibg8",
+    "expire_date": "2026-05-17T11:18:28.775Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "q3vbrowl51j0u0z8d6ddiw8zcenjhb70",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1wOrOb:23aZ3_zDGT2WPkxvpEk6V2XatZh6RzDQgc2mU6VJXsA",
+    "expire_date": "2026-05-18T06:25:39.294Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "ro9b12uni31u0liq8wd5zz4ahnaymf7w",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1w4CZ9:bizbA7x8OrSnu4-BU5Rguq5jhb26dZc_clUySAMWnZM",
+    "expire_date": "2026-04-05T06:45:39.118Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "s8tff8pf1prkdu0shan8r33qvhhjqlnf",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1w3uSo:Np_no5Qd1r8cVo6w-F9JZUfkwEmlvrNTCKDw-xxUzTE",
+    "expire_date": "2026-04-04T11:25:54.674Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "tgu9yu09572tf7x0qnifjbfu63m2qx0o",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1x3cXP:OdTcReYwlLpeQPmeHiSdfqoszFq_np36ey6Tyh5bSOo",
+    "expire_date": "2026-09-07T18:29:43.055Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "tx4lacso32336hd9xaehll448775qpq9",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1w3vGn:5vyND3VXXWuarhBJa8EBu-O0PsT593mV8yzcS03lxZA",
+    "expire_date": "2026-04-04T12:17:33.582Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "zuch0fc9b483v7njnnsjpj1umkzi3qui",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1x4c43:H5wIARfvnhsgXtWx4zP6SgJvHxNEikcjM1D5gy_0IoE",
+    "expire_date": "2026-09-10T12:11:31.388Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "zz67f0n112tnbeadwwfy8lszp1w8otz3",
+  "fields": {
+    "session_data": ".eJxVjDEOwjAMAP-SGUV2mpKYkZ03VE7skAJqpaadEH9HlTrAene6txl4W-uwNV2GUczFoDn9ssT5qdMu5MHTfbZ5ntZlTHZP7GGbvc2ir-vR_g0qt7pveyUgR6BJMiRBZnDlLCgBC_sYALEv2Kl0qD70EahEKAHJI6Hz5vMF3AI3Aw:1wOZdl:orYYuw61-bD65WDUmkudI_GHooSDVYI8Tf9Jl7CqH-o",
+    "expire_date": "2026-05-17T11:28:07.791Z"
+  }
+},
+{
+  "model": "myApp.profile",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "profile_photo": "profile_photos/Screenshot_2024-06-17_114409.png",
+    "first_name": "Smanga",
+    "middle_name": "J",
+    "last_name": "Sithole",
+    "job_title": "Testing 1.3",
+    "location": "Testing 1.4",
+    "bio": "Testing 1.5",
+    "availability": false,
+    "resume": "",
+    "resume_preview": ""
+  }
+},
+{
+  "model": "myApp.about",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "heading": "ABOUT ME",
+    "subheading": "Testing 1",
+    "paragraph1": "Testing 1.1",
+    "paragraph2": "Testing 1.2",
+    "years_experience": "Testing 1.3",
+    "projects_completed": "Testing 1.4",
+    "certifications": "Testing 1.5",
+    "location": "Testing 1.6"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 32,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "Testing",
+    "icon": "",
+    "show_icon": false,
+    "show": true,
+    "category": "technical",
+    "parent": null,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 0,
+    "created_at": "2026-09-06T13:35:49.489Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 35,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "MySQL ",
+    "icon": "mysql",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 1,
+    "created_at": "2026-09-06T14:23:32.709Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 36,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "Good communication",
+    "icon": "",
+    "show_icon": true,
+    "show": true,
+    "category": "other",
+    "parent": null,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 0,
+    "created_at": "2026-09-06T14:45:11.937Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 39,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "Langages",
+    "icon": "linux",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": null,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 1,
+    "created_at": "2026-09-06T16:50:30.553Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 40,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "PostgreSQL",
+    "icon": "postgresql",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 2,
+    "created_at": "2026-09-07T15:37:26.548Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 41,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "Firebase",
+    "icon": "firebase",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 3,
+    "created_at": "2026-09-07T16:01:48.368Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 42,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "SQLite",
+    "icon": "sqlite",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 4,
+    "created_at": "2026-09-11T03:21:02.420Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 43,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "Python",
+    "icon": "python",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 5,
+    "created_at": "2026-09-11T03:24:15.642Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 44,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "PHP",
+    "icon": "php",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 6,
+    "created_at": "2026-09-11T03:24:33.742Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 45,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "JavaScript",
+    "icon": "javascript",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 7,
+    "created_at": "2026-09-11T03:24:53.624Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 47,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "Java",
+    "icon": "java",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 8,
+    "created_at": "2026-09-11T03:29:48.219Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 48,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "C++",
+    "icon": "cpp",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 9,
+    "created_at": "2026-09-11T03:30:11.035Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 49,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "HTML",
+    "icon": "html",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 10,
+    "created_at": "2026-09-11T03:30:47.895Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 50,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "CSS",
+    "icon": "css",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 11,
+    "created_at": "2026-09-11T03:31:11.262Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 51,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "Django",
+    "icon": "django",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 12,
+    "created_at": "2026-09-11T03:31:28.290Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 52,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "Git",
+    "icon": "git",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 13,
+    "created_at": "2026-09-11T03:31:45.854Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 53,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "GitHub",
+    "icon": "github",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 14,
+    "created_at": "2026-09-11T03:32:13.369Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 54,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "VS Code",
+    "icon": "vscode",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 15,
+    "created_at": "2026-09-11T03:34:05.636Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 55,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "Android Studio",
+    "icon": "androidstudio",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 16,
+    "created_at": "2026-09-11T03:35:03.954Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 56,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "Eclipse",
+    "icon": "eclipse",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 17,
+    "created_at": "2026-09-11T03:35:29.242Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 57,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "NetBeans",
+    "icon": "netbeans",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 18,
+    "created_at": "2026-09-11T03:36:04.902Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 58,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "Pycharm",
+    "icon": "pycharm",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 19,
+    "created_at": "2026-09-11T03:36:29.369Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 59,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "Excel",
+    "icon": "excel",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 20,
+    "created_at": "2026-09-11T03:38:22.016Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 60,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "Word",
+    "icon": "word",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 21,
+    "created_at": "2026-09-11T03:38:36.018Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 61,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "API",
+    "icon": "api",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 22,
+    "created_at": "2026-09-11T03:38:48.179Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 62,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "JSON",
+    "icon": "json",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 23,
+    "created_at": "2026-09-11T03:38:57.121Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 63,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "SMTP",
+    "icon": "smtp",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 24,
+    "created_at": "2026-09-11T03:39:06.275Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 64,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "DeepSeek",
+    "icon": "deepseek",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 25,
+    "created_at": "2026-09-11T03:39:20.878Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 65,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "Language",
+    "icon": "language",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 26,
+    "created_at": "2026-09-11T03:39:42.920Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 66,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "ChatGPT",
+    "icon": "chatgpt",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 27,
+    "created_at": "2026-09-11T03:40:10.455Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 67,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "Linux",
+    "icon": "linux",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 28,
+    "created_at": "2026-09-11T03:40:23.021Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 68,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "Windows",
+    "icon": "windows",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 29,
+    "created_at": "2026-09-11T03:40:34.615Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 69,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "Vercel",
+    "icon": "vercel",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 30,
+    "created_at": "2026-09-11T03:40:42.200Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 70,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "PythonAnywhere",
+    "icon": "pythonanywhere",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 31,
+    "created_at": "2026-09-11T03:41:10.405Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 71,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "Neon",
+    "icon": "neon",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 32,
+    "created_at": "2026-09-11T03:41:30.031Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 72,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "Cloud",
+    "icon": "cloud",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 33,
+    "created_at": "2026-09-11T03:41:38.846Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 73,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "Settings",
+    "icon": "settings",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 34,
+    "created_at": "2026-09-11T03:41:54.380Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 74,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "Tools",
+    "icon": "tools",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 35,
+    "created_at": "2026-09-11T04:22:04.757Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 75,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "IDE",
+    "icon": "ide",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 36,
+    "created_at": "2026-09-11T04:22:19.247Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 76,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "Deploy",
+    "icon": "deploy",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 37,
+    "created_at": "2026-09-11T04:22:31.014Z"
+  }
+},
+{
+  "model": "myApp.skill",
+  "pk": 77,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "name": "Database",
+    "icon": "database",
+    "show_icon": true,
+    "show": true,
+    "category": "technical",
+    "parent": 32,
+    "heading": "h3",
+    "display_type": "bullet",
+    "order": 38,
+    "created_at": "2026-09-11T04:23:42.366Z"
+  }
+},
+{
+  "model": "myApp.project",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "title": "SJS Company",
+    "description": "My first showcasing web demo of a recruitment system within a company website",
+    "tech": "VS Code, Dynamic CMS, Role Based Authentication",
+    "project_type": "link",
+    "url": "https://smanga9sithole.pythonanywhere.com/",
+    "thumbnail": "",
+    "file": "",
+    "is_featured": true,
+    "problem": "Integrating the data from the local, hosting it to be online",
+    "approach": "Use Django",
+    "challenges": "Deploying the system was a bit challenging because I has to move the database from local to online and that required a technic of migration ",
+    "solution": "Follow how i did in the local side",
+    "outcome": "Gain deployment knowledge and migration ",
+    "what_i_learned": ""
+  }
+},
+{
+  "model": "myApp.project",
+  "pk": 5,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "title": "Testing VU",
+    "description": "Testing testing",
+    "tech": "Python, HTML, Django, CSS, JacaScript",
+    "project_type": "file",
+    "url": "",
+    "thumbnail": "",
+    "file": "project_media/4a08440eb2d5400ca8a1723c0ad93cd2.mp4",
+    "is_featured": false,
+    "problem": "",
+    "approach": "",
+    "challenges": "",
+    "solution": "",
+    "outcome": "",
+    "what_i_learned": ""
+  }
+},
+{
+  "model": "myApp.project",
+  "pk": 6,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "title": "photo",
+    "description": "photo photo",
+    "tech": "Python, HTML, Django, CSS, JacaScript",
+    "project_type": "file",
+    "url": "",
+    "thumbnail": "",
+    "file": "project_media/Screenshot_2026-05-10_161529.png",
+    "is_featured": false,
+    "problem": "",
+    "approach": "",
+    "challenges": "",
+    "solution": "",
+    "outcome": "",
+    "what_i_learned": ""
+  }
+},
+{
+  "model": "myApp.project",
+  "pk": 7,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "title": "EDCreator",
+    "description": "EDCreator EDCreator EDCreator EDCreatorEDCreatorEDCreatorEDCreator EDCreator EDCreator EDCreatorEDCreator v EDCreator EDCreator EDCreator EDCreator EDCreator EDCreator EDCreator EDCreator v EDCreator v EDCreator",
+    "tech": "Django Python HTML CSS JavaScript SQLite MySQL Bootstrap PythonAnywhere Git Role-Based Authentication Dynamic CMS",
+    "project_type": "link",
+    "url": "https://edcreator.vercel.app",
+    "thumbnail": "project_thumbnails/Screenshot_2026-09-05_114757.png",
+    "file": "",
+    "is_featured": true,
+    "problem": "",
+    "approach": "",
+    "challenges": "",
+    "solution": "",
+    "outcome": "",
+    "what_i_learned": ""
+  }
+},
+{
+  "model": "myApp.contact",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "email": "smangajsithole@gmail.com",
+    "phone": "+27 606 537 993",
+    "location": "South Africa, Mpumalanga",
+    "github_name": "Smanga J Sithole",
+    "github_url": "https://github.com/smangajasithole-developer",
+    "linkedin_name": "Smanga J Sithole",
+    "linkedin_url": "https://github.com/smangajasithole-developer"
+  }
+},
+{
+  "model": "myApp.document",
+  "pk": 11,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "document_type": "id",
+    "title": "DIPICT Q.pdf",
+    "place_obtained": null,
+    "description": null,
+    "file": "documents/Academic_Transcript.pdf",
+    "uploaded_at": "2026-05-16T00:22:59.948Z"
+  }
+},
+{
+  "model": "myApp.document",
+  "pk": 21,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "document_type": "certificate",
+    "title": "testing 1 Cc",
+    "place_obtained": "testing 1.1 Cc",
+    "description": "testing 1.2 Cc",
+    "file": "documents/project_Assignment_FM.pdf",
+    "uploaded_at": "2026-05-16T05:09:21.180Z"
+  }
+},
+{
+  "model": "myApp.document",
+  "pk": 22,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "document_type": "certificate",
+    "title": "testing 2 C",
+    "place_obtained": "testing 2.1 C",
+    "description": "testing 2.2 C",
+    "file": "documents/C_ID_new.pdf",
+    "uploaded_at": "2026-05-16T05:10:38.148Z"
+  }
+},
+{
+  "model": "myApp.document",
+  "pk": 24,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "document_type": "academic",
+    "title": "testing 1 A",
+    "place_obtained": "testing 1.1A",
+    "description": "testing 1.2 A",
+    "file": "documents/Smanga_James_Sithole_FlowCV_Resume_2026-05-09_3.pdf",
+    "uploaded_at": "2026-05-16T05:14:11.526Z"
+  }
+},
+{
+  "model": "myApp.document",
+  "pk": 25,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "document_type": "academic",
+    "title": "testing 2 A",
+    "place_obtained": "testing 2.1A",
+    "description": "testing 2.2 A",
+    "file": "documents/RESUME_q1upt9X.pdf",
+    "uploaded_at": "2026-05-16T05:15:10.542Z"
+  }
+},
+{
+  "model": "myApp.document",
+  "pk": 26,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "document_type": "academic",
+    "title": "testing 3 A",
+    "place_obtained": "testing 3.1 A",
+    "description": "testing 3.2 A",
+    "file": "documents/SJS_CV_EA_NL_Update_new_Q7vcoBt.pdf",
+    "uploaded_at": "2026-05-16T05:16:33.334Z"
+  }
+},
+{
+  "model": "myApp.document",
+  "pk": 27,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "document_type": "cv",
+    "title": "SJS CV NL new fully updates.pdf",
+    "place_obtained": null,
+    "description": null,
+    "file": "documents/SJS_CV_NL_new_fully_updates.pdf",
+    "uploaded_at": "2026-05-16T10:45:56.948Z"
+  }
+},
+{
+  "model": "myApp.document",
+  "pk": 28,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "document_type": "certificate",
+    "title": "testing 3 C",
+    "place_obtained": "testing 3.1 C",
+    "description": "testing 3.2 C",
+    "file": "documents/Smanga_James_Sithole_FlowCV_Resume_2026-05-09_2.pdf",
+    "uploaded_at": "2026-05-16T16:20:35.806Z"
+  }
+},
+{
+  "model": "myApp.document",
+  "pk": 29,
+  "fields": {
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "document_type": "certificate",
+    "title": "testing 4 C",
+    "place_obtained": "testing 4.1 C",
+    "description": "testing 4.2 C",
+    "file": "documents/SJS_CV_FF_NL.pdf",
+    "uploaded_at": "2026-05-16T16:21:28.307Z"
+  }
+},
+{
+  "model": "myApp.contactmessage",
+  "pk": 1,
+  "fields": {
+    "name": "Smanga J Sithole",
+    "email": "smangajsithole@gmail.com",
+    "company": "sjsithole",
+    "message": "testing",
+    "created_at": "2026-05-17T01:37:11.066Z",
+    "is_read": false
+  }
+},
+{
+  "model": "myApp.contactmessage",
+  "pk": 2,
+  "fields": {
+    "name": "Smanga J Sithole",
+    "email": "smangajsithole@gmail.com",
+    "company": "sjsithole",
+    "message": "testing 2",
+    "created_at": "2026-05-17T08:38:23.064Z",
+    "is_read": false
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2026-03-22T07:18:15.428Z",
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "content_type": [
+      "myApp",
+      "profile"
+    ],
+    "object_id": "1",
+    "object_repr": "smangajsithole@gmail.com",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Certifications\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2026-03-22T14:06:22.195Z",
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "content_type": [
+      "myApp",
+      "contact"
+    ],
+    "object_id": "1",
+    "object_repr": "smangajsithole@gmail.com",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Github name\", \"Github url\", \"Linkedin name\", \"Linkedin url\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2026-05-13T12:42:26.504Z",
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "content_type": [
+      "myApp",
+      "skill"
+    ],
+    "object_id": "20",
+    "object_repr": "Work individual ",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2026-05-13T12:42:26.504Z",
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "content_type": [
+      "myApp",
+      "skill"
+    ],
+    "object_id": "19",
+    "object_repr": "Work in as team",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2026-05-13T12:42:26.504Z",
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "content_type": [
+      "myApp",
+      "skill"
+    ],
+    "object_id": "18",
+    "object_repr": "Learn quickly ",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2026-05-13T12:42:26.504Z",
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "content_type": [
+      "myApp",
+      "skill"
+    ],
+    "object_id": "17",
+    "object_repr": "Willing to learn new technics",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 7,
+  "fields": {
+    "action_time": "2026-05-13T12:42:26.504Z",
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "content_type": [
+      "myApp",
+      "skill"
+    ],
+    "object_id": "16",
+    "object_repr": "mySQL",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 8,
+  "fields": {
+    "action_time": "2026-05-13T12:42:26.504Z",
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "content_type": [
+      "myApp",
+      "skill"
+    ],
+    "object_id": "15",
+    "object_repr": "Firebase",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 9,
+  "fields": {
+    "action_time": "2026-05-13T12:42:26.504Z",
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "content_type": [
+      "myApp",
+      "skill"
+    ],
+    "object_id": "14",
+    "object_repr": "Critical Thinking",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 10,
+  "fields": {
+    "action_time": "2026-05-13T12:42:26.504Z",
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "content_type": [
+      "myApp",
+      "skill"
+    ],
+    "object_id": "11",
+    "object_repr": "Django",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 11,
+  "fields": {
+    "action_time": "2026-05-13T12:42:26.504Z",
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "content_type": [
+      "myApp",
+      "skill"
+    ],
+    "object_id": "10",
+    "object_repr": "CSS",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 12,
+  "fields": {
+    "action_time": "2026-05-13T12:42:26.504Z",
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "content_type": [
+      "myApp",
+      "skill"
+    ],
+    "object_id": "9",
+    "object_repr": "HTML5",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 13,
+  "fields": {
+    "action_time": "2026-05-13T12:42:26.504Z",
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "content_type": [
+      "myApp",
+      "skill"
+    ],
+    "object_id": "8",
+    "object_repr": "Good communication",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 14,
+  "fields": {
+    "action_time": "2026-05-13T12:42:26.504Z",
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "content_type": [
+      "myApp",
+      "skill"
+    ],
+    "object_id": "6",
+    "object_repr": "Python",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 15,
+  "fields": {
+    "action_time": "2026-05-19T03:08:50.501Z",
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "content_type": [
+      "myApp",
+      "contact"
+    ],
+    "object_id": "1",
+    "object_repr": "smangajsithole@gmail.com",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Github name\", \"Github url\", \"Linkedin url\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 16,
+  "fields": {
+    "action_time": "2026-05-19T03:11:10.950Z",
+    "user": [
+      "smangajsithole@gmail.com"
+    ],
+    "content_type": [
+      "myApp",
+      "contact"
+    ],
+    "object_id": "1",
+    "object_repr": "smangajsithole@gmail.com",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Linkedin name\"]}}]"
+  }
+}
+]
