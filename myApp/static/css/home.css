@@ -499,74 +499,80 @@
                float-card 4.5s ease-in-out 1.9s infinite;
 }
 
-
 /* ============================================================
-   MOBILE — INTRO AND PROFILE SLIDE EXCHANGE
-   Desktop layout remains unchanged.
+   MOBILE — ORDER SWAP + LEFT/RIGHT SLIDE-IN
+   On phones, the intro appears first (from the left),
+   then the profile picture follows (from the right).
+   On desktop, everything stays as it is.
    ============================================================ */
 
 @media (max-width: 768px) {
 
-    /* Keep the profile above the introduction on mobile */
+    /* ---- swap the visual order: intro first, picture second ---- */
+
     .home-container {
-        display: flex;
-        flex-direction: column;
+        grid-template-columns: 1fr;
         gap: 2.5rem;
     }
 
-    .home-profile {
-        order: -1;
-        width: 100%;
-        animation: slide-in-right 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
-    }
-
+    /* intro content above, profile below */
     .home-content {
-        order: 0;
-        width: 100%;
-        animation: slide-in-left 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+        order: 1;
     }
 
-    /* Disable individual animations because the parent
-       now controls the entire introduction entrance. */
+    .home-profile {
+        order: 2;
+        min-height: auto;
+        margin-top: 1rem;
+    }
+
+    /* ---- INTRO: slides in from the LEFT ---- */
+
     .home-status,
     .home-intro,
     .home-location,
     .home-actions {
-        animation: none;
-        opacity: 1;
-        transform: none;
-        will-change: auto;
+        opacity: 0;
+        transform: translateX(-120px);
+        animation: slide-in-left 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        will-change: transform, opacity;
     }
 
-    /* Let the complete profile area move together */
-    .profile-glow {
-        animation: none;
-        opacity: 1;
-    }
+    .home-status  { animation-delay: 0.10s; }
+    .home-intro   { animation-delay: 0.25s; }
+    .home-location { animation-delay: 0.45s; }
+    .home-actions { animation-delay: 0.60s; }
+
+    /* ---- PROFILE: slides in from the RIGHT ---- */
 
     .home-profile-card {
-        animation: none;
+        opacity: 0;
+        transform: translateX(120px);
+        animation: slide-in-right 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.75s forwards;
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
     }
 
-    /* Keep the floating card stationary during entrance */
+    .profile-glow {
+        opacity: 0;
+        animation: fade-in 1.4s ease 0.5s forwards;
+    }
+
+    /* ---- FLOATING CARD: still fades up after the picture ---- */
+
     .home-floating-card {
-        animation: none;
-        opacity: 1;
-        transform: none;
+        position: relative;
+        width: calc(100% - 1rem);
+        max-width: 320px;
+        margin: 1.25rem auto 0;
+        opacity: 0;
+        transform: translateY(40px);
+        animation:
+            slide-in-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) 1.15s forwards,
+            float-card 4.5s ease-in-out 2.05s infinite;
     }
 }
-
-/* Accessibility: respect reduced-motion preferences */
-@media (max-width: 768px) and (prefers-reduced-motion: reduce) {
-
-    .home-profile,
-    .home-content {
-        animation: none;
-        opacity: 1;
-        transform: none;
-    }
-}
-
 /* ============================================================
    ABOUT SECTION
    ============================================================ */
