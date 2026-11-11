@@ -499,6 +499,74 @@
                float-card 4.5s ease-in-out 1.9s infinite;
 }
 
+
+/* ============================================================
+   MOBILE — INTRO AND PROFILE SLIDE EXCHANGE
+   Desktop layout remains unchanged.
+   ============================================================ */
+
+@media (max-width: 768px) {
+
+    /* Keep the profile above the introduction on mobile */
+    .home-container {
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+    }
+
+    .home-profile {
+        order: -1;
+        width: 100%;
+        animation: slide-in-right 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .home-content {
+        order: 0;
+        width: 100%;
+        animation: slide-in-left 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    /* Disable individual animations because the parent
+       now controls the entire introduction entrance. */
+    .home-status,
+    .home-intro,
+    .home-location,
+    .home-actions {
+        animation: none;
+        opacity: 1;
+        transform: none;
+        will-change: auto;
+    }
+
+    /* Let the complete profile area move together */
+    .profile-glow {
+        animation: none;
+        opacity: 1;
+    }
+
+    .home-profile-card {
+        animation: none;
+    }
+
+    /* Keep the floating card stationary during entrance */
+    .home-floating-card {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Accessibility: respect reduced-motion preferences */
+@media (max-width: 768px) and (prefers-reduced-motion: reduce) {
+
+    .home-profile,
+    .home-content {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+}
+
 /* ============================================================
    ABOUT SECTION
    ============================================================ */
