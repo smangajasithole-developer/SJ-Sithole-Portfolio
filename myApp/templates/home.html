@@ -1,3 +1,4 @@
+
 {% extends "basehome.html" %}
 
 {% load static %}
@@ -25,126 +26,129 @@
 
     <div class="home-container">
 
-        <!-- ======================================== -->
-        <!-- LEFT: TEXT CONTENT                       -->
-        <!-- ======================================== -->
+        <div class="home-slides">
 
-        <div class="home-content">
+            <!-- ======================================== -->
+            <!-- FIRST PANEL: INTRODUCTION               -->
+            <!-- ======================================== -->
 
-            <!-- AVAILABILITY -->
-            <div class="home-status">
-                {% if profile and profile.availability %}
-                    <span class="status-dot available"></span>
-                    <span>Available for work</span>
-                {% else %}
-                    <span class="status-dot unavailable"></span>
-                    <span>Not currently available</span>
-                {% endif %}
-            </div>
+            <div class="home-slide home-content" id="home-info-slide">
 
-            <!-- INTRODUCTION -->
-            <div class="home-intro">
-                <p class="home-greeting">Hi, I'm</p>
-
-                <h1>
-                    {% if profile %}
-                        {{ profile.first_name }}
-                    {% endif %}
-                </h1>
-
-                <h2>
-                    {% if profile %}{{ profile.job_title }}{% endif %}
-                </h2>
-
-                <p class="home-bio">
-                    {% if profile %}{{ profile.bio }}{% endif %}
-                </p>
-            </div>
-
-            <!-- LOCATION -->
-            {% if profile and profile.location %}
-                <div class="home-location">
-                    <span class="location-icon">📍</span>
-                    <span>{{ profile.location }}</span>
-                </div>
-            {% endif %}
-
-            <!-- ACTION BUTTONS -->
-            <div class="home-actions">
-                <a href="#projects" class="home-btn primary">
-                    View My Work
-                    <span>→</span>
-                </a>
-
-                {% if profile and profile.resume %}
-                    <a href="{{ profile.resume.url }}"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       class="home-btn secondary">
-                        View My Resume
-                        <span>↗</span>
-                    </a>
-                {% endif %}
-
-                <a href="#contact" class="home-btn outline">
-                    Get in Touch
-                </a>
-            </div>
-
-        </div>
-
-        <!-- ======================================== -->
-        <!-- RIGHT: PROFILE AREA                      -->
-        <!-- ======================================== -->
-
-        <div class="home-profile">
-
-            <div class="profile-glow" aria-hidden="true"></div>
-
-            <!-- PROFILE CARD -->
-            <div class="home-profile-card">
-
-                <div class="profile-image-wrapper">
-                    {% if profile and profile.profile_photo %}
-                        <img src="{{ profile.profile_photo.url }}"
-                             alt="Profile Photo"
-                             class="home-profile-image">
+                <!-- AVAILABILITY -->
+                <div class="home-status">
+                    {% if profile and profile.availability %}
+                        <span class="status-dot available"></span>
+                        <span>Available for work</span>
                     {% else %}
-                        <img src="{% static 'images/user icon.png' %}"
-                             alt="Profile Photo"
-                             class="home-profile-image">
+                        <span class="status-dot unavailable"></span>
+                        <span>Not currently available</span>
                     {% endif %}
                 </div>
 
-                <!--
+                <!-- INTRODUCTION -->
+                <div class="home-intro">
+                    <p class="home-greeting">Hi, I'm</p>
 
-                <div class="profile-card-info">
-                    <div>
-                        <span class="profile-card-label">Role</span>
-                        <strong>
-                            {% if profile %}{{ profile.job_title }}{% endif %}
-                        </strong>
+                    <h1>
+                        {% if profile %}
+                            {{ profile.first_name }}
+                        {% endif %}
+                    </h1>
+
+                    <h2>
+                        {% if profile %}{{ profile.job_title }}{% endif %}
+                    </h2>
+
+                    <p class="home-bio">
+                        {% if profile %}{{ profile.bio }}{% endif %}
+                    </p>
+                </div>
+
+                <!-- LOCATION -->
+                {% if profile and profile.location %}
+                    <div class="home-location">
+                        <span class="location-icon">📍</span>
+                        <span>{{ profile.location }}</span>
+                    </div>
+                {% endif %}
+
+                <!-- ACTION BUTTONS -->
+                <div class="home-actions">
+                    <a href="#projects" class="home-btn primary">
+                        View My Work
+                        <span>→</span>
+                    </a>
+
+                    {% if profile and profile.resume %}
+                        <a href="{{ profile.resume.url }}"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="home-btn secondary">
+                            View My Resume
+                            <span>↗</span>
+                        </a>
+                    {% endif %}
+
+                    <a href="#contact" class="home-btn outline">
+                        Get in Touch
+                    </a>
+                </div>
+
+            </div>
+
+
+            <!-- ======================================== -->
+            <!-- SECOND PANEL: PROFILE PHOTO              -->
+            <!-- ======================================== -->
+
+            <div class="home-slide home-profile" id="home-profile-slide">
+
+                <div class="profile-glow" aria-hidden="true"></div>
+
+                <!-- PROFILE CARD -->
+                <div class="home-profile-card">
+
+                    <div class="profile-image-wrapper">
+                        {% if profile and profile.profile_photo %}
+                            <img src="{{ profile.profile_photo.url }}"
+                                 alt="Profile Photo"
+                                 class="home-profile-image">
+                        {% else %}
+                            <img src="{% static 'images/user icon.png' %}"
+                                 alt="Profile Photo"
+                                 class="home-profile-image">
+                        {% endif %}
                     </div>
 
-                    {% if profile and profile.location %}
+                    <!--
+                    <div class="profile-card-info">
                         <div>
-                            <span class="profile-card-label">Based in</span>
-                            <strong>{{ profile.location }}</strong>
+                            <span class="profile-card-label">Role</span>
+                            <strong>
+                                {% if profile %}{{ profile.job_title }}{% endif %}
+                            </strong>
                         </div>
-                    {% endif %}
+
+                        {% if profile and profile.location %}
+                            <div>
+                                <span class="profile-card-label">Based in</span>
+                                <strong>{{ profile.location }}</strong>
+                            </div>
+                        {% endif %}
+                    </div>
+                    -->
+
                 </div>
 
-                
-
-            </div>
-
-            <!-- FLOATING CARD -->
-            <div class="home-floating-card">
-                <span class="floating-icon">💻</span>
-                <div>
-                    <strong>Building with purpose</strong>
-                    <span>Turning ideas into functional solutions.</span>
+                <!-- FLOATING CARD -->
+                <div class="home-floating-card">
+                    <span class="floating-icon">💻</span>
+                    <div>
+                        <strong>Building with purpose</strong>
+                        <span>Turning ideas into functional solutions.</span>
+                    </div>
                 </div>
+
             </div>
 
         </div>
@@ -152,6 +156,11 @@
     </div>
 
 </section>
+
+
+
+
+
 
 <!-- ============================================ -->
 <!-- ABOUT ME SECTION                             -->

@@ -586,3 +586,255 @@
         setupSkillDropdowns();
     }
 })();
+
+
+
+/* ============================================================
+   HOME SLIDER — TWO-PANEL INFINITE LOOP
+   ============================================================
+   - Only two original panels; no cloned elements.
+   - Introduction is always the initial panel.
+   - Swipe left/right to alternate indefinitely.
+   - Arrow controls use the same navigation.
+   - Active only at 900px and below.
+   ============================================================ */
+
+(function () {
+    'use strict';
+
+    function initHomeSlider() {
+        const slider = document.querySelector('.home-slides');
+
+        if (!slider) return;
+
+        const panels = Array.from(slider.children).filter(
+            element => element.classList.contains('home-slide')
+        );
+
+        if (panels.length !== 2) return;
+
+        const [intro, photo] = panels;
+
+        const mobileQuery = window.matchMedia('(max-width: 900px)');
+        const reducedMotion = window.matchMedia(
+            '(prefers-reduced-motion: reduce)'
+        );
+
+        let activeIndex = 0;
+        let controls = null;
+        let enabled = false;
+
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let isDragging = false;
+
+        const SWIPE_THRESHOLD = 45;
+
+        function updateControls() {
+            if (!controls) return;
+
+            const indicator = controls.querySelector(
+                '.home-slider-indicator'
+            );
+
+            indicator.textContent = activeIndex === 0
+                ? '01 / 02'
+                : '02 / 02';
+
+            intro.setAttribute(
+                'aria-hidden',
+                activeIndex === 0 ? 'false' : 'true'
+            );
+
+            photo.setAttribute(
+                'aria-hidden',
+                activeIndex === 1 ? 'false' : 'true'
+            );
+
+            if (activeIndex === 0) {
+                photo.setAttribute('inert', '');
+                intro.removeAttribute('inert');
+            } else {
+                intro.setAttribute('inert', '');
+                photo.removeAttribute('inert');
+            }
+        }
+
+        function showPanel(index) {
+            activeIndex = (index + 2) % 2;
+
+            slider.style.transform =
+                `translateX(-${activeIndex * 100}%)`;
+
+            updateControls();
+        }
+
+        function nextPanel() {
+            showPanel(activeIndex + 1);
+        }
+
+        function previousPanel() {
+            showPanel(activeIndex - 1);
+        }
+
+        function createControls() {
+            controls = document.createElement('div');
+            controls.className = 'home-slider-controls';
+
+            const previous = document.createElement('button');
+            previous.type = 'button';
+            previous.className = 'home-slider-arrow';
+            previous.setAttribute('aria-label', 'Previous panel');
+            previous.innerHTML = '&larr;';
+
+            const indicator = document.createElement('span');
+            indicator.className = 'home-slider-indicator';
+            indicator.setAttribute('aria-live', 'polite');
+
+            const next = document.createElement('button');
+            next.type = 'button';
+            next.className = 'home-slider-arrow';
+            next.setAttribute('aria-label', 'Next panel');
+            next.innerHTML = '&rarr;';
+
+            controls.append(previous, indicator, next);
+
+            slider.insertAdjacentElement('afterend', controls);
+
+            previous.addEventListener('click', previousPanel);
+            next.addEventListener('click', nextPanel);
+        }
+
+        function handleTouchStart(event) {
+            if (event.touches.length !== 1) return;
+
+            touchStartX = event.touches[0].clientX;
+            touchStartY = event.touches[0].clientY;
+            isDragging = true;
+        }
+
+        function handleTouchEnd(event) {
+            if (!isDragging || !event.changedTouches.length) return;
+
+            isDragging = false;
+
+            const touchEndX = event.changedTouches[0].clientX;
+            const touchEndY = event.changedTouches[0].clientY;
+
+            const differenceX = touchEndX - touchStartX;
+            const differenceY = touchEndY - touchStartY;
+
+            // Ignore vertical scrolling gestures.
+            if (Math.abs(differenceX) < SWIPE_THRESHOLD) return;
+            if (Math.abs(differenceX) < Math.abs(differenceY)) return;
+
+            if (differenceX < 0) {
+                nextPanel();
+            } else {
+                previousPanel();
+            }
+        }
+
+        function handleKeydown(event) {
+            if (event.key === 'ArrowLeft') {
+                previousPanel();
+            } else if (event.key === 'ArrowRight') {
+                nextPanel();
+            }
+        }
+
+        function enableSlider() {
+            if (enabled) return;
+
+            enabled = true;
+            activeIndex = 0;
+
+            slider.classList.add('home-slider-active');
+
+            slider.style.transform = 'translateX(0)';
+            slider.style.transition = reducedMotion.matches
+                ? 'none'
+                : 'transform 0.45s ease';
+
+            panels.forEach(panel => {
+                panel.style.flex = '0 0 100%';
+                panel.style.width = '100%';
+                panel.style.minWidth = '100%';
+                panel.style.boxSizing = 'border-box';
+            });
+
+            createControls();
+
+            slider.addEventListener('touchstart', handleTouchStart, {
+                passive: true
+            });
+
+            slider.addEventListener('touchend', handleTouchEnd, {
+                passive: true
+            });
+
+            slider.addEventListener('keydown', handleKeydown);
+
+            slider.setAttribute('tabindex', '0');
+
+            updateControls();
+        }
+
+        function disableSlider() {
+            if (!enabled) return;
+
+            enabled = false;
+            activeIndex = 0;
+
+            slider.classList.remove('home-slider-active');
+
+            slider.style.transform = '';
+            slider.style.transition = '';
+
+            panels.forEach(panel => {
+                panel.style.flex = '';
+                panel.style.width = '';
+                panel.style.minWidth = '';
+                panel.style.boxSizing = '';
+                panel.removeAttribute('aria-hidden');
+                panel.removeAttribute('inert');
+            });
+
+            slider.removeEventListener('touchstart', handleTouchStart);
+            slider.removeEventListener('touchend', handleTouchEnd);
+            slider.removeEventListener('keydown', handleKeydown);
+
+            slider.removeAttribute('tabindex');
+
+            if (controls) {
+                controls.remove();
+                controls = null;
+            }
+        }
+
+        function handleResponsiveChange() {
+            if (mobileQuery.matches) {
+                enableSlider();
+            } else {
+                disableSlider();
+            }
+        }
+
+        mobileQuery.addEventListener('change', handleResponsiveChange);
+        reducedMotion.addEventListener('change', () => {
+            if (enabled) {
+                slider.style.transition = reducedMotion.matches
+                    ? 'none'
+                    : 'transform 0.45s ease';
+            }
+        });
+
+        handleResponsiveChange();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initHomeSlider);
+    } else {
+        initHomeSlider();
+    }
+})();

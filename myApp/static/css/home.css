@@ -1,5 +1,8 @@
+
 /* ============================================================
+
    HOME / INTRO SECTION
+
    ============================================================ */
 
 .home {
@@ -208,8 +211,13 @@
     transition: transform var(--transition);
 }
 
-.home-btn:hover { transform: translateY(-2px); }
-.home-btn:hover span { transform: translateX(3px); }
+.home-btn:hover {
+    transform: translateY(-2px);
+}
+
+.home-btn:hover span {
+    transform: translateX(3px);
+}
 
 .home-btn.primary {
     background: var(--primary);
@@ -412,7 +420,7 @@
     line-height: 1.35;
 }
 
-/* ---- Home entrance animations (unchanged) ---- */
+/* ---- Home entrance animations ---- */
 
 .home-status,
 .home-intro,
@@ -424,27 +432,21 @@
     will-change: transform, opacity;
 }
 
-/* ============================================================
-   MOBILE — FLOATING CARD
-   ============================================================ */
+/* ---- Profile floating card on mobile ---- */
 
 @media (max-width: 768px) {
-
     .home-floating-card {
         position: relative;
         width: calc(100% - 1rem);
         max-width: 320px;
         margin: 1.25rem auto 0;
-
         animation:
             slide-in-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) 1s forwards,
             float-card 4.5s ease-in-out 1.9s infinite;
     }
-
 }
 
 @keyframes slide-in-up {
-
     0% {
         opacity: 0;
         transform: translateY(40px);
@@ -459,7 +461,6 @@
         opacity: 1;
         transform: translateY(0);
     }
-
 }
 
 .profile-glow {
@@ -499,80 +500,189 @@
                float-card 4.5s ease-in-out 1.9s infinite;
 }
 
+
 /* ============================================================
-   MOBILE — ORDER SWAP + LEFT/RIGHT SLIDE-IN
-   On phones, the intro appears first (from the left),
-   then the profile picture follows (from the right).
-   On desktop, everything stays as it is.
+   RESPONSIVE INTRO — TWO HORIZONTAL SLIDES
+
+   Wide screens: original side-by-side layout
+   Narrow screens: information first, photo second
    ============================================================ */
 
-@media (max-width: 768px) {
+/* Keep the original desktop grid layout */
+.home-slides {
+    display: contents;
+}
 
-    /* ---- swap the visual order: intro first, picture second ---- */
+/* Navigation between panels */
+.home-slide-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    align-self: flex-start;
+    margin-top: 0.5rem;
+    color: var(--primary);
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color var(--transition), gap var(--transition);
+}
+
+.home-slide-link:hover {
+    color: var(--primary-dark);
+    gap: 0.9rem;
+}
+
+/* Narrow screens: activate horizontal swipe panels */
+@media (max-width: 900px) {
 
     .home-container {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
+        display: block;
     }
 
-    /* intro content above, profile below */
+    .home-slides {
+        display: flex;
+        width: 100%;
+        min-width: 0;
+        gap: 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        overscroll-behavior-x: contain;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .home-slides::-webkit-scrollbar {
+        display: none;
+    }
+
+    .home-slide {
+        flex: 0 0 100%;
+        width: 100%;
+        min-width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+    }
+
     .home-content {
-        order: 1;
+        padding: 0;
     }
 
     .home-profile {
-        order: 2;
-        min-height: auto;
+        padding: 0 0.25rem;
+    }
+
+    .home-slide-link {
         margin-top: 1rem;
     }
+}
 
-    /* ---- INTRO: slides in from the LEFT ---- */
-
-    .home-status,
-    .home-intro,
-    .home-location,
-    .home-actions {
-        opacity: 0;
-        transform: translateX(-120px);
-        animation: slide-in-left 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        will-change: transform, opacity;
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .home-slides {
+        scroll-behavior: auto;
     }
 
-    .home-status  { animation-delay: 0.10s; }
-    .home-intro   { animation-delay: 0.25s; }
-    .home-location { animation-delay: 0.45s; }
-    .home-actions { animation-delay: 0.60s; }
-
-    /* ---- PROFILE: slides in from the RIGHT ---- */
-
-    .home-profile-card {
-        opacity: 0;
-        transform: translateX(120px);
-        animation: slide-in-right 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.75s forwards;
-        width: 100%;
-        max-width: 320px;
-        margin: 0 auto;
-    }
-
-    .profile-glow {
-        opacity: 0;
-        animation: fade-in 1.4s ease 0.5s forwards;
-    }
-
-    /* ---- FLOATING CARD: still fades up after the picture ---- */
-
-    .home-floating-card {
-        position: relative;
-        width: calc(100% - 1rem);
-        max-width: 320px;
-        margin: 1.25rem auto 0;
-        opacity: 0;
-        transform: translateY(40px);
-        animation:
-            slide-in-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) 1.15s forwards,
-            float-card 4.5s ease-in-out 2.05s infinite;
+    .home-slide-link {
+        transition: none;
     }
 }
+
+
+
+/* ============================================================
+   HOME SLIDER — TWO-PANEL TRANSITION
+   ============================================================ */
+
+.home-slider-controls {
+    display: none;
+}
+
+@media (max-width: 900px) {
+
+    .home-container {
+        display: block;
+        overflow: hidden;
+    }
+
+    .home-slides.home-slider-active {
+        display: flex;
+        width: 100%;
+        overflow: hidden;
+        touch-action: pan-y;
+        will-change: transform;
+    }
+
+    .home-slides.home-slider-active .home-slide {
+        flex: 0 0 100%;
+        width: 100%;
+        min-width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .home-slides.home-slider-active .home-content {
+        padding: 0;
+    }
+
+    .home-slides.home-slider-active .home-profile {
+        padding: 0 0.25rem;
+    }
+
+    .home-slider-controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.25rem;
+        margin: 1.5rem auto 0;
+        width: fit-content;
+    }
+
+    .home-slider-arrow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        padding: 0;
+        border: none;
+        background: transparent;
+        color: var(--text-color);
+        font-size: 1.7rem;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+
+    .home-slider-arrow:hover {
+        transform: scale(1.15);
+    }
+
+    .home-slider-indicator {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 76px;
+        min-height: 38px;
+        padding: 0.4rem 0.7rem;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-slides.home-slider-active {
+        transition: none !important;
+    }
+}
+
+
+
 /* ============================================================
    ABOUT SECTION
    ============================================================ */
@@ -2141,10 +2251,46 @@ body.modal-open { overflow: hidden; }
 
 
 
+/* ============================================================
+   HOME SLIDER — PANEL VISIBILITY FIX
+   ============================================================ */
 
+@media (max-width: 900px) {
 
+    .home-container {
+        display: block;
+        overflow: hidden;
+        width: 100%;
+    }
 
+    .home-slides.home-slider-active {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        width: 100%;
+        overflow: visible !important;
+        gap: 0 !important;
+    }
 
+    .home-slides.home-slider-active > .home-slide {
+        display: flex !important;
+        position: relative !important;
+        flex: 0 0 100% !important;
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+        visibility: visible !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
 
+    .home-slides.home-slider-active > .home-content {
+        flex-direction: column;
+    }
 
-.home-floating-card
+    .home-slides.home-slider-active > .home-profile {
+        align-items: center;
+        justify-content: center;
+    }
+}
