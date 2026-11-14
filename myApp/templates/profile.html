@@ -1,29 +1,60 @@
 {% extends "adminbase.html" %}
 {% load static %}
 
+
+<!-- ============================================ -->
+<!-- PAGE TITLE                                   -->
+<!-- ============================================ -->
+
 {% block title %}
     Admin Dashboard - Profile
 {% endblock %}
+
+
+<!-- ============================================ -->
+<!-- CSS                                          -->
+<!-- ============================================ -->
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/profile.css' %}">
 {% endblock %}
 
+
+<!-- ============================================ -->
+<!-- JS                                           -->
+<!-- ============================================ -->
+
 {% block extra_js %}
     <script src="{% static 'js/profile.js' %}" defer></script>
 {% endblock %}
+
+
+<!-- ============================================ -->
+<!-- BODY CLASS                                   -->
+<!-- ============================================ -->
 
 {% block body_class %}
     profile-page
 {% endblock %}
 
+
+<!-- ============================================ -->
+<!-- PAGE HEADING                                 -->
+<!-- ============================================ -->
+
 {% block page_title %}
     Portfolio Dashboard
 {% endblock %}
 
+
 {% block page_description %}
     Manage all the content on your portfolio website.
 {% endblock %}
+
+
+<!-- ============================================ -->
+<!-- PAGE CONTENT                                 -->
+<!-- ============================================ -->
 
 {% block content %}
 
@@ -36,13 +67,16 @@
     <div class="tab-pane">
 
         <!-- ============================================ -->
-        <!-- PERSONAL INFO HEADER                        -->
+        <!-- PERSONAL INFO HEADER                         -->
         <!-- ============================================ -->
+
         <h2 class="section-title">Personal Info</h2>
 
+
         <!-- ============================================ -->
-        <!-- PROFILE PHOTO                               -->
+        <!-- PROFILE PHOTO                                -->
         <!-- ============================================ -->
+
         <div class="form-row top-row">
             <div class="photo-wrapper">
                 <div class="photo-preview">
@@ -63,9 +97,11 @@
             </div>
         </div>
 
+
         <!-- ============================================ -->
-        <!-- NAME FIELDS                                 -->
+        <!-- NAME FIELDS                                  -->
         <!-- ============================================ -->
+
         <div class="form-row">
             <div class="field-group">
                 <label for="firstName">First Name</label>
@@ -86,9 +122,11 @@
             </div>
         </div>
 
+
         <!-- ============================================ -->
-        <!-- JOB TITLE                                   -->
+        <!-- JOB TITLE                                    -->
         <!-- ============================================ -->
+
         <div class="form-row">
             <div class="field-group full-width">
                 <label for="jobTitle">Job Title</label>
@@ -100,9 +138,11 @@
             </div>
         </div>
 
+
         <!-- ============================================ -->
-        <!-- LOCATION & AVAILABILITY                     -->
+        <!-- LOCATION & AVAILABILITY                      -->
         <!-- ============================================ -->
+
         <div class="form-row">
             <div class="field-group">
                 <label for="location">Location</label>
@@ -128,9 +168,11 @@
             </div>
         </div>
 
+
         <!-- ============================================ -->
-        <!-- BIO / PROFESSIONAL SUMMARY                  -->
+        <!-- BIO / PROFESSIONAL SUMMARY                   -->
         <!-- ============================================ -->
+
         <div class="form-row">
             <div class="field-group full-width">
                 <label for="bio">Professional Summary / Bio</label>
@@ -141,9 +183,11 @@
             </div>
         </div>
 
+
         <!-- ============================================ -->
-        <!-- RESUME SECTION                              -->
+        <!-- RESUME SECTION                               -->
         <!-- ============================================ -->
+
         <div class="form-row">
             <div class="field-group full-width">
                 <label>Resume</label>
@@ -236,9 +280,11 @@
 
     </div>
 
+
     <!-- ============================================ -->
-    <!-- FORM ACTIONS                                -->
+    <!-- FORM ACTIONS                                 -->
     <!-- ============================================ -->
+
     <div class="form-actions">
         <button type="submit" class="btn orange">
             💾 Save Changes

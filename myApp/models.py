@@ -1,11 +1,16 @@
+# =========================================================
+# IMPORTS
+# =========================================================
+
 from django.db import models
 from django.contrib.auth.models import User
+
 from .cloudinary_storage import ProjectMediaCloudinaryStorage
 
-# ==============================
-# MODELS.PY
-# Replace ONLY the Profile model with this safe version
-# ==============================
+
+# =========================================================
+# PROFILE
+# =========================================================
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -15,13 +20,13 @@ class Profile(models.Model):
         default='images/user icon.png'
     )
 
-    first_name = models.CharField(max_length=50, blank=True)
+    first_name  = models.CharField(max_length=50, blank=True)
     middle_name = models.CharField(max_length=50, blank=True)
-    last_name = models.CharField(max_length=50, blank=True)
+    last_name   = models.CharField(max_length=50, blank=True)
 
-    job_title = models.CharField(max_length=100, blank=True)
-    location = models.CharField(max_length=100, blank=True)
-    bio = models.TextField(blank=True)
+    job_title    = models.CharField(max_length=100, blank=True)
+    location     = models.CharField(max_length=100, blank=True)
+    bio          = models.TextField(blank=True)
     availability = models.BooleanField(default=True)
 
     resume = models.FileField(
@@ -40,24 +45,34 @@ class Profile(models.Model):
         return self.user.username
 
 
+# =========================================================
+# ABOUT
+# =========================================================
+
 class About(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-    heading = models.CharField(max_length=200, default="ABOUT ME")
+    heading    = models.CharField(max_length=200, default="ABOUT ME")
     subheading = models.CharField(max_length=200, blank=True)
 
     paragraph1 = models.TextField(blank=True)
     paragraph2 = models.TextField(blank=True)
 
-    years_experience = models.CharField(max_length=20, blank=True)
+    years_experience   = models.CharField(max_length=20, blank=True)
     projects_completed = models.CharField(max_length=20, blank=True)
-    certifications = models.CharField(max_length=20, blank=True)
-    location = models.CharField(max_length=100, blank=True)
+    certifications     = models.CharField(max_length=20, blank=True)
+    location           = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
         return self.user.username
 
+
+# =========================================================
+# SKILL
+# =========================================================
+
 class Skill(models.Model):
+
     CATEGORY_CHOICES = [
         ('technical', 'Technical Skills'),
         ('other', 'Other Skills'),
@@ -138,19 +153,21 @@ class Skill(models.Model):
         return self.name
 
 
-
-
+# =========================================================
+# PROJECT
+# =========================================================
 
 class Project(models.Model):
+
     PROJECT_TYPE_CHOICES = [
         ('link', 'Link'),
         ('file', 'File/Media')
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=200)
+    user        = models.ForeignKey(User, on_delete=models.CASCADE)
+    title       = models.CharField(max_length=200)
     description = models.TextField(blank=True)
-    tech = models.TextField(blank=True)
+    tech        = models.TextField(blank=True)
 
     project_type = models.CharField(
         max_length=10,
@@ -175,43 +192,56 @@ class Project(models.Model):
 
     is_featured = models.BooleanField(default=True)
 
+    # LIVE PROJECT CATEGORIES
+    live_categories = models.JSONField(
+        default=list,
+        blank=True
+    )
+
+    # OTHER SHOWCASE CATEGORIES
+    showcase_categories = models.JSONField(
+        default=list,
+        blank=True
+    )
+
     # CASE STUDY FIELDS
-    problem = models.TextField(blank=True)
-    approach = models.TextField(blank=True)
-    challenges = models.TextField(blank=True)
-    solution = models.TextField(blank=True)
-    outcome = models.TextField(blank=True)
+    problem        = models.TextField(blank=True)
+    approach       = models.TextField(blank=True)
+    challenges     = models.TextField(blank=True)
+    solution       = models.TextField(blank=True)
+    outcome        = models.TextField(blank=True)
     what_i_learned = models.TextField(blank=True)
 
     def __str__(self):
         return self.title
 
 
-
-
+# =========================================================
+# CONTACT
+# =========================================================
 
 class Contact(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-    email = models.EmailField(blank=True)
-    phone = models.CharField(max_length=20, blank=True)
+    email    = models.EmailField(blank=True)
+    phone    = models.CharField(max_length=20, blank=True)
     location = models.CharField(max_length=100, blank=True)
 
-    # NEW FIELDS
+    # GITHUB
     github_name = models.CharField(max_length=100, blank=True)
-    github_url = models.URLField(blank=True)
+    github_url  = models.URLField(blank=True)
 
+    # LINKEDIN
     linkedin_name = models.CharField(max_length=100, blank=True)
-    linkedin_url = models.URLField(blank=True)
+    linkedin_url  = models.URLField(blank=True)
 
     def __str__(self):
         return self.user.username
 
 
-# models.py
-
-from django.db import models
-from django.contrib.auth.models import User
+# =========================================================
+# DOCUMENT
+# =========================================================
 
 class Document(models.Model):
 
@@ -233,7 +263,7 @@ class Document(models.Model):
     # MAIN TITLE
     title = models.CharField(max_length=255, blank=True)
 
-    # NEW FIELDS
+    # EXTRA DETAILS
     place_obtained = models.CharField(
         max_length=255,
         blank=True,
@@ -254,9 +284,9 @@ class Document(models.Model):
         return f"{self.user.username} - {self.document_type}"
 
 
-# ============================================
-# CONTACT MESSAGE MODEL
-# ============================================
+# =========================================================
+# CONTACT MESSAGE
+# =========================================================
 
 class ContactMessage(models.Model):
 
@@ -282,11 +312,3 @@ class ContactMessage(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.email}"
-
-
-
-
-
-
-
-

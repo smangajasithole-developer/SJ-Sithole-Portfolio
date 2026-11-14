@@ -1,36 +1,69 @@
 {% extends "adminbase.html" %}
 {% load static %}
 
+
+<!-- ============================================ -->
+<!-- PAGE TITLE                                   -->
+<!-- ============================================ -->
+
 {% block title %}
     Admin Dashboard - Messages
 {% endblock %}
+
+
+<!-- ============================================ -->
+<!-- CSS                                          -->
+<!-- ============================================ -->
 
 {% block extra_css %}
     <link rel="stylesheet"
           href="{% static 'css/messages.css' %}">
 {% endblock %}
 
+
+<!-- ============================================ -->
+<!-- JS                                           -->
+<!-- ============================================ -->
+
 {% block extra_js %}
     <script src="{% static 'js/messages.js' %}" defer></script>
 {% endblock %}
+
+
+<!-- ============================================ -->
+<!-- BODY CLASS                                   -->
+<!-- ============================================ -->
 
 {% block body_class %}
     messages-page
 {% endblock %}
 
+
+<!-- ============================================ -->
+<!-- PAGE HEADING                                 -->
+<!-- ============================================ -->
+
 {% block page_title %}
     Portfolio Dashboard
 {% endblock %}
+
 
 {% block page_description %}
     Manage all the content on your portfolio website.
 {% endblock %}
 
+
+<!-- ============================================ -->
+<!-- PAGE CONTENT                                 -->
+<!-- ============================================ -->
+
 {% block content %}
 
     <div class="tab-pane">
 
-        <!-- Messages Header -->
+        <!-- ============================================ -->
+        <!-- MESSAGES HEADER                              -->
+        <!-- ============================================ -->
 
         <div class="messages-header">
 
@@ -46,7 +79,7 @@
 
 
         <!-- ============================================ -->
-        <!-- MESSAGES LIST                               -->
+        <!-- MESSAGES LIST                                -->
         <!-- ============================================ -->
 
         <div class="messages-list">
@@ -55,10 +88,13 @@
 
                 <div class="message-card">
 
-                    <!-- Message Header -->
+                    <!-- ============================================ -->
+                    <!-- MESSAGE HEADER                               -->
+                    <!-- ============================================ -->
 
                     <div class="message-header">
 
+                        <!-- SENDER INFO -->
                         <div class="message-sender">
 
                             <h3 class="sender-name">
@@ -95,6 +131,7 @@
                         </div>
 
 
+                        <!-- DATE / TIME -->
                         <div class="message-meta">
 
                             <span class="message-date">
@@ -110,7 +147,9 @@
                     </div>
 
 
-                    <!-- Message Body -->
+                    <!-- ============================================ -->
+                    <!-- MESSAGE BODY                                 -->
+                    <!-- ============================================ -->
 
                     <div class="message-body">
 
@@ -125,7 +164,9 @@
                     </div>
 
 
-                    <!-- Message Actions -->
+                    <!-- ============================================ -->
+                    <!-- MESSAGE ACTIONS                              -->
+                    <!-- ============================================ -->
 
                     <div class="message-actions">
 
@@ -148,7 +189,6 @@
                     </div>
 
                 </div>
-
 
             {% empty %}
 
@@ -173,7 +213,9 @@
         </div>
 
 
-        <!-- Pagination (if needed) -->
+        <!-- ============================================ -->
+        <!-- PAGINATION                                   -->
+        <!-- ============================================ -->
 
         {% if all_messages.has_other_pages %}
 
@@ -221,7 +263,7 @@
 
 
     <!-- ============================================ -->
-    <!-- QUICK REPLY MODAL (Optional)                 -->
+    <!-- QUICK REPLY MODAL                            -->
     <!-- ============================================ -->
 
     <div
@@ -230,6 +272,10 @@
     >
 
         <div class="modal-content">
+
+            <!-- ============================================ -->
+            <!-- MODAL HEADER                                 -->
+            <!-- ============================================ -->
 
             <div class="modal-header">
 
@@ -247,6 +293,10 @@
 
             </div>
 
+
+            <!-- ============================================ -->
+            <!-- REPLY FORM                                   -->
+            <!-- ============================================ -->
 
             <form
                 id="replyForm"
@@ -270,6 +320,7 @@
                 >
 
 
+                <!-- SUBJECT -->
                 <div class="modal-form-group">
 
                     <label for="reply_subject">
@@ -286,6 +337,7 @@
                 </div>
 
 
+                <!-- MESSAGE BODY -->
                 <div class="modal-form-group">
 
                     <label for="reply_message">
@@ -302,6 +354,7 @@
                 </div>
 
 
+                <!-- ACTIONS -->
                 <div class="modal-actions">
 
                     <button

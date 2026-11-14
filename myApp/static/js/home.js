@@ -1,840 +1,603 @@
+
 /* ============================================================
-   HOME PAGE — SCROLL-TRIGGERED ANIMATIONS
+   HOME INTRO — RESPONSIVE INFINITE SLIDER
    ============================================================
-   Any element with the class `animate-on-scroll` will receive
-   the class `is-visible` the first time it enters the viewport.
-   The actual animation is defined in the CSS file.
-   ============================================================ */
 
-(function () {
-    'use strict';
+   Desktop:
+   - Introduction and profile displayed side by side.
+   - Slider functionality disabled.
+
+   Mobile/tablet:
+   - Introduction appears first.
+   - Swipe or drag left to show the profile.
+   - Swipe or drag right to return to the introduction.
+   - Navigation arrows switch between panels.
+   - Navigation dots show the active panel.
+   - Infinite looping in both directions.
 
-    const prefersReducedMotion = window.matchMedia(
-        '(prefers-reduced-motion: reduce)'
-    ).matches;
-
-    const animatedElements = document.querySelectorAll('.animate-on-scroll');
-
-    if (!animatedElements.length || prefersReducedMotion) {
-        animatedElements.forEach((el) => el.classList.add('is-visible'));
-    } else if (!('IntersectionObserver' in window)) {
-        animatedElements.forEach((el) => el.classList.add('is-visible'));
-    } else {
-        const observer = new IntersectionObserver(
-            (entries, obs) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                        obs.unobserve(entry.target);
-                    }
-                });
-            },
-            {
-                threshold: 0.15,
-                rootMargin: '0px 0px -80px 0px'
-            }
-        );
-
-        animatedElements.forEach((el) => observer.observe(el));
-    }
-})();
-
-
-
-
-
-/* ============================================================
-   PROJECT MODALS
-   ============================================================
-   Handles:
-   - Opening and closing project information modals
-   - Closing by clicking the backdrop or pressing Escape
-   - Preventing background scrolling while a modal is open
-   - Stopping thumbnail videos when a modal opens
-   - Stopping and resetting videos when a modal closes
-   - Ensuring only one showcase/modal video plays at a time
-   - Synchronising volume between each thumbnail and its modal
-   ============================================================ */
-
-(function () {
-    'use strict';
-
-    const projectInfoButtons = document.querySelectorAll(
-        '[data-project-modal]'
-    );
-
-    const projectModals = document.querySelectorAll(
-        '.project-modal'
-    );
-
-    let activeProjectModal = null;
-
-    // Remember the volume and mute state for each project.
-    const projectVolumeSettings = new Map();
-
-
-    /* --------------------------------------------------------
-       GET PROJECT ID
-       -------------------------------------------------------- */
-
-    function getProjectId(video) {
-        const modal = video.closest('.project-modal');
-
-        if (modal && modal.id) {
-            return modal.id.replace('project-modal-', '');
-        }
-
-        const card = video.closest('.showcase-card');
-
-        if (card) {
-            const button = card.querySelector('[data-project-modal]');
-
-            if (button) {
-                return button.dataset.projectModal.replace(
-                    'project-modal-',
-                    ''
-                );
-            }
-        }
-
-        return null;
-    }
-
-
-    /* --------------------------------------------------------
-       SAVE AND APPLY PROJECT VOLUME SETTINGS
-       -------------------------------------------------------- */
-
-    function saveProjectVolume(video) {
-        const projectId = getProjectId(video);
-
-        if (!projectId) {
-            return;
-        }
-
-        projectVolumeSettings.set(projectId, {
-            volume: video.volume,
-            muted: video.muted
-        });
-    }
-
-    function applyProjectVolume(video) {
-        const projectId = getProjectId(video);
-
-        if (!projectId) {
-            return;
-        }
-
-        const settings = projectVolumeSettings.get(projectId);
-
-        if (settings) {
-            video.volume = settings.volume;
-            video.muted = settings.muted;
-        }
-    }
-
-
-    /* --------------------------------------------------------
-       INITIALISE VIDEO VOLUME SYNCHRONISATION
-       -------------------------------------------------------- */
-
-    function setupVideoVolumeSync() {
-        document.querySelectorAll(
-            '.other-showcase video, .project-modal video'
-        ).forEach((video) => {
-            // Give each project video a shared starting volume.
-            applyProjectVolume(video);
-
-            // Synchronise whenever the user changes the volume.
-            video.addEventListener('volumechange', () => {
-                saveProjectVolume(video);
-
-                const projectId = getProjectId(video);
-
-                if (!projectId) {
-                    return;
-                }
-
-                const settings = projectVolumeSettings.get(projectId);
-
-                document.querySelectorAll(
-                    '.other-showcase video, .project-modal video'
-                ).forEach((otherVideo) => {
-                    if (
-                        otherVideo !== video &&
-                        getProjectId(otherVideo) === projectId
-                    ) {
-                        if (otherVideo.volume !== settings.volume) {
-                            otherVideo.volume = settings.volume;
-                        }
-
-                        if (otherVideo.muted !== settings.muted) {
-                            otherVideo.muted = settings.muted;
-                        }
-                    }
-                });
-            });
-        });
-    }
-
-
-    /* --------------------------------------------------------
-       STOP AND RESET ONE VIDEO
-       -------------------------------------------------------- */
-
-    function stopVideo(video) {
-        if (!video) {
-            return;
-        }
-
-        video.pause();
-
-        try {
-            video.currentTime = 0;
-        } catch (error) {
-            // Ignore videos that are not ready to seek.
-        }
-    }
-
-
-    /* --------------------------------------------------------
-       STOP ALL SHOWCASE AND MODAL VIDEOS
-       -------------------------------------------------------- */
-
-    function stopAllProjectVideos() {
-        document.querySelectorAll(
-            '.other-showcase video, .project-modal video'
-        ).forEach((video) => {
-            stopVideo(video);
-        });
-    }
-
-
-    /* --------------------------------------------------------
-       STOP VIDEOS INSIDE A SPECIFIC MODAL
-       -------------------------------------------------------- */
-
-    function stopModalVideos(modal) {
-        if (!modal) {
-            return;
-        }
-
-        modal.querySelectorAll('video').forEach((video) => {
-            stopVideo(video);
-        });
-    }
-
-
-    /* --------------------------------------------------------
-       ENSURE ONLY ONE PROJECT VIDEO PLAYS AT A TIME
-       -------------------------------------------------------- */
-
-    document.addEventListener('play', (event) => {
-        const playingVideo = event.target;
-
-        if (!(playingVideo instanceof HTMLVideoElement)) {
-            return;
-        }
-
-        if (!playingVideo.closest('.other-showcase, .project-modal')) {
-            return;
-        }
-
-        document.querySelectorAll(
-            '.other-showcase video, .project-modal video'
-        ).forEach((video) => {
-            if (video !== playingVideo && !video.paused) {
-                stopVideo(video);
-            }
-        });
-    }, true);
-
-
-    /* --------------------------------------------------------
-       OPEN PROJECT MODAL
-       -------------------------------------------------------- */
-
-    function openProjectModal(modal) {
-        if (!modal) {
-            return;
-        }
-
-        // Stop thumbnail playback without losing saved volume.
-        stopAllProjectVideos();
-
-        // Apply the project's saved volume to its modal video.
-        modal.querySelectorAll('video').forEach((video) => {
-            applyProjectVolume(video);
-        });
-
-        // Move the modal out of its transformed project card.
-        if (modal.parentElement !== document.body) {
-            document.body.appendChild(modal);
-        }
-
-        activeProjectModal = modal;
-
-        modal.setAttribute('aria-hidden', 'false');
-        modal.classList.add('is-open');
-
-        document.body.classList.add('modal-open');
-
-        const focusTarget = modal.querySelector(
-            '[data-close-project-modal], button, a'
-        );
-
-        if (focusTarget) {
-            setTimeout(() => {
-                focusTarget.focus();
-            }, 0);
-        }
-    }
-
-
-    /* --------------------------------------------------------
-       CLOSE PROJECT MODAL
-       -------------------------------------------------------- */
-
-    function closeProjectModal(modal) {
-        if (!modal) {
-            return;
-        }
-
-        stopModalVideos(modal);
-
-        modal.setAttribute('aria-hidden', 'true');
-        modal.classList.remove('is-open');
-
-        if (activeProjectModal === modal) {
-            activeProjectModal = null;
-        }
-
-        const anotherModalIsOpen = document.querySelector(
-            '.project-modal.is-open'
-        );
-
-        if (!anotherModalIsOpen) {
-            document.body.classList.remove('modal-open');
-        }
-    }
-
-
-    /* --------------------------------------------------------
-       OPEN MODAL FROM "VIEW MORE INFO"
-       -------------------------------------------------------- */
-
-    projectInfoButtons.forEach((button) => {
-        button.addEventListener('click', () => {
-            const modalId = button.dataset.projectModal;
-
-            if (!modalId) {
-                return;
-            }
-
-            const modal = document.getElementById(modalId);
-
-            openProjectModal(modal);
-        });
-    });
-
-
-    /* --------------------------------------------------------
-       CLOSE BUTTONS AND BACKDROP
-       -------------------------------------------------------- */
-
-    projectModals.forEach((modal) => {
-        const closeButtons = modal.querySelectorAll(
-            '[data-close-project-modal]'
-        );
-
-        closeButtons.forEach((button) => {
-            button.addEventListener('click', () => {
-                closeProjectModal(modal);
-            });
-        });
-
-        modal.addEventListener('click', (event) => {
-            if (event.target === modal) {
-                closeProjectModal(modal);
-            }
-        });
-    });
-
-
-    /* --------------------------------------------------------
-       CLOSE WITH ESCAPE
-       -------------------------------------------------------- */
-
-    document.addEventListener('keydown', (event) => {
-        if (event.key !== 'Escape') {
-            return;
-        }
-
-        if (activeProjectModal) {
-            closeProjectModal(activeProjectModal);
-        }
-    });
-
-
-    /* --------------------------------------------------------
-       RESET MODALS AND VIDEOS AFTER BROWSER NAVIGATION
-       -------------------------------------------------------- */
-
-    window.addEventListener('pageshow', () => {
-        stopAllProjectVideos();
-
-        projectModals.forEach((modal) => {
-            modal.setAttribute('aria-hidden', 'true');
-            modal.classList.remove('is-open');
-        });
-
-        activeProjectModal = null;
-        document.body.classList.remove('modal-open');
-    });
-
-
-    /* --------------------------------------------------------
-       START VOLUME SYNCHRONISATION
-       -------------------------------------------------------- */
-
-    setupVideoVolumeSync();
-})();
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* ============================================================
-   THEME TOGGLE — day / night mode
-   The initial theme is set by the anti-flash script inline
-   in basehome.html (before </body>).
-   ============================================================ */
-
-(function () {
-    'use strict';
-
-    const root = document.documentElement;
-
-    function currentTheme() {
-        return root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-    }
-
-    function applyTheme(theme) {
-        if (theme === 'dark') {
-            root.setAttribute('data-theme', 'dark');
-        } else {
-            root.removeAttribute('data-theme');
-        }
-
-        const toggle = document.getElementById('themeToggle');
-        if (toggle) {
-            toggle.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
-        }
-    }
-
-    function saveTheme(theme) {
-        try {
-            localStorage.setItem('theme', theme);
-        } catch (e) {}
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const toggle = document.getElementById('themeToggle');
-        if (!toggle) return;
-
-        toggle.setAttribute(
-            'aria-pressed',
-            currentTheme() === 'dark' ? 'true' : 'false'
-        );
-
-        toggle.addEventListener('click', () => {
-            const next = currentTheme() === 'dark' ? 'light' : 'dark';
-            applyTheme(next);
-            saveTheme(next);
-        });
-    });
-
-    if (window.matchMedia) {
-        const media = window.matchMedia('(prefers-color-scheme: dark)');
-        media.addEventListener('change', (e) => {
-            let stored = null;
-            try {
-                stored = localStorage.getItem('theme');
-            } catch (err) {}
-            if (!stored) {
-                applyTheme(e.matches ? 'dark' : 'light');
-            }
-        });
-    }
-})();
-
-
-
-/* ============================================================
-   SKILLS DROPDOWNS
-   ============================================================
-   Handles:
-   - Hover preview on desktop
-   - Click/tap to lock a parent open
-   - Click/tap again to close it
-   - Locked dropdowns stay open when the pointer leaves
-   - Keyboard support with Enter / Space
-   ============================================================ */
-
-(function () {
-    'use strict';
-
-    function setupSkillDropdowns() {
-        const skillParents = document.querySelectorAll(
-            '.public-node-content.skill-parent'
-        );
-
-        if (!skillParents.length) {
-            return;
-        }
-
-        skillParents.forEach((parent) => {
-            const skillNode = parent.closest('.public-skill-node');
-
-            if (!skillNode) {
-                return;
-            }
-
-
-            /* ------------------------------------------------
-               HOVER — TEMPORARY OPEN
-               ------------------------------------------------ */
-
-            parent.addEventListener('mouseenter', () => {
-                skillNode.classList.add('is-hover-open');
-            });
-
-            parent.addEventListener('mouseleave', () => {
-                if (!skillNode.classList.contains('is-open')) {
-                    skillNode.classList.remove('is-hover-open');
-                }
-            });
-
-
-            /* ------------------------------------------------
-               CLICK / TAP — LOCK OPEN
-               ------------------------------------------------ */
-
-            parent.addEventListener('click', () => {
-                const isOpen = skillNode.classList.contains('is-open');
-
-                if (isOpen) {
-                    skillNode.classList.remove('is-open');
-                    parent.setAttribute('aria-expanded', 'false');
-
-                    skillNode.classList.remove('is-hover-open');
-                } else {
-                    skillNode.classList.add('is-open');
-                    parent.setAttribute('aria-expanded', 'true');
-                }
-            });
-
-
-            /* ------------------------------------------------
-               KEYBOARD SUPPORT
-               ------------------------------------------------ */
-
-            parent.addEventListener('keydown', (event) => {
-                if (event.key !== 'Enter' && event.key !== ' ') {
-                    return;
-                }
-
-                event.preventDefault();
-                parent.click();
-            });
-
-
-            /* ------------------------------------------------
-               KEEP HOVER PREVIEW OPEN WHEN MOVING FROM
-               PARENT INTO ITS CHILDREN
-               ------------------------------------------------ */
-
-            skillNode.addEventListener('mouseenter', () => {
-                if (!skillNode.classList.contains('is-open')) {
-                    skillNode.classList.add('is-hover-open');
-                }
-            });
-
-            skillNode.addEventListener('mouseleave', () => {
-                if (!skillNode.classList.contains('is-open')) {
-                    skillNode.classList.remove('is-hover-open');
-                }
-            });
-        });
-    }
-
-
-    if (document.readyState === 'loading') {
-        document.addEventListener(
-            'DOMContentLoaded',
-            setupSkillDropdowns
-        );
-    } else {
-        setupSkillDropdowns();
-    }
-})();
-
-
-
-/* ============================================================
-   HOME SLIDER — TWO-PANEL INFINITE LOOP
-   ============================================================
-   - Only two original panels; no cloned elements.
-   - Introduction is always the initial panel.
-   - Swipe left/right to alternate indefinitely.
-   - Arrow controls use the same navigation.
-   - Active only at 900px and below.
    ============================================================ */
 
 (function () {
     'use strict';
 
     function initHomeSlider() {
+
         const slider = document.querySelector('.home-slides');
+        const container = document.querySelector('.home-container');
 
-        if (!slider) return;
+        if (!slider || !container) return;
 
-        const panels = Array.from(slider.children).filter(
-            element => element.classList.contains('home-slide')
+        const originalPanels = Array.from(
+            slider.querySelectorAll(':scope > .home-slide')
         );
 
-        if (panels.length !== 2) return;
+        if (originalPanels.length !== 2) return;
 
-        const [intro, photo] = panels;
+        const controls = container.querySelector('.home-slider-controls');
+
+        if (!controls) return;
+
+        const previousButton = controls.querySelector('.prev');
+        const nextButton = controls.querySelector('.next');
+
+        const dots = Array.from(
+            controls.querySelectorAll('.home-slider-dot')
+        );
+
+        if (!previousButton || !nextButton || dots.length !== 2) return;
 
         const mobileQuery = window.matchMedia('(max-width: 900px)');
-        const reducedMotion = window.matchMedia(
-            '(prefers-reduced-motion: reduce)'
-        );
+
+        const transitionDuration = 450;
+        const swipeThreshold = 45;
 
         let activeIndex = 0;
-        let controls = null;
-        let enabled = false;
+        let currentPosition = 1;
+        let slideWidth = 0;
 
-        let touchStartX = 0;
-        let touchStartY = 0;
+        let isEnabled = false;
         let isDragging = false;
+        let isTransitioning = false;
 
-        const SWIPE_THRESHOLD = 45;
+        let startX = 0;
+        let startY = 0;
+        let startTranslate = 0;
+        let currentTranslate = 0;
 
-        function updateControls() {
-            if (!controls) return;
+        let resizeFrame = null;
 
-            const indicator = controls.querySelector(
-                '.home-slider-indicator'
-            );
+        let firstClone = null;
+        let lastClone = null;
 
-            indicator.textContent = activeIndex === 0
-                ? '01 / 02'
-                : '02 / 02';
 
-            intro.setAttribute(
-                'aria-hidden',
-                activeIndex === 0 ? 'false' : 'true'
-            );
+        /* ====================================================
+           CLONE MANAGEMENT
+           ==================================================== */
 
-            photo.setAttribute(
-                'aria-hidden',
-                activeIndex === 1 ? 'false' : 'true'
-            );
+        function createClone(panel) {
 
-            if (activeIndex === 0) {
-                photo.setAttribute('inert', '');
-                intro.removeAttribute('inert');
-            } else {
-                intro.setAttribute('inert', '');
-                photo.removeAttribute('inert');
-            }
+            const clone = panel.cloneNode(true);
+
+            // Avoid duplicate IDs in the document.
+            clone.removeAttribute('id');
+
+            clone.querySelectorAll('[id]').forEach(element => {
+                element.removeAttribute('id');
+            });
+
+            // Clones should not be announced as separate content.
+            clone.setAttribute('aria-hidden', 'true');
+            clone.setAttribute('inert', '');
+
+            return clone;
         }
 
-        function showPanel(index) {
-            activeIndex = (index + 2) % 2;
+
+        function createClones() {
+
+            firstClone = createClone(originalPanels[0]);
+            lastClone = createClone(originalPanels[1]);
+
+            slider.insertBefore(lastClone, originalPanels[0]);
+            slider.appendChild(firstClone);
+
+        }
+
+
+        function removeClones() {
+
+            if (firstClone) {
+                firstClone.remove();
+                firstClone = null;
+            }
+
+            if (lastClone) {
+                lastClone.remove();
+                lastClone = null;
+            }
+
+        }
+
+
+        /* ====================================================
+           DOT NAVIGATION
+           ==================================================== */
+
+        function updateDots() {
+
+            dots.forEach((dot, index) => {
+
+                const isActive = index === activeIndex;
+
+                dot.classList.toggle('active', isActive);
+
+                if (isActive) {
+                    dot.setAttribute('aria-current', 'true');
+                } else {
+                    dot.removeAttribute('aria-current');
+                }
+
+            });
+
+        }
+
+
+        /* ====================================================
+           SLIDER POSITION
+           ==================================================== */
+
+        function setPosition(position, animate = true) {
+
+            if (!slideWidth) return;
+
+            slider.style.transition = animate
+                ? `transform ${transitionDuration}ms ease-in-out`
+                : 'none';
+
+            currentTranslate = -(position * slideWidth);
 
             slider.style.transform =
-                `translateX(-${activeIndex * 100}%)`;
+                `translate3d(${currentTranslate}px, 0, 0)`;
 
-            updateControls();
         }
 
-        function nextPanel() {
-            showPanel(activeIndex + 1);
+
+        function updatePositionAfterTransition() {
+
+            if (currentPosition === 0) {
+
+                // Reached the cloned last panel.
+                currentPosition = originalPanels.length;
+
+                setPosition(currentPosition, false);
+
+            } else if (currentPosition === originalPanels.length + 1) {
+
+                // Reached the cloned first panel.
+                currentPosition = 1;
+
+                setPosition(currentPosition, false);
+
+            }
+
         }
 
-        function previousPanel() {
-            showPanel(activeIndex - 1);
+
+
+        /* ====================================================
+           MOVE TO A PANEL
+           ==================================================== */
+
+        function moveToPanel(index) {
+
+            if (!isEnabled || isTransitioning || isDragging) return;
+
+            const targetIndex =
+                (index + originalPanels.length) % originalPanels.length;
+
+            // Do nothing if the selected panel is already active.
+            if (targetIndex === activeIndex) return;
+
+            activeIndex = targetIndex;
+            currentPosition = activeIndex + 1;
+
+            updateDots();
+
+            isTransitioning = true;
+
+            setPosition(currentPosition, true);
+
         }
 
-        function createControls() {
-            controls = document.createElement('div');
-            controls.className = 'home-slider-controls';
 
-            const previous = document.createElement('button');
-            previous.type = 'button';
-            previous.className = 'home-slider-arrow';
-            previous.setAttribute('aria-label', 'Previous panel');
-            previous.innerHTML = '&larr;';
+        function moveNext() {
 
-            const indicator = document.createElement('span');
-            indicator.className = 'home-slider-indicator';
-            indicator.setAttribute('aria-live', 'polite');
+            if (!isEnabled || isTransitioning || isDragging) return;
 
-            const next = document.createElement('button');
-            next.type = 'button';
-            next.className = 'home-slider-arrow';
-            next.setAttribute('aria-label', 'Next panel');
-            next.innerHTML = '&rarr;';
+            // Always move one panel to the left.
+            currentPosition++;
 
-            controls.append(previous, indicator, next);
+            activeIndex =
+                (activeIndex + 1) % originalPanels.length;
 
-            slider.insertAdjacentElement('afterend', controls);
+            updateDots();
 
-            previous.addEventListener('click', previousPanel);
-            next.addEventListener('click', nextPanel);
+            isTransitioning = true;
+
+            setPosition(currentPosition, true);
+
         }
 
-        function handleTouchStart(event) {
-            if (event.touches.length !== 1) return;
 
-            touchStartX = event.touches[0].clientX;
-            touchStartY = event.touches[0].clientY;
+        function movePrevious() {
+
+            if (!isEnabled || isTransitioning || isDragging) return;
+
+            // Always move one panel to the right.
+            currentPosition--;
+
+            activeIndex =
+                (activeIndex - 1 + originalPanels.length) %
+                originalPanels.length;
+
+            updateDots();
+
+            isTransitioning = true;
+
+            setPosition(currentPosition, true);
+
+        }
+
+
+        /* ====================================================
+           TRANSITION END
+           ==================================================== */
+
+        function handleTransitionEnd(event) {
+
+            if (event.target !== slider) return;
+            if (event.propertyName !== 'transform') return;
+
+            updatePositionAfterTransition();
+
+            // Update the logical index after reaching a clone.
+            if (currentPosition === 1) {
+                activeIndex = 0;
+            } else if (currentPosition === originalPanels.length) {
+                activeIndex = originalPanels.length - 1;
+            }
+
+            updateDots();
+
+            isTransitioning = false;
+
+        }
+
+
+        /* ====================================================
+           DOT CLICK EVENTS
+           ==================================================== */
+
+        function handleDotClick(event) {
+
+            const index = dots.indexOf(event.currentTarget);
+
+            if (index !== -1) {
+                moveToPanel(index);
+            }
+
+        }
+
+
+        /* ====================================================
+           POINTER / TOUCH DRAGGING
+           ==================================================== */
+
+        function handlePointerDown(event) {
+
+            if (!isEnabled || isTransitioning) return;
+
+            if (event.pointerType === 'mouse' && event.button !== 0) {
+                return;
+            }
+
             isDragging = true;
+
+            startX = event.clientX;
+            startY = event.clientY;
+
+            startTranslate = currentTranslate;
+
+            slider.classList.add('dragging');
+
+            slider.style.transition = 'none';
+
+            if (slider.setPointerCapture) {
+                slider.setPointerCapture(event.pointerId);
+            }
+
         }
 
-        function handleTouchEnd(event) {
-            if (!isDragging || !event.changedTouches.length) return;
+
+        function handlePointerMove(event) {
+
+            if (!isDragging) return;
+
+            const differenceX = event.clientX - startX;
+            const differenceY = event.clientY - startY;
+
+            // Allow normal vertical page scrolling.
+            if (Math.abs(differenceY) > Math.abs(differenceX) &&
+                Math.abs(differenceY) > 10) {
+                return;
+            }
+
+            currentTranslate = startTranslate + differenceX;
+
+            slider.style.transform =
+                `translate3d(${currentTranslate}px, 0, 0)`;
+
+        }
+
+
+        function handlePointerUp(event) {
+
+            if (!isDragging) return;
 
             isDragging = false;
 
-            const touchEndX = event.changedTouches[0].clientX;
-            const touchEndY = event.changedTouches[0].clientY;
+            slider.classList.remove('dragging');
 
-            const differenceX = touchEndX - touchStartX;
-            const differenceY = touchEndY - touchStartY;
+            const differenceX = event.clientX - startX;
+            const differenceY = event.clientY - startY;
 
-            // Ignore vertical scrolling gestures.
-            if (Math.abs(differenceX) < SWIPE_THRESHOLD) return;
-            if (Math.abs(differenceX) < Math.abs(differenceY)) return;
+            if (
+                Math.abs(differenceX) > swipeThreshold &&
+                Math.abs(differenceX) > Math.abs(differenceY)
+            ) {
 
-            if (differenceX < 0) {
-                nextPanel();
+                if (differenceX < 0) {
+                    moveNext();
+                } else {
+                    movePrevious();
+                }
+
             } else {
-                previousPanel();
+
+                // Return to the current panel.
+                setPosition(currentPosition, true);
+                isTransitioning = true;
+
             }
+
         }
 
-        function handleKeydown(event) {
-            if (event.key === 'ArrowLeft') {
-                previousPanel();
-            } else if (event.key === 'ArrowRight') {
-                nextPanel();
-            }
+
+        function handlePointerCancel() {
+
+            if (!isDragging) return;
+
+            isDragging = false;
+
+            slider.classList.remove('dragging');
+
+            isTransitioning = true;
+
+            setPosition(currentPosition, true);
+
         }
+
+
+        /* ====================================================
+           RESIZE HANDLING
+           ==================================================== */
+
+        function updateSliderSize() {
+
+            if (!isEnabled) return;
+
+            slideWidth = slider.clientWidth;
+
+            setPosition(currentPosition, false);
+
+            isTransitioning = false;
+
+        }
+
+
+        function handleResize() {
+
+            if (resizeFrame) {
+                cancelAnimationFrame(resizeFrame);
+            }
+
+            resizeFrame = requestAnimationFrame(() => {
+
+                if (mobileQuery.matches) {
+                    updateSliderSize();
+                } else {
+                    disableSlider();
+                }
+
+            });
+
+        }
+
+
+        /* ====================================================
+           ENABLE MOBILE SLIDER
+           ==================================================== */
 
         function enableSlider() {
-            if (enabled) return;
 
-            enabled = true;
+            if (isEnabled) return;
+
+            isEnabled = true;
+
             activeIndex = 0;
+            currentPosition = 1;
+
+            createClones();
 
             slider.classList.add('home-slider-active');
 
-            slider.style.transform = 'translateX(0)';
-            slider.style.transition = reducedMotion.matches
-                ? 'none'
-                : 'transform 0.45s ease';
+            slider.style.display = 'flex';
+            slider.style.flexWrap = 'nowrap';
+            slider.style.flexDirection = 'row';
+            slider.style.width = '100%';
+            slider.style.gap = '0';
+            slider.style.overflow = 'visible';
+            slider.style.transition = 'none';
+            slider.style.touchAction = 'pan-y';
 
-            panels.forEach(panel => {
+            slider.querySelectorAll('.home-slide').forEach(panel => {
+
                 panel.style.flex = '0 0 100%';
                 panel.style.width = '100%';
                 panel.style.minWidth = '100%';
+                panel.style.maxWidth = '100%';
                 panel.style.boxSizing = 'border-box';
+
             });
 
-            createControls();
+            slideWidth = slider.clientWidth;
 
-            slider.addEventListener('touchstart', handleTouchStart, {
-                passive: true
+            setPosition(currentPosition, false);
+
+            updateDots();
+
+            // Navigation.
+            previousButton.addEventListener('click', movePrevious);
+            nextButton.addEventListener('click', moveNext);
+
+            dots.forEach(dot => {
+                dot.addEventListener('click', handleDotClick);
             });
 
-            slider.addEventListener('touchend', handleTouchEnd, {
-                passive: true
-            });
+            // Dragging and swiping.
+            slider.addEventListener('pointerdown', handlePointerDown);
+            slider.addEventListener('pointermove', handlePointerMove);
+            slider.addEventListener('pointerup', handlePointerUp);
+            slider.addEventListener('pointercancel', handlePointerCancel);
 
-            slider.addEventListener('keydown', handleKeydown);
+            slider.addEventListener(
+                'transitionend',
+                handleTransitionEnd
+            );
 
-            slider.setAttribute('tabindex', '0');
-
-            updateControls();
         }
 
-        function disableSlider() {
-            if (!enabled) return;
 
-            enabled = false;
-            activeIndex = 0;
+        /* ====================================================
+           DISABLE MOBILE SLIDER
+           ==================================================== */
+
+        function disableSlider() {
+
+            if (!isEnabled) return;
+
+            isEnabled = false;
 
             slider.classList.remove('home-slider-active');
+            slider.classList.remove('dragging');
 
-            slider.style.transform = '';
+            // Remove navigation events.
+            previousButton.removeEventListener('click', movePrevious);
+            nextButton.removeEventListener('click', moveNext);
+
+            dots.forEach(dot => {
+                dot.removeEventListener('click', handleDotClick);
+            });
+
+            // Remove pointer events.
+            slider.removeEventListener('pointerdown', handlePointerDown);
+            slider.removeEventListener('pointermove', handlePointerMove);
+            slider.removeEventListener('pointerup', handlePointerUp);
+            slider.removeEventListener('pointercancel', handlePointerCancel);
+
+            slider.removeEventListener(
+                'transitionend',
+                handleTransitionEnd
+            );
+
+            // Remove cloned panels.
+            removeClones();
+
+            // Restore original desktop layout.
+            slider.style.display = '';
+            slider.style.flexWrap = '';
+            slider.style.flexDirection = '';
+            slider.style.width = '';
+            slider.style.gap = '';
+            slider.style.overflow = '';
             slider.style.transition = '';
+            slider.style.transform = '';
+            slider.style.touchAction = '';
 
-            panels.forEach(panel => {
+            originalPanels.forEach(panel => {
+
                 panel.style.flex = '';
                 panel.style.width = '';
                 panel.style.minWidth = '';
+                panel.style.maxWidth = '';
                 panel.style.boxSizing = '';
-                panel.removeAttribute('aria-hidden');
-                panel.removeAttribute('inert');
+
             });
 
-            slider.removeEventListener('touchstart', handleTouchStart);
-            slider.removeEventListener('touchend', handleTouchEnd);
-            slider.removeEventListener('keydown', handleKeydown);
+            activeIndex = 0;
+            currentPosition = 1;
 
-            slider.removeAttribute('tabindex');
+            slideWidth = 0;
 
-            if (controls) {
-                controls.remove();
-                controls = null;
-            }
+            isDragging = false;
+            isTransitioning = false;
+
+            updateDots();
+
         }
 
-        function handleResponsiveChange() {
+
+        /* ====================================================
+           RESPONSIVE INITIALISATION
+           ==================================================== */
+
+        function updateSlider() {
+
             if (mobileQuery.matches) {
                 enableSlider();
             } else {
                 disableSlider();
             }
+
         }
 
-        mobileQuery.addEventListener('change', handleResponsiveChange);
-        reducedMotion.addEventListener('change', () => {
-            if (enabled) {
-                slider.style.transition = reducedMotion.matches
-                    ? 'none'
-                    : 'transform 0.45s ease';
-            }
-        });
 
-        handleResponsiveChange();
+        // Initialise the correct layout.
+        updateSlider();
+
+        // Monitor screen-size changes.
+        mobileQuery.addEventListener('change', updateSlider);
+
+        window.addEventListener('resize', handleResize);
+
     }
+
+
+    /* ========================================================
+       DOCUMENT INITIALISATION
+       ======================================================== */
 
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initHomeSlider);
+
+        document.addEventListener(
+            'DOMContentLoaded',
+            initHomeSlider
+        );
+
     } else {
+
         initHomeSlider();
+
     }
+
 })();

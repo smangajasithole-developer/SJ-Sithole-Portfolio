@@ -1,10 +1,10 @@
+# =========================================================
+# IMPORTS
+# =========================================================
+
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout
-from django.contrib.auth.models import User
-from django.contrib.auth import get_user_model
-from django.contrib.auth import logout
 from django.db import models
 from django.views.decorators.cache import never_cache
 from django.core.mail import send_mail
@@ -13,7 +13,6 @@ from django.conf import settings
 
 import pymupdf
 
-from myApp.models import Profile
 from .models import (
     Profile,
     About,
@@ -26,13 +25,49 @@ from .models import (
 
 
 # =========================================================
+# PROJECT CATEGORIES
+# =========================================================
+
+LIVE_PROJECT_CATEGORIES = {
+    "full_stack",
+    "static_web",
+    "strong_app",
+    "on_progress",
+    "finished_app",
+}
+
+SHOWCASE_CATEGORIES = {
+    "files",
+    "videos",
+    "updates",
+    "progress",
+    "other",
+}
+
+
+# =========================================================
+# HELPERS
+# =========================================================
+
+def get_valid_categories(request, field_name, allowed_categories):
+    selected_categories = request.POST.getlist(field_name)
+
+    # Remove invalid values and duplicates.
+    return list(dict.fromkeys(
+        category
+        for category in selected_categories
+        if category in allowed_categories
+    ))
+
+
+# =========================================================
 # HOME PAGE
 # =========================================================
 
 def home(request):
 
     profile = Profile.objects.first()
-    about = About.objects.first()
+    about   = About.objects.first()
     contact = Contact.objects.first()
 
     all_skills = list(
@@ -111,7 +146,7 @@ def home(request):
         and skill.parent_id is None
     ]
 
-    projects = Project.objects.filter(is_featured=True)
+    projects       = Project.objects.filter(is_featured=True)
     other_projects = Project.objects.filter(is_featured=False)
 
     cv_docs = Document.objects.filter(
@@ -171,7 +206,7 @@ def admin_login(request):
 
     if request.method == "POST":
 
-        email = request.POST.get("email")
+        email    = request.POST.get("email")
         password = request.POST.get("password")
 
         User = get_user_model()
@@ -238,6 +273,7 @@ def force_logout(request):
 # =========================================================
 # PROFILE
 # =========================================================
+
 @never_cache
 @login_required(login_url='admin_login')
 def profile(request):
@@ -257,18 +293,14 @@ def profile(request):
             # Delete the actual resume file.
             if profile.resume:
 
-                profile.resume.delete(
-                    save=False
-                )
+                profile.resume.delete(save=False)
 
                 profile.resume = None
 
             # Delete the generated preview.
             if profile.resume_preview:
 
-                profile.resume_preview.delete(
-                    save=False
-                )
+                profile.resume_preview.delete(save=False)
 
                 profile.resume_preview = None
 
@@ -287,9 +319,7 @@ def profile(request):
 
         if 'profile_photo' in request.FILES:
 
-            profile.profile_photo = request.FILES[
-                'profile_photo'
-            ]
+            profile.profile_photo = request.FILES['profile_photo']
 
         # =================================================
         # RESUME
@@ -302,18 +332,14 @@ def profile(request):
             # Remove the old resume file when replacing.
             if profile.resume:
 
-                profile.resume.delete(
-                    save=False
-                )
+                profile.resume.delete(save=False)
 
                 profile.resume = None
 
             # Remove the old preview when replacing.
             if profile.resume_preview:
 
-                profile.resume_preview.delete(
-                    save=False
-                )
+                profile.resume_preview.delete(save=False)
 
                 profile.resume_preview = None
 
@@ -346,9 +372,7 @@ def profile(request):
                             alpha=False
                         )
 
-                        preview_data = pixmap.tobytes(
-                            "png"
-                        )
+                        preview_data = pixmap.tobytes("png")
 
                         preview_name = (
                             f"{resume_file.name.rsplit('.', 1)[0]}.png"
@@ -378,20 +402,9 @@ def profile(request):
         # SPLIT NAMES
         # =================================================
 
-        profile.first_name = request.POST.get(
-            'first_name',
-            ''
-        )
-
-        profile.middle_name = request.POST.get(
-            'middle_name',
-            ''
-        )
-
-        profile.last_name = request.POST.get(
-            'last_name',
-            ''
-        )
+        profile.first_name  = request.POST.get('first_name', '')
+        profile.middle_name = request.POST.get('middle_name', '')
+        profile.last_name   = request.POST.get('last_name', '')
 
         # Keep full_name auto generated for old live pages.
         profile.full_name = " ".join(
@@ -409,21 +422,9 @@ def profile(request):
         # OTHER PROFILE INFORMATION
         # =================================================
 
-        profile.job_title = request.POST.get(
-            'job_title',
-            ''
-        )
-
-        profile.location = request.POST.get(
-            'location',
-            ''
-        )
-
-        profile.bio = request.POST.get(
-            'bio',
-            ''
-        )
-
+        profile.job_title    = request.POST.get('job_title', '')
+        profile.location     = request.POST.get('location', '')
+        profile.bio          = request.POST.get('bio', '')
         profile.availability = (
             request.POST.get('availability') == 'True'
         )
@@ -443,6 +444,8 @@ def profile(request):
             'profile': profile
         }
     )
+
+
 # =========================================================
 # ABOUT
 # =========================================================
@@ -457,40 +460,13 @@ def about(request):
 
     if request.method == "POST":
 
-        about.subheading = request.POST.get(
-            'subheading',
-            ''
-        )
-
-        about.paragraph1 = request.POST.get(
-            'paragraph1',
-            ''
-        )
-
-        about.paragraph2 = request.POST.get(
-            'paragraph2',
-            ''
-        )
-
-        about.years_experience = request.POST.get(
-            'years_experience',
-            ''
-        )
-
-        about.projects_completed = request.POST.get(
-            'projects_completed',
-            ''
-        )
-
-        about.certifications = request.POST.get(
-            'certifications',
-            ''
-        )
-
-        about.location = request.POST.get(
-            'location',
-            ''
-        )
+        about.subheading         = request.POST.get('subheading', '')
+        about.paragraph1         = request.POST.get('paragraph1', '')
+        about.paragraph2         = request.POST.get('paragraph2', '')
+        about.years_experience   = request.POST.get('years_experience', '')
+        about.projects_completed = request.POST.get('projects_completed', '')
+        about.certifications     = request.POST.get('certifications', '')
+        about.location           = request.POST.get('location', '')
 
         about.save()
 
@@ -545,9 +521,7 @@ def skills(request):
             if len(skills_by_id) != len(order_ids):
                 return redirect("skills")
 
-            first_skill = skills_by_id.get(
-                order_ids[0]
-            )
+            first_skill = skills_by_id.get(order_ids[0])
 
             if first_skill:
 
@@ -560,9 +534,7 @@ def skills(request):
 
                 if same_parent:
 
-                    for position, skill_id in enumerate(
-                        order_ids
-                    ):
+                    for position, skill_id in enumerate(order_ids):
 
                         skill = skills_by_id[skill_id]
 
@@ -570,9 +542,7 @@ def skills(request):
 
                             skill.order = position
 
-                            skill.save(
-                                update_fields=["order"]
-                            )
+                            skill.save(update_fields=["order"])
 
         return redirect("skills")
 
@@ -584,11 +554,11 @@ def skills(request):
 
         update_id = request.POST.get("update_id")
 
-        name = request.POST.get("name")
-        category = request.POST.get("category")
-        icon = request.POST.get("icon", "")
+        name      = request.POST.get("name")
+        category  = request.POST.get("category")
+        icon      = request.POST.get("icon", "")
 
-        show = request.POST.get("show") == "on"
+        show      = request.POST.get("show") == "on"
         show_icon = request.POST.get("show_icon") == "on"
 
         skill = Skill.objects.filter(
@@ -598,10 +568,10 @@ def skills(request):
 
         if skill:
 
-            skill.name = name
-            skill.category = category
-            skill.icon = icon
-            skill.show = show
+            skill.name      = name
+            skill.category  = category
+            skill.icon      = icon
+            skill.show      = show
             skill.show_icon = show_icon
 
             skill.save()
@@ -614,9 +584,9 @@ def skills(request):
 
     if request.method == "POST":
 
-        name = request.POST.get("name")
-        category = request.POST.get("category")
-        icon = request.POST.get("icon", "")
+        name      = request.POST.get("name")
+        category  = request.POST.get("category")
+        icon      = request.POST.get("icon", "")
         parent_id = request.POST.get("parent_id")
 
         parent = None
@@ -706,17 +676,17 @@ def edit_skill(request, id):
 
     if request.method == "POST":
 
-        name = request.POST.get("name")
-        category = request.POST.get("category")
-        icon = request.POST.get("icon", "")
+        name      = request.POST.get("name")
+        category  = request.POST.get("category")
+        icon      = request.POST.get("icon", "")
 
-        show = request.POST.get("show") == "on"
+        show      = request.POST.get("show") == "on"
         show_icon = request.POST.get("show_icon") == "on"
 
-        skill.name = name
-        skill.category = category
-        skill.icon = icon
-        skill.show = show
+        skill.name      = name
+        skill.category  = category
+        skill.icon      = icon
+        skill.show      = show
         skill.show_icon = show_icon
 
         skill.save()
@@ -775,17 +745,15 @@ def delete_skill(request, id):
 # PROJECTS
 # =========================================================
 
-
-
 @never_cache
 @login_required(login_url='admin_login')
 def projects(request):
 
     if request.method == "POST":
 
-        title = request.POST.get("title", "").strip()
-        description = request.POST.get("description", "").strip()
-        tech = request.POST.get("tech", "").strip()
+        title        = request.POST.get("title", "").strip()
+        description  = request.POST.get("description", "").strip()
+        tech         = request.POST.get("tech", "").strip()
         project_type = request.POST.get("project_type", "").strip()
 
         # Validate the selected project type.
@@ -798,7 +766,7 @@ def projects(request):
         is_featured = project_type == "link"
 
         # Read uploads.
-        uploaded_file = request.FILES.get("file")
+        uploaded_file      = request.FILES.get("file")
         uploaded_thumbnail = request.FILES.get("thumbnail")
 
         # A media project must have media when first created.
@@ -812,7 +780,25 @@ def projects(request):
             else ""
         )
 
-        # Create the project using the explicitly selected type.
+        # Read the correct category selections.
+        live_categories     = []
+        showcase_categories = []
+
+        if project_type == "link":
+            live_categories = get_valid_categories(
+                request,
+                "live_categories",
+                LIVE_PROJECT_CATEGORIES
+            )
+
+        elif project_type == "file":
+            showcase_categories = get_valid_categories(
+                request,
+                "showcase_categories",
+                SHOWCASE_CATEGORIES
+            )
+
+        # Create the project.
         Project.objects.create(
             user=request.user,
             title=title,
@@ -821,16 +807,22 @@ def projects(request):
             project_type=project_type,
             is_featured=is_featured,
             url=project_url,
+
             thumbnail=(
                 uploaded_thumbnail
                 if project_type == "link"
                 else None
             ),
+
             file=(
                 uploaded_file
                 if project_type == "file"
                 else None
             ),
+
+            # Project categories.
+            live_categories=live_categories,
+            showcase_categories=showcase_categories,
 
             # Case study fields.
             problem=request.POST.get("problem", ""),
@@ -838,9 +830,7 @@ def projects(request):
             challenges=request.POST.get("challenges", ""),
             solution=request.POST.get("solution", ""),
             outcome=request.POST.get("outcome", ""),
-            what_i_learned=request.POST.get(
-                "what_i_learned", ""
-            ),
+            what_i_learned=request.POST.get("what_i_learned", ""),
         )
 
         return redirect("projects")
@@ -866,11 +856,9 @@ def projects(request):
     )
 
 
-
 # =========================================================
 # EDIT PROJECT
 # =========================================================
-
 
 @never_cache
 @login_required(login_url='admin_login')
@@ -884,9 +872,9 @@ def edit_project(request, id):
 
     if request.method == "POST":
 
-        title = request.POST.get("title", "").strip()
-        description = request.POST.get("description", "").strip()
-        tech = request.POST.get("tech", "").strip()
+        title        = request.POST.get("title", "").strip()
+        description  = request.POST.get("description", "").strip()
+        tech         = request.POST.get("tech", "").strip()
         project_type = request.POST.get("project_type", "").strip()
 
         # Validate the selected project type.
@@ -895,7 +883,7 @@ def edit_project(request, id):
         if project_type not in valid_types:
             return redirect("projects")
 
-        uploaded_file = request.FILES.get("file")
+        uploaded_file      = request.FILES.get("file")
         uploaded_thumbnail = request.FILES.get("thumbnail")
 
         # Do not switch to a media project without media.
@@ -904,17 +892,40 @@ def edit_project(request, id):
         ):
             return redirect("projects")
 
+        # Read the correct category selections.
+        live_categories     = []
+        showcase_categories = []
+
+        if project_type == "link":
+            live_categories = get_valid_categories(
+                request,
+                "live_categories",
+                LIVE_PROJECT_CATEGORIES
+            )
+
+        elif project_type == "file":
+            showcase_categories = get_valid_categories(
+                request,
+                "showcase_categories",
+                SHOWCASE_CATEGORIES
+            )
+
         # Update common information.
-        project.title = title
-        project.description = description
-        project.tech = tech
+        project.title        = title
+        project.description  = description
+        project.tech         = tech
         project.project_type = project_type
 
         # Keep the section consistent with the selected type.
         project.is_featured = project_type == "link"
 
+        # Update project categories.
+        project.live_categories     = live_categories
+        project.showcase_categories = showcase_categories
+
         # Link-specific information.
         if project_type == "link":
+
             project.url = request.POST.get("url", "").strip()
 
             if uploaded_thumbnail:
@@ -929,16 +940,12 @@ def edit_project(request, id):
             project.file = uploaded_file
 
         # Update case study fields.
-        project.problem = request.POST.get("problem", "")
-        project.approach = request.POST.get("approach", "")
-        project.challenges = request.POST.get(
-            "challenges", ""
-        )
-        project.solution = request.POST.get("solution", "")
-        project.outcome = request.POST.get("outcome", "")
-        project.what_i_learned = request.POST.get(
-            "what_i_learned", ""
-        )
+        project.problem        = request.POST.get("problem", "")
+        project.approach       = request.POST.get("approach", "")
+        project.challenges     = request.POST.get("challenges", "")
+        project.solution       = request.POST.get("solution", "")
+        project.outcome        = request.POST.get("outcome", "")
+        project.what_i_learned = request.POST.get("what_i_learned", "")
 
         project.save()
 
@@ -964,11 +971,6 @@ def edit_project(request, id):
             "other_projects": other_projects,
         }
     )
-
-
-
-
-
 
 
 # =========================================================
@@ -1006,25 +1008,16 @@ def documents(request):
 
         cv = request.FILES.get('cv')
 
-        id_document = request.FILES.get(
-            'id_document'
-        )
+        id_document = request.FILES.get('id_document')
 
         # =================================================
         # CERTIFICATES
         # =================================================
 
-        certificates = request.FILES.getlist(
-            'certificates'
-        )
+        certificates = request.FILES.getlist('certificates')
 
-        certificate_title = request.POST.get(
-            'certificate_title'
-        )
-
-        certificate_place = request.POST.get(
-            'certificate_place'
-        )
+        certificate_title = request.POST.get('certificate_title')
+        certificate_place = request.POST.get('certificate_place')
 
         certificate_description = request.POST.get(
             'certificate_description'
@@ -1034,17 +1027,10 @@ def documents(request):
         # ACADEMIC RECORDS
         # =================================================
 
-        academic_records = request.FILES.getlist(
-            'academic_record'
-        )
+        academic_records = request.FILES.getlist('academic_record')
 
-        academic_title = request.POST.get(
-            'academic_title'
-        )
-
-        academic_place = request.POST.get(
-            'academic_place'
-        )
+        academic_title = request.POST.get('academic_title')
+        academic_place = request.POST.get('academic_place')
 
         academic_description = request.POST.get(
             'academic_description'
@@ -1054,17 +1040,11 @@ def documents(request):
         # OTHER DOCUMENTS
         # =================================================
 
-        other_documents = request.FILES.getlist(
-            'other_document'
-        )
+        other_documents = request.FILES.getlist('other_document')
 
-        other_title = request.POST.get(
-            'other_title'
-        )
+        other_title = request.POST.get('other_title')
 
-        other_description = request.POST.get(
-            'other_description'
-        )
+        other_description = request.POST.get('other_description')
 
         # =================================================
         # CV (ONLY ONE FILE)
@@ -1220,13 +1200,9 @@ def edit_document(request):
 
         doc_id = request.POST.get("doc_id")
 
-        title = request.POST.get("title")
-        place = request.POST.get(
-            "place_obtained"
-        )
-        description = request.POST.get(
-            "description"
-        )
+        title       = request.POST.get("title")
+        place       = request.POST.get("place_obtained")
+        description = request.POST.get("description")
 
         try:
 
@@ -1241,9 +1217,9 @@ def edit_document(request):
                 "other"
             ]:
 
-                doc.title = title
+                doc.title          = title
                 doc.place_obtained = place
-                doc.description = description
+                doc.description    = description
 
                 doc.save()
 
@@ -1265,9 +1241,7 @@ def replace_document(request):
 
         doc_id = request.POST.get("doc_id")
 
-        new_file = request.FILES.get(
-            "new_file"
-        )
+        new_file = request.FILES.get("new_file")
 
         try:
 
@@ -1278,9 +1252,7 @@ def replace_document(request):
 
             if new_file:
 
-                doc.file.delete(
-                    save=False
-                )
+                doc.file.delete(save=False)
 
                 doc.file = new_file
 
@@ -1301,8 +1273,8 @@ def send_message(request):
     if request.method != "POST":
         return redirect("home")
 
-    name = request.POST.get("name")
-    email = request.POST.get("email")
+    name    = request.POST.get("name")
+    email   = request.POST.get("email")
     company = (
         request.POST.get("company")
         or "Not provided"
@@ -1322,9 +1294,7 @@ def send_message(request):
     # EMAIL TO ADMIN
     # =====================================================
 
-    admin_subject = (
-        f"New Portfolio Message from {name}"
-    )
+    admin_subject = f"New Portfolio Message from {name}"
 
     admin_message = f"""
 You received a new message from your portfolio.
@@ -1380,7 +1350,7 @@ Software Developer
         fail_silently=False
     )
 
-    return redirect("home")
+    return redirect("/?contact=sent#contact")
 
 
 # =========================================================
@@ -1422,44 +1392,19 @@ def contact(request):
 
         # BASIC INFO
 
-        contact.email = request.POST.get(
-            'email',
-            ''
-        )
-
-        contact.phone = request.POST.get(
-            'phone',
-            ''
-        )
-
-        contact.location = request.POST.get(
-            'location',
-            ''
-        )
+        contact.email    = request.POST.get('email', '')
+        contact.phone    = request.POST.get('phone', '')
+        contact.location = request.POST.get('location', '')
 
         # GITHUB
 
-        contact.github_name = request.POST.get(
-            'github_name',
-            ''
-        )
-
-        contact.github_url = request.POST.get(
-            'github_url',
-            ''
-        )
+        contact.github_name = request.POST.get('github_name', '')
+        contact.github_url  = request.POST.get('github_url', '')
 
         # LINKEDIN
 
-        contact.linkedin_name = request.POST.get(
-            'linkedin_name',
-            ''
-        )
-
-        contact.linkedin_url = request.POST.get(
-            'linkedin_url',
-            ''
-        )
+        contact.linkedin_name = request.POST.get('linkedin_name', '')
+        contact.linkedin_url  = request.POST.get('linkedin_url', '')
 
         contact.save()
 

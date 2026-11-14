@@ -1038,3 +1038,53 @@ h2::before {
     }
 }
 
+
+
+
+
+/* =========================================================
+   PROJECT CATEGORIES
+   ========================================================= */
+
+.project-categories {
+    margin-top: 25px;
+}
+
+.project-categories > label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.category-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.category-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.category-option:hover {
+    border-color: #f39c12;
+}
+
+.category-option input {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    accent-color: #f39c12;
+    cursor: pointer;
+}
+
+.category-option span {
+    font-size: 14px;
+}

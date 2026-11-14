@@ -4,10 +4,19 @@
 
 <head>
 
+    <!-- ============================================ -->
+    <!-- META                                         -->
+    <!-- ============================================ -->
+
     <meta charset="UTF-8">
 
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
+
+
+    <!-- ============================================ -->
+    <!-- PAGE TITLE                                   -->
+    <!-- ============================================ -->
 
     <title>
         {% block title %}
@@ -15,17 +24,53 @@
         {% endblock %}
     </title>
 
+
+    <!-- ============================================ -->
+    <!-- INITIAL THEME — LIGHT BY DEFAULT             -->
+    <!-- ============================================ -->
+
+    <script>
+        (function () {
+            try {
+                const savedTheme = localStorage.getItem('theme');
+
+                if (savedTheme === 'dark') {
+                    document.documentElement.setAttribute(
+                        'data-theme',
+                        'dark'
+                    );
+                } else {
+                    document.documentElement.removeAttribute(
+                        'data-theme'
+                    );
+                }
+
+            } catch (error) {
+                document.documentElement.removeAttribute(
+                    'data-theme'
+                );
+            }
+        })();
+    </script>
+
+
+    <!-- ============================================ -->
+    <!-- STYLESHEETS                                  -->
+    <!-- ============================================ -->
+
     <link rel="stylesheet"
           href="{% static 'css/basehome.css' %}">
 
     {% block extra_css %}
     {% endblock %}
 
-    <!--
+
+    <!-- ============================================ -->
+    <!-- JAVASCRIPT                                   -->
+    <!-- ============================================ -->
+
     <script src="{% static 'js/basehome.js' %}"
             defer></script>
-    -->
-
 
     {% block extra_js %}
     {% endblock %}
@@ -39,6 +84,10 @@
     <!-- ============================================ -->
 
     <header>
+
+        <!-- ======================================== -->
+        <!-- LOGO / BRAND                             -->
+        <!-- ======================================== -->
 
         <div class="logo">
 
@@ -75,11 +124,7 @@
 
 
         <!-- ======================================== -->
-        <!-- MAIN NAVIGATION                           -->
-        <!-- ======================================== -->
-
-        <!-- ======================================== -->
-        <!-- MAIN NAVIGATION                           -->
+        <!-- MAIN NAVIGATION                          -->
         <!-- ======================================== -->
 
         <nav>
@@ -120,8 +165,9 @@
 
         </nav>
 
+
         <!-- ======================================== -->
-        <!-- THEME TOGGLE (DAY / NIGHT)                -->
+        <!-- THEME TOGGLE (DAY / NIGHT)               -->
         <!-- ======================================== -->
 
         <button type="button"
@@ -144,7 +190,7 @@
 
 
     <!-- ============================================ -->
-    <!-- PAGE CONTENT                                  -->
+    <!-- PAGE CONTENT                                 -->
     <!-- ============================================ -->
 
     <main>
@@ -163,6 +209,9 @@
 
         <div class="footer-top">
 
+            <!-- ==================================== -->
+            <!-- FOOTER BRAND / TAGLINE               -->
+            <!-- ==================================== -->
 
             <div class="footer-left">
 
@@ -178,7 +227,7 @@
 
 
             <!-- ==================================== -->
-            <!-- FOOTER NAVIGATION                     -->
+            <!-- FOOTER NAVIGATION                    -->
             <!-- ==================================== -->
 
             <nav class="footer-nav">
@@ -221,7 +270,7 @@
 
 
             <!-- ==================================== -->
-            <!-- SOCIAL LINKS                          -->
+            <!-- SOCIAL LINKS                         -->
             <!-- ==================================== -->
 
             <div class="social-icons">
@@ -261,6 +310,10 @@
         <hr class="footer-line">
 
 
+        <!-- ======================================== -->
+        <!-- FOOTER BOTTOM                            -->
+        <!-- ======================================== -->
+
         <div class="footer-bottom">
 
             <p>
@@ -271,28 +324,6 @@
         </div>
 
     </footer>
-
-    <!-- ============================================ -->
-    <!-- ANTI-FLASH THEME SCRIPT                      -->
-    <!-- Runs after DOM is parsed, before paint       -->
-    <!-- ============================================ -->
-
-    <script>
-        (function () {
-            try {
-                var theme = localStorage.getItem('theme');
-                if (!theme) {
-                    theme = window.matchMedia('(prefers-color-scheme: dark)').matches
-                        ? 'dark'
-                        : 'light';
-                }
-                if (theme === 'dark') {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                }
-            } catch (e) {}
-        })();
-    </script>
-
 
 </body>
 

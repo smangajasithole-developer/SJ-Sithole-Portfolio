@@ -1,16 +1,25 @@
-// skills.js - Skills Management JavaScript
-// Includes preview, editing, validation, visibility, and drag-and-drop ordering
+/* ============================================================
+   SKILLS — MANAGEMENT JAVASCRIPT
+   ============================================================
 
-document.addEventListener("DOMContentLoaded", function() {
+   Handles the skills page's interactive features:
+   preview, edit mode toggling, form validation, delete
+   confirmation, parent-skill auto-suggest, escape-to-cancel,
+   drag-and-drop ordering (with auto-scroll), and bfcache reload.
 
-    // ============================================
-    // PREVIEW
-    // ============================================
+   ============================================================ */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    /* ========================================================
+       PREVIEW
+       ======================================================== */
 
     const nameInput = document.querySelector('input[name="name"]');
-    const heading = document.querySelector('select[name="heading"]');
-    const display = document.querySelector('select[name="display_type"]');
-    const preview = document.getElementById("previewSkillText");
+    const heading   = document.querySelector('select[name="heading"]');
+    const display   = document.querySelector('select[name="display_type"]');
+    const preview   = document.getElementById("previewSkillText");
+
 
     function renderPreview() {
 
@@ -41,6 +50,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
+
     if (nameInput && heading && display) {
 
         nameInput.addEventListener("keyup", renderPreview);
@@ -51,9 +61,9 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
 
-    // ============================================
-    // EDIT MODE
-    // ============================================
+    /* ========================================================
+       EDIT MODE
+       ======================================================== */
 
     function toggleEditMode(id, show) {
 
@@ -69,9 +79,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if (show) {
 
-            const input = edit.querySelector(
-                'input[name="name"]'
-            );
+            const input = edit.querySelector('input[name="name"]');
 
             if (input) {
                 input.focus();
@@ -81,9 +89,9 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
 
-    document.addEventListener("click", function(e) {
+    document.addEventListener("click", function (e) {
 
-        const editButton = e.target.closest(".edit-toggle");
+        const editButton   = e.target.closest(".edit-toggle");
         const cancelButton = e.target.closest(".cancel-edit, .cancel-edit-node");
 
         if (editButton) {
@@ -107,24 +115,17 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
-    // ============================================
-    // FORM VALIDATION
-    // ============================================
+    /* ========================================================
+       FORM VALIDATION
+       ======================================================== */
 
-    document.querySelectorAll(
-        'form[action*="skills"]'
-    ).forEach(function(form) {
+    document.querySelectorAll('form[action*="skills"]').forEach(function (form) {
 
-        form.addEventListener("submit", function(e) {
+        form.addEventListener("submit", function (e) {
 
-            const nameField = form.querySelector(
-                'input[name="name"]'
-            );
+            const nameField = form.querySelector('input[name="name"]');
 
-            if (
-                nameField &&
-                !nameField.value.trim()
-            ) {
+            if (nameField && !nameField.value.trim()) {
 
                 e.preventDefault();
 
@@ -138,15 +139,13 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
-    // ============================================
-    // DELETE CONFIRMATION
-    // ============================================
+    /* ========================================================
+       DELETE CONFIRMATION
+       ======================================================== */
 
-    document.querySelectorAll(
-        ".delete-form button"
-    ).forEach(function(button) {
+    document.querySelectorAll(".delete-form button").forEach(function (button) {
 
-        button.addEventListener("click", function(e) {
+        button.addEventListener("click", function (e) {
 
             const message =
                 "⚠️ WARNING: This will permanently delete this skill and all its child skills!\n\n" +
@@ -161,14 +160,11 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
-    // ============================================
-    // PARENT SKILL AUTO-SUGGEST
-    // ============================================
+    /* ========================================================
+       PARENT SKILL AUTO-SUGGEST
+       ======================================================== */
 
-    const parentInput =
-        document.querySelector(
-            'input[name="parent_name"]'
-        );
+    const parentInput = document.querySelector('input[name="parent_name"]');
 
     if (parentInput) {
 
@@ -182,60 +178,44 @@ document.addEventListener("DOMContentLoaded", function() {
             ".skill-title h5, " +
             ".skill-title h6, " +
             ".node-name"
-        ).forEach(function(element) {
+        ).forEach(function (element) {
 
-            const name =
-                element.textContent.trim();
+            const name = element.textContent.trim();
 
-            if (
-                name &&
-                !skills.includes(name)
-            ) {
-
+            if (name && !skills.includes(name)) {
                 skills.push(name);
             }
 
         });
 
-        parentInput.setAttribute(
-            "list",
-            "skill-suggestions"
-        );
+        parentInput.setAttribute("list", "skill-suggestions");
 
         if (!document.getElementById("skill-suggestions")) {
 
-            const datalist =
-                document.createElement("datalist");
+            const datalist = document.createElement("datalist");
 
-            datalist.id =
-                "skill-suggestions";
+            datalist.id = "skill-suggestions";
 
-            skills.forEach(function(skill) {
+            skills.forEach(function (skill) {
 
-                const option =
-                    document.createElement("option");
+                const option = document.createElement("option");
 
-                option.value =
-                    skill;
+                option.value = skill;
 
-                datalist.appendChild(
-                    option
-                );
+                datalist.appendChild(option);
 
             });
 
-            parentInput.parentNode.appendChild(
-                datalist
-            );
+            parentInput.parentNode.appendChild(datalist);
         }
     }
 
 
-    // ============================================
-    // ESCAPE TO CANCEL EDIT
-    // ============================================
+    /* ========================================================
+       ESCAPE TO CANCEL EDIT
+       ======================================================== */
 
-    document.addEventListener("keydown", function(e) {
+    document.addEventListener("keydown", function (e) {
 
         if (e.key !== "Escape") {
             return;
@@ -244,10 +224,9 @@ document.addEventListener("DOMContentLoaded", function() {
         document.querySelectorAll(
             '.inline-edit-form[style*="display: block"], ' +
             '.inline-edit-form[style*="display:block"]'
-        ).forEach(function(form) {
+        ).forEach(function (form) {
 
-            const id =
-                form.id.replace("edit-", "");
+            const id = form.id.replace("edit-", "");
 
             if (id) {
                 toggleEditMode(id, false);
@@ -258,17 +237,18 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
-    // ============================================
-    // DRAG & DROP
-    // ============================================
+    /* ========================================================
+       DRAG & DROP — STATE
+       ======================================================== */
 
-    let draggedNode = null;
+    let draggedNode     = null;
     let sourceContainer = null;
-    let moved = false;
+    let moved           = false;
 
-    // ============================================
-    // AUTO SCROLL SETTINGS
-    // ============================================
+
+    /* ========================================================
+       AUTO SCROLL SETTINGS
+       ======================================================== */
 
     let autoScrollAnimation = null;
 
@@ -276,46 +256,40 @@ document.addEventListener("DOMContentLoaded", function() {
     const maxScrollSpeed = 18;
 
 
+    /* ========================================================
+       DRAG & DROP — HELPERS
+       ======================================================== */
+
     function getSkillNodes(container) {
 
         if (!container) {
             return [];
         }
 
-        return Array.from(
-            container.children
-        ).filter(function(element) {
+        return Array.from(container.children).filter(function (element) {
 
-            return element.classList.contains(
-                "skill-node"
-            );
+            return element.classList.contains("skill-node");
 
         });
-
     }
 
 
     function saveOrder(container) {
 
-        const nodes =
-            getSkillNodes(container);
+        const nodes = getSkillNodes(container);
 
         if (!nodes.length) {
             return;
         }
 
-        const form =
-            document.createElement("form");
+        const form = document.createElement("form");
 
-        form.method = "POST";
-        form.action = window.location.href;
+        form.method    = "POST";
+        form.action    = window.location.href;
         form.style.display = "none";
 
 
-        const csrf =
-            document.querySelector(
-                'input[name="csrfmiddlewaretoken"]'
-            );
+        const csrf = document.querySelector('input[name="csrfmiddlewaretoken"]');
 
         if (!csrf) {
             console.error("CSRF token not found.");
@@ -325,41 +299,30 @@ document.addEventListener("DOMContentLoaded", function() {
 
         function addField(name, value) {
 
-            const field =
-                document.createElement("input");
+            const field = document.createElement("input");
 
-            field.type = "hidden";
-            field.name = name;
+            field.type  = "hidden";
+            field.name  = name;
             field.value = value;
 
             form.appendChild(field);
         }
 
 
-        addField(
-            "csrfmiddlewaretoken",
-            csrf.value
-        );
-
-        addField(
-            "reorder",
-            "1"
-        );
+        addField("csrfmiddlewaretoken", csrf.value);
+        addField("reorder", "1");
 
 
-        nodes.forEach(function(node) {
+        nodes.forEach(function (node) {
 
-            addField(
-                "order_ids",
-                node.dataset.nodeId
-            );
+            addField("order_ids", node.dataset.nodeId);
 
         });
 
 
         console.log(
             "Saving skill order:",
-            nodes.map(function(node) {
+            nodes.map(function (node) {
                 return node.dataset.nodeId;
             })
         );
@@ -371,17 +334,15 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
 
-    // ============================================
-    // AUTO SCROLL
-    // ============================================
+    /* ========================================================
+       AUTO SCROLL
+       ======================================================== */
 
     function stopAutoScroll() {
 
         if (autoScrollAnimation) {
 
-            cancelAnimationFrame(
-                autoScrollAnimation
-            );
+            cancelAnimationFrame(autoScrollAnimation);
 
             autoScrollAnimation = null;
         }
@@ -395,77 +356,43 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
 
-        const viewportHeight =
-            window.innerHeight;
-
+        const viewportHeight = window.innerHeight;
 
         let scrollAmount = 0;
 
 
-        // ----------------------------------------
         // SCROLL UP
-        // ----------------------------------------
-
         if (mouseY < scrollEdgeSize) {
 
-            const distance =
-                scrollEdgeSize - mouseY;
+            const distance = scrollEdgeSize - mouseY;
 
-            const intensity =
-                Math.min(
-                    distance / scrollEdgeSize,
-                    1
-                );
+            const intensity = Math.min(distance / scrollEdgeSize, 1);
 
-            scrollAmount =
-                -Math.max(
-                    2,
-                    maxScrollSpeed * intensity
-                );
+            scrollAmount = -Math.max(2, maxScrollSpeed * intensity);
         }
 
 
-        // ----------------------------------------
         // SCROLL DOWN
-        // ----------------------------------------
+        else if (mouseY > viewportHeight - scrollEdgeSize) {
 
-        else if (
-            mouseY >
-            viewportHeight - scrollEdgeSize
-        ) {
+            const distance = mouseY - (viewportHeight - scrollEdgeSize);
 
-            const distance =
-                mouseY -
-                (viewportHeight - scrollEdgeSize);
+            const intensity = Math.min(distance / scrollEdgeSize, 1);
 
-            const intensity =
-                Math.min(
-                    distance / scrollEdgeSize,
-                    1
-                );
-
-            scrollAmount =
-                Math.max(
-                    2,
-                    maxScrollSpeed * intensity
-                );
+            scrollAmount = Math.max(2, maxScrollSpeed * intensity);
         }
 
 
         if (scrollAmount !== 0) {
 
-            window.scrollBy(
-                0,
-                scrollAmount
-            );
+            window.scrollBy(0, scrollAmount);
 
 
-            autoScrollAnimation =
-                requestAnimationFrame(function() {
+            autoScrollAnimation = requestAnimationFrame(function () {
 
-                    startAutoScroll(mouseY);
+                startAutoScroll(mouseY);
 
-                });
+            });
 
         } else {
 
@@ -474,34 +401,27 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
 
-    // --------------------------------------------
-    // DRAG START
-    // --------------------------------------------
+    /* ========================================================
+       DRAG START
+       ======================================================== */
 
-    document.addEventListener("dragstart", function(e) {
+    document.addEventListener("dragstart", function (e) {
 
-        const node =
-            e.target.closest(".skill-node");
+        const node = e.target.closest(".skill-node");
 
         if (!node) {
             return;
         }
 
 
-        if (
-            e.target.closest(
-                "button, form, input, select, textarea, label, a"
-            )
-        ) {
+        if (e.target.closest("button, form, input, select, textarea, label, a")) {
 
             e.preventDefault();
             return;
         }
 
 
-        const container =
-            node.parentElement;
-
+        const container = node.parentElement;
 
         if (!container) {
             e.preventDefault();
@@ -517,17 +437,14 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
 
-        draggedNode = node;
+        draggedNode     = node;
         sourceContainer = container;
-        moved = false;
+        moved           = false;
 
 
         e.dataTransfer.effectAllowed = "move";
 
-        e.dataTransfer.setData(
-            "text/plain",
-            node.dataset.nodeId
-        );
+        e.dataTransfer.setData("text/plain", node.dataset.nodeId);
 
 
         node.classList.add("dragging");
@@ -535,26 +452,22 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
-    // --------------------------------------------
-    // DRAG OVER
-    // --------------------------------------------
+    /* ========================================================
+       DRAG OVER
+       ======================================================== */
 
-    document.addEventListener("dragover", function(e) {
+    document.addEventListener("dragover", function (e) {
 
         if (!draggedNode || !sourceContainer) {
             return;
         }
 
 
-        // ----------------------------------------
         // AUTO SCROLL
-        // ----------------------------------------
-
         startAutoScroll(e.clientY);
 
 
-        const target =
-            e.target.closest(".skill-node");
+        const target = e.target.closest(".skill-node");
 
         if (!target || target === draggedNode) {
             return;
@@ -563,10 +476,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Only reorder within the same sibling
         // container. This prevents re-parenting.
-        if (
-            target.parentElement !==
-            sourceContainer
-        ) {
+        if (target.parentElement !== sourceContainer) {
             return;
         }
 
@@ -576,9 +486,7 @@ document.addEventListener("DOMContentLoaded", function() {
         e.dataTransfer.dropEffect = "move";
 
 
-        document.querySelectorAll(
-            ".drag-over"
-        ).forEach(function(node) {
+        document.querySelectorAll(".drag-over").forEach(function (node) {
 
             node.classList.remove("drag-over");
 
@@ -588,40 +496,26 @@ document.addEventListener("DOMContentLoaded", function() {
         target.classList.add("drag-over");
 
 
-        const rect =
-            target.getBoundingClientRect();
-
-        const before =
-            e.clientY <
-            rect.top + rect.height / 2;
+        const rect   = target.getBoundingClientRect();
+        const before = e.clientY < rect.top + rect.height / 2;
 
 
         if (before) {
 
-            if (
-                draggedNode.nextElementSibling !==
-                target
-            ) {
+            if (draggedNode.nextElementSibling !== target) {
 
-                sourceContainer.insertBefore(
-                    draggedNode,
-                    target
-                );
+                sourceContainer.insertBefore(draggedNode, target);
 
                 moved = true;
             }
 
         } else {
 
-            const next =
-                target.nextElementSibling;
+            const next = target.nextElementSibling;
 
             if (next !== draggedNode) {
 
-                sourceContainer.insertBefore(
-                    draggedNode,
-                    next
-                );
+                sourceContainer.insertBefore(draggedNode, next);
 
                 moved = true;
             }
@@ -631,23 +525,19 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
-    // --------------------------------------------
-    // DROP
-    // --------------------------------------------
+    /* ========================================================
+       DROP
+       ======================================================== */
 
-    document.addEventListener("drop", function(e) {
+    document.addEventListener("drop", function (e) {
 
         if (!draggedNode || !sourceContainer) {
             return;
         }
 
-        const target =
-            e.target.closest(".skill-node");
+        const target = e.target.closest(".skill-node");
 
-        if (
-            target &&
-            target.parentElement === sourceContainer
-        ) {
+        if (target && target.parentElement === sourceContainer) {
 
             e.preventDefault();
         }
@@ -655,78 +545,59 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
-    // --------------------------------------------
-    // DRAG END
-    // --------------------------------------------
+    /* ========================================================
+       DRAG END
+       ======================================================== */
 
-    document.addEventListener("dragend", function() {
+    document.addEventListener("dragend", function () {
 
         // Stop automatic scrolling immediately.
         stopAutoScroll();
 
 
-        if (
-            draggedNode &&
-            sourceContainer &&
-            moved
-        ) {
+        if (draggedNode && sourceContainer && moved) {
 
             saveOrder(sourceContainer);
         }
 
 
-        document.querySelectorAll(
-            ".dragging, .drag-over"
-        ).forEach(function(node) {
+        document.querySelectorAll(".dragging, .drag-over").forEach(function (node) {
 
-            node.classList.remove(
-                "dragging",
-                "drag-over"
-            );
+            node.classList.remove("dragging", "drag-over");
 
         });
 
 
-        draggedNode = null;
+        draggedNode     = null;
         sourceContainer = null;
-        moved = false;
+        moved           = false;
 
     });
 
 
-    // ============================================
-    // BROWSER BACK/FORWARD CACHE
-    // ============================================
+    /* ========================================================
+       BROWSER BACK / FORWARD CACHE
+       ======================================================== */
 
-    window.addEventListener(
-        "pageshow",
-        function(event) {
+    window.addEventListener("pageshow", function (event) {
 
-            if (event.persisted) {
-                window.location.reload();
-            }
-
+        if (event.persisted) {
+            window.location.reload();
         }
-    );
+
+    });
 
 });
 
 
-// ============================================
-// EDIT HELPERS
-// ============================================
+/* ============================================================
+   EDIT HELPERS — GLOBAL
+   ============================================================ */
 
-window.handleCancelEdit = function(skillId) {
+window.handleCancelEdit = function (skillId) {
 
-    const view =
-        document.getElementById(
-            "view-" + skillId
-        );
-
-    const edit =
-        document.getElementById(
-            "edit-" + skillId
-        );
+    const view = document.getElementById("view-" + skillId);
+    const edit = document.getElementById("edit-" + skillId);
 
     if (view && edit) {
 
@@ -738,27 +609,17 @@ window.handleCancelEdit = function(skillId) {
 };
 
 
-window.handleEditToggle = function(skillId) {
+window.handleEditToggle = function (skillId) {
 
-    const view =
-        document.getElementById(
-            "view-" + skillId
-        );
-
-    const edit =
-        document.getElementById(
-            "edit-" + skillId
-        );
+    const view = document.getElementById("view-" + skillId);
+    const edit = document.getElementById("edit-" + skillId);
 
     if (view && edit) {
 
         edit.style.display = "block";
         view.style.display = "none";
 
-        const input =
-            edit.querySelector(
-                'input[name="name"]'
-            );
+        const input = edit.querySelector('input[name="name"]');
 
         if (input) {
 

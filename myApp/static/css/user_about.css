@@ -1,0 +1,527 @@
+
+/* ============================================================
+   ABOUT SECTION
+   ============================================================ */
+
+.about {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 2.5rem;
+    scroll-margin-top: 90px;
+    background: var(--off-white);
+    transition: background-color 0.35s ease;
+}
+
+.about::before {
+    content: '';
+    position: absolute;
+    top: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+    border-radius: var(--radius-full);
+    opacity: 0.6;
+}
+
+
+/* ============================================================
+   ABOUT SLIDER — DESKTOP
+   ============================================================ */
+
+.about-slider-container {
+    width: 100%;
+    overflow: visible;
+}
+
+.about-slider {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.about-panel {
+    min-width: 0;
+    width: 100%;
+}
+
+/* About Me — Left */
+.about-text-panel {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+/* Statistics — Right */
+.about-stats-panel {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+
+/* ============================================================
+   ABOUT TEXT — DESKTOP
+   ============================================================ */
+
+.about-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    min-width: 0;
+}
+
+.about-text h1 {
+    font-size: clamp(1.9rem, 3.5vw, 2.6rem);
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--text-dark);
+    letter-spacing: -0.025em;
+    margin: 0;
+}
+
+.about-text h1::after {
+    content: '';
+    display: block;
+    width: 64px;
+    height: 4px;
+    margin-top: 1rem;
+    background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+    border-radius: var(--radius-full);
+}
+
+.about-text h2 {
+    font-size: clamp(1.05rem, 2vw, 1.3rem);
+    font-weight: 600;
+    color: var(--primary);
+    letter-spacing: -0.01em;
+    margin: 0.5rem 0 0;
+}
+
+.about-text p {
+    width: 100%;
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--text-body);
+    max-width: 58ch;
+    margin: 0;
+}
+
+.about-text p + p {
+    margin-top: 0.5rem;
+}
+
+.about-text .btn.orange {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-start;
+    margin-top: 1.5rem;
+    padding: 0.85rem 1.75rem;
+    font-size: 0.92rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: #ffffff;
+    background: var(--primary);
+    border: 1.5px solid var(--primary);
+    border-radius: var(--radius-full);
+    box-shadow: 0 6px 18px var(--primary-glow);
+    cursor: pointer;
+    text-decoration: none;
+    transition:
+        transform var(--transition),
+        background var(--transition),
+        box-shadow var(--transition),
+        border-color var(--transition);
+}
+
+.about-text .btn.orange:hover {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px var(--primary-glow);
+}
+
+
+/* ============================================================
+   ABOUT STATISTICS CONTENT
+   ============================================================ */
+
+.about-stats-content {
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.about-stats-heading {
+    width: 100%;
+    font-size: clamp(1.6rem, 2.5vw, 2rem);
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--text-dark);
+    letter-spacing: -0.025em;
+    margin: 0 0 2rem;
+    text-align: center;
+}
+
+.about-stats-heading::after {
+    content: '';
+    display: block;
+    width: 64px;
+    height: 4px;
+    margin: 0.85rem auto 0;
+    background: linear-gradient(
+        90deg,
+        var(--primary) 0%,
+        var(--primary-light) 100%
+    );
+    border-radius: var(--radius-full);
+}
+
+
+/* ============================================================
+   ABOUT STATISTICS GRID
+   ============================================================ */
+
+.about-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+    width: 100%;
+}
+
+.stat-box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.5rem;
+    padding: 2rem 1.25rem;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    transition:
+        transform var(--transition),
+        box-shadow var(--transition),
+        border-color var(--transition),
+        background-color 0.35s ease;
+}
+
+.stat-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 70px;
+    height: 70px;
+    background: radial-gradient(
+        circle at top right,
+        var(--primary-glow) 0%,
+        transparent 70%
+    );
+    pointer-events: none;
+}
+
+.stat-box:hover {
+    transform: translateY(-6px);
+    border-color: var(--primary-light);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
+}
+
+.stat-box img {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    padding: 0.5rem;
+    background: var(--primary-soft);
+    border-radius: var(--radius-md);
+    margin-bottom: 0.25rem;
+    transition:
+        background var(--transition),
+        transform var(--transition);
+}
+
+.stat-box:hover img {
+    background: var(--primary-light);
+    transform: scale(1.06);
+}
+
+.stat-box h3 {
+    font-size: clamp(1.35rem, 2.5vw, 1.7rem);
+    font-weight: 800;
+    color: var(--text-dark);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin: 0;
+    word-break: break-word;
+}
+
+.stat-box p {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+
+/* ============================================================
+   ABOUT SLIDER NAVIGATION — DESKTOP
+   ============================================================ */
+
+.about-slider-navigation {
+    display: none;
+}
+
+
+/* ============================================================
+   ABOUT SLIDER — MOBILE AND TABLET
+   ============================================================ */
+
+@media (max-width: 900px) {
+
+    .about {
+        padding: 4rem 1.5rem;
+    }
+
+    .about-slider-container {
+        overflow: hidden;
+        touch-action: pan-y;
+        cursor: grab;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+
+    .about-slider-container:active {
+        cursor: grabbing;
+    }
+
+    .about-slider {
+        display: flex;
+        gap: 0;
+        width: 100%;
+        will-change: transform;
+    }
+
+    .about-panel {
+        flex: 0 0 100%;
+        width: 100%;
+        min-width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Statistics */
+    .about-stats-content {
+        width: 100%;
+        max-width: 560px;
+    }
+
+    .about-stats-heading {
+        margin-bottom: 1.75rem;
+    }
+
+    .about-stats {
+        width: 100%;
+        gap: 1rem;
+    }
+
+    .stat-box {
+        padding: 1.75rem 1rem;
+    }
+
+
+    /* ========================================================
+       ABOUT ME — CENTRE THE ENTIRE CONTENT
+       ======================================================== */
+
+    .about-text {
+        width: 100%;
+        max-width: 600px;
+        align-items: center;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .about-text h1,
+    .about-text h2,
+    .about-text p {
+        width: 100%;
+        text-align: center;
+    }
+
+    .about-text h1::after {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .about-text p {
+        max-width: 58ch;
+        line-height: 1.75;
+    }
+
+    .about-text p + p {
+        margin-top: 0.5rem;
+    }
+
+    .about-text .btn.orange {
+        align-self: center;
+        margin-top: 1.5rem;
+    }
+
+
+    /* ========================================================
+       SLIDER NAVIGATION
+       ======================================================== */
+
+    .about {
+        position: relative;
+    }
+
+    .about-slider-navigation {
+        position: absolute;
+        top: 4rem;
+        left: 1.5rem;
+        right: 1.5rem;
+        bottom: 4rem;
+
+        display: block;
+        width: auto;
+        margin: 0;
+        padding: 0;
+
+        pointer-events: none;
+        z-index: 10;
+    }
+
+    .about-slider-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 40px;
+        height: 40px;
+        padding: 0;
+
+        border: 1px solid var(--border);
+        border-radius: 50%;
+        background: var(--white);
+        color: var(--text-dark);
+
+        font-size: 1rem;
+        cursor: pointer;
+        pointer-events: auto;
+
+        transition:
+            background var(--transition),
+            color var(--transition),
+            border-color var(--transition);
+    }
+
+    .about-slider-prev {
+        left: 0;
+    }
+
+    .about-slider-next {
+        right: 0;
+    }
+
+    .about-slider-arrow:hover {
+        background: var(--primary);
+        color: #ffffff;
+        border-color: var(--primary);
+    }
+
+    .about-slider-dots {
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%);
+
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+
+        pointer-events: auto;
+    }
+
+    .about-slider-dot {
+        display: block;
+        width: 9px;
+        height: 9px;
+        padding: 0;
+        border: none;
+        border-radius: 50%;
+        background: var(--border);
+        cursor: pointer;
+
+        transition:
+            width var(--transition),
+            background var(--transition);
+    }
+
+    .about-slider-dot.active {
+        width: 24px;
+        border-radius: var(--radius-full);
+        background: var(--primary);
+    }
+
+}
+
+
+/* ============================================================
+   ABOUT SECTION — ENTRANCE ANIMATION
+   Applies at ALL screen sizes
+   ============================================================ */
+
+.about .about-stats-content,
+.about .about-text {
+    opacity: 0;
+    transform: translateY(120px);
+    will-change: transform, opacity;
+    transition:
+        opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.about .about-text {
+    transition-delay: 0.25s;
+}
+
+.about.is-visible .about-stats-content,
+.about.is-visible .about-text {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .about .about-stats-content,
+    .about .about-text {
+        transition: none;
+        transform: none;
+        opacity: 1;
+    }
+
+}

@@ -1,20 +1,35 @@
+# =========================================================
+# IMPORTS
+# =========================================================
+
 from django.contrib import admin
 
-from .models import *
+from .models import (
+    Profile,
+    About,
+    Skill,
+    Project,
+    Contact,
+    Document,
+    ContactMessage,
+)
 
-from .models import Profile, About, Skill, Project, Contact, Document
+
+# =========================================================
+# SIMPLE MODEL REGISTRATIONS
+# =========================================================
 
 admin.site.register(Profile)
 admin.site.register(About)
 admin.site.register(Skill)
 admin.site.register(Project)
 admin.site.register(Contact)
-
 admin.site.register(Document)
 
-# ============================================
+
+# =========================================================
 # CONTACT MESSAGE ADMIN
-# ============================================
+# =========================================================
 
 @admin.register(ContactMessage)
 class ContactMessageAdmin(admin.ModelAdmin):

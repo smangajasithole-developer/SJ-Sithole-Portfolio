@@ -2,30 +2,61 @@
 {% load static %}
 {% load project_extras %}
 
+
+<!-- ============================================ -->
+<!-- PAGE TITLE                                   -->
+<!-- ============================================ -->
+
 {% block title %}
     Admin Dashboard - Projects
 {% endblock %}
+
+
+<!-- ============================================ -->
+<!-- CSS                                          -->
+<!-- ============================================ -->
 
 {% block extra_css %}
     <link rel="stylesheet"
           href="{% static 'css/projects.css' %}">
 {% endblock %}
 
+
+<!-- ============================================ -->
+<!-- JS                                           -->
+<!-- ============================================ -->
+
 {% block extra_js %}
     <script src="{% static 'js/projects.js' %}" defer></script>
 {% endblock %}
+
+
+<!-- ============================================ -->
+<!-- BODY CLASS                                   -->
+<!-- ============================================ -->
 
 {% block body_class %}
     projects-page
 {% endblock %}
 
+
+<!-- ============================================ -->
+<!-- PAGE HEADING                                 -->
+<!-- ============================================ -->
+
 {% block page_title %}
     Portfolio Dashboard
 {% endblock %}
 
+
 {% block page_description %}
     Manage all the content on your portfolio website.
 {% endblock %}
+
+
+<!-- ============================================ -->
+<!-- PAGE CONTENT                                 -->
+<!-- ============================================ -->
 
 {% block content %}
 
@@ -37,7 +68,7 @@
 
 
         <!-- ============================================ -->
-        <!-- PROJECT FORM -->
+        <!-- PROJECT FORM                                 -->
         <!-- ============================================ -->
 
         <form
@@ -49,51 +80,50 @@
             {% csrf_token %}
 
 
-<!-- ============================================ -->
-<!-- PROJECT TYPE -->
-<!-- ============================================ -->
+            <!-- ============================================ -->
+            <!-- PROJECT TYPE                                 -->
+            <!-- ============================================ -->
 
-<div class="form-group">
+            <div class="form-group">
 
-    <label for="project_type">
-        📁 Project Type
-    </label>
+                <label for="project_type">
+                    📁 Project Type
+                </label>
 
-    <select
-        id="project_type"
-        name="project_type"
-        required
-    >
-        <option value="">
-            Choose Project Type
-        </option>
+                <select
+                    id="project_type"
+                    name="project_type"
+                    required
+                >
+                    <option value="">
+                        Choose Project Type
+                    </option>
 
-        <option
-            value="link"
-            {% if edit_project and edit_project.project_type == 'link' %}
-                selected
-            {% endif %}
-        >
-            🔗 Link Project
-        </option>
+                    <option
+                        value="link"
+                        {% if edit_project and edit_project.project_type == 'link' %}
+                            selected
+                        {% endif %}
+                    >
+                        🔗 Link Project
+                    </option>
 
-        <option
-            value="file"
-            {% if edit_project and edit_project.project_type == 'file' %}
-                selected
-            {% endif %}
-        >
-            🖼️ File/Media Project
-        </option>
-    </select>
+                    <option
+                        value="file"
+                        {% if edit_project and edit_project.project_type == 'file' %}
+                            selected
+                        {% endif %}
+                    >
+                        🖼️ File/Media Project
+                    </option>
+                </select>
 
-</div>
-
+            </div>
 
 
             <!-- ============================================ -->
-            <!-- COMMON PROJECT INFORMATION -->
-            <!-- HIDDEN UNTIL PROJECT TYPE IS SELECTED -->
+            <!-- COMMON PROJECT INFORMATION                   -->
+            <!-- HIDDEN UNTIL PROJECT TYPE IS SELECTED        -->
             <!-- ============================================ -->
 
             <div
@@ -102,9 +132,7 @@
                 hidden
             >
 
-
                 <!-- PROJECT NAME -->
-
                 <div class="form-group">
 
                     <label for="project_title">
@@ -123,7 +151,6 @@
 
 
                 <!-- DESCRIPTION -->
-
                 <div class="form-group">
 
                     <label for="project_description">
@@ -141,7 +168,6 @@
 
 
                 <!-- TECHNOLOGIES -->
-
                 <div class="form-group">
 
                     <label for="project_tech">
@@ -166,8 +192,8 @@
 
 
             <!-- ============================================ -->
-            <!-- LINK PROJECT FIELDS -->
-            <!-- HIDDEN UNTIL LINK PROJECT IS SELECTED -->
+            <!-- LINK PROJECT FIELDS                          -->
+            <!-- HIDDEN UNTIL LINK PROJECT IS SELECTED        -->
             <!-- ============================================ -->
 
             <div
@@ -182,7 +208,6 @@
 
 
                 <!-- EXISTING THUMBNAIL -->
-
                 {% if edit_project and edit_project.thumbnail %}
 
                     <div class="current-media">
@@ -206,7 +231,6 @@
 
 
                 <!-- THUMBNAIL UPLOAD -->
-
                 <div class="form-group">
 
                     <label for="thumbnail_upload">
@@ -228,7 +252,6 @@
 
 
                 <!-- PROJECT LINK -->
-
                 <div class="form-group">
 
                     <label for="project_url">
@@ -249,12 +272,122 @@
 
                 </div>
 
+
+                <!-- ============================================ -->
+                <!-- LIVE PROJECT CATEGORIES                      -->
+                <!-- ============================================ -->
+
+                <div class="form-group project-categories">
+
+                    <label>
+                        🗂️ Categorise the Live Project
+                    </label>
+
+                    <small class="form-hint">
+                        Select all categories that apply to this project.
+                    </small>
+
+                    <div class="category-options">
+
+                        <label class="category-option">
+
+                            <input
+                                type="checkbox"
+                                name="live_categories"
+                                value="full_stack"
+                                {% if edit_project and 'full_stack' in edit_project.live_categories %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span>
+                                Full Stack
+                            </span>
+
+                        </label>
+
+
+                        <label class="category-option">
+
+                            <input
+                                type="checkbox"
+                                name="live_categories"
+                                value="static_web"
+                                {% if edit_project and 'static_web' in edit_project.live_categories %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span>
+                                Static Web
+                            </span>
+
+                        </label>
+
+
+                        <label class="category-option">
+
+                            <input
+                                type="checkbox"
+                                name="live_categories"
+                                value="strong_app"
+                                {% if edit_project and 'strong_app' in edit_project.live_categories %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span>
+                                Strong App
+                            </span>
+
+                        </label>
+
+
+                        <label class="category-option">
+
+                            <input
+                                type="checkbox"
+                                name="live_categories"
+                                value="on_progress"
+                                {% if edit_project and 'on_progress' in edit_project.live_categories %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span>
+                                On Progress
+                            </span>
+
+                        </label>
+
+
+                        <label class="category-option">
+
+                            <input
+                                type="checkbox"
+                                name="live_categories"
+                                value="finished_app"
+                                {% if edit_project and 'finished_app' in edit_project.live_categories %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span>
+                                Finished App
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
             </div>
 
 
             <!-- ============================================ -->
-            <!-- FILE / MEDIA PROJECT FIELDS -->
-            <!-- HIDDEN UNTIL FILE/MEDIA PROJECT IS SELECTED -->
+            <!-- FILE / MEDIA PROJECT FIELDS                  -->
+            <!-- HIDDEN UNTIL FILE/MEDIA PROJECT IS SELECTED  -->
             <!-- ============================================ -->
 
             <div
@@ -269,7 +402,6 @@
 
 
                 <!-- EXISTING MEDIA -->
-
                 {% if edit_project and edit_project.file %}
 
                     <div class="current-media">
@@ -311,7 +443,6 @@
 
 
                 <!-- MEDIA UPLOAD -->
-
                 <div class="form-group">
 
                     <label for="file_upload">
@@ -331,12 +462,122 @@
 
                 </div>
 
+
+                <!-- ============================================ -->
+                <!-- OTHER SHOWCASE CATEGORIES                    -->
+                <!-- ============================================ -->
+
+                <div class="form-group project-categories">
+
+                    <label>
+                        🗂️ Categorise the Showcase Project
+                    </label>
+
+                    <small class="form-hint">
+                        Select all categories that apply to this content.
+                    </small>
+
+                    <div class="category-options">
+
+                        <label class="category-option">
+
+                            <input
+                                type="checkbox"
+                                name="showcase_categories"
+                                value="files"
+                                {% if edit_project and 'files' in edit_project.showcase_categories %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span>
+                                Files
+                            </span>
+
+                        </label>
+
+
+                        <label class="category-option">
+
+                            <input
+                                type="checkbox"
+                                name="showcase_categories"
+                                value="videos"
+                                {% if edit_project and 'videos' in edit_project.showcase_categories %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span>
+                                Videos
+                            </span>
+
+                        </label>
+
+
+                        <label class="category-option">
+
+                            <input
+                                type="checkbox"
+                                name="showcase_categories"
+                                value="updates"
+                                {% if edit_project and 'updates' in edit_project.showcase_categories %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span>
+                                Updates
+                            </span>
+
+                        </label>
+
+
+                        <label class="category-option">
+
+                            <input
+                                type="checkbox"
+                                name="showcase_categories"
+                                value="progress"
+                                {% if edit_project and 'progress' in edit_project.showcase_categories %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span>
+                                Progress
+                            </span>
+
+                        </label>
+
+
+                        <label class="category-option">
+
+                            <input
+                                type="checkbox"
+                                name="showcase_categories"
+                                value="other"
+                                {% if edit_project and 'other' in edit_project.showcase_categories %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span>
+                                Other
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
             </div>
 
 
             <!-- ============================================ -->
-            <!-- CASE STUDY -->
-            <!-- HIDDEN UNTIL USER CLICKS ADD CASE STUDY -->
+            <!-- CASE STUDY                                   -->
+            <!-- HIDDEN UNTIL USER CLICKS ADD CASE STUDY      -->
             <!-- ============================================ -->
 
             <div class="case-study-wrapper">
@@ -366,7 +607,6 @@
 
 
                     <!-- PROBLEM -->
-
                     <div class="case-field">
 
                         <label>
@@ -383,7 +623,6 @@
 
 
                     <!-- APPROACH -->
-
                     <div class="case-field">
 
                         <label>
@@ -400,7 +639,6 @@
 
 
                     <!-- CHALLENGES -->
-
                     <div class="case-field">
 
                         <label>
@@ -417,7 +655,6 @@
 
 
                     <!-- SOLUTION -->
-
                     <div class="case-field">
 
                         <label>
@@ -434,7 +671,6 @@
 
 
                     <!-- OUTCOME -->
-
                     <div class="case-field">
 
                         <label>
@@ -451,7 +687,6 @@
 
 
                     <!-- WHAT I LEARNED -->
-
                     <div class="case-field">
 
                         <label>
@@ -472,7 +707,7 @@
 
 
             <!-- ============================================ -->
-            <!-- FORM ACTIONS -->
+            <!-- FORM ACTIONS                                 -->
             <!-- ============================================ -->
 
             <div class="form-actions">
@@ -515,7 +750,7 @@
 
 
         <!-- ============================================ -->
-        <!-- FEATURED PROJECTS -->
+        <!-- FEATURED PROJECTS                            -->
         <!-- ============================================ -->
 
         <div class="projects-section">
@@ -527,14 +762,12 @@
 
             <div class="projects-grid">
 
-
                 {% for project in projects %}
 
                     <div class="project-card featured">
 
 
                         <!-- LINK PROJECT THUMBNAIL -->
-
                         {% if project.project_type == 'link' and project.thumbnail %}
 
                             <div class="project-media">
@@ -551,7 +784,6 @@
 
 
                         <!-- FILE / MEDIA PROJECT -->
-
                         {% if project.project_type == 'file' and project.file %}
 
                             <div class="project-media">
@@ -592,7 +824,6 @@
 
 
                             <!-- FEATURED BADGE -->
-
                             <div class="featured-badge">
 
                                 <span>
@@ -603,21 +834,18 @@
 
 
                             <!-- PROJECT TITLE -->
-
                             <div class="project-title">
                                 {{ project.title }}
                             </div>
 
 
                             <!-- PROJECT DESCRIPTION -->
-
                             <div class="project-description">
                                 {{ project.description|truncatewords:20 }}
                             </div>
 
 
                             <!-- CASE STUDY PREVIEW -->
-
                             <div class="case-preview">
 
                                 {% if project.problem %}
@@ -698,8 +926,8 @@
 
 
                             <!-- ============================================ -->
-                            <!-- TECH STACK -->
-                            <!-- COMMA SEPARATED -->
+                            <!-- TECH STACK                                   -->
+                            <!-- COMMA SEPARATED                              -->
                             <!-- ============================================ -->
 
                             <div class="project-tech">
@@ -716,9 +944,7 @@
 
 
                             <!-- ACTION BUTTONS -->
-
                             <div class="project-actions">
-
 
                                 {% if project.project_type == 'link' and project.url %}
 
@@ -775,7 +1001,6 @@
 
                     </div>
 
-
                 {% empty %}
 
                     <div class="empty-state">
@@ -797,7 +1022,7 @@
 
 
         <!-- ============================================ -->
-        <!-- OTHER PROJECTS -->
+        <!-- OTHER PROJECTS                               -->
         <!-- ============================================ -->
 
         <div class="projects-section">
@@ -809,14 +1034,12 @@
 
             <div class="projects-grid">
 
-
                 {% for project in other_projects %}
 
                     <div class="project-card">
 
 
                         <!-- LINK PROJECT THUMBNAIL -->
-
                         {% if project.project_type == 'link' and project.thumbnail %}
 
                             <div class="project-media">
@@ -833,7 +1056,6 @@
 
 
                         <!-- FILE / MEDIA PROJECT -->
-
                         {% if project.project_type == 'file' and project.file %}
 
                             <div class="project-media">
@@ -874,21 +1096,18 @@
 
 
                             <!-- PROJECT TITLE -->
-
                             <div class="project-title">
                                 {{ project.title }}
                             </div>
 
 
                             <!-- PROJECT DESCRIPTION -->
-
                             <div class="project-description">
                                 {{ project.description|truncatewords:20 }}
                             </div>
 
 
                             <!-- CASE STUDY PREVIEW -->
-
                             <div class="case-preview">
 
                                 {% if project.problem %}
@@ -969,8 +1188,8 @@
 
 
                             <!-- ============================================ -->
-                            <!-- TECH STACK -->
-                            <!-- COMMA SEPARATED -->
+                            <!-- TECH STACK                                   -->
+                            <!-- COMMA SEPARATED                              -->
                             <!-- ============================================ -->
 
                             <div class="project-tech">
@@ -987,9 +1206,7 @@
 
 
                             <!-- ACTION BUTTONS -->
-
                             <div class="project-actions">
-
 
                                 {% if project.project_type == 'link' and project.url %}
 
@@ -1045,7 +1262,6 @@
                         </div>
 
                     </div>
-
 
                 {% empty %}
 

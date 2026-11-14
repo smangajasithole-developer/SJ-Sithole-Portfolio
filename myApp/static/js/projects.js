@@ -1,13 +1,24 @@
+/* ============================================================
+   PROJECTS — FORM INTERACTIONS
+   ============================================================
+
+   Handles the projects page's interactive features:
+   project type field switching, case study section toggle,
+   and bfcache reload.
+
+   ============================================================ */
+
 document.addEventListener("DOMContentLoaded", () => {
 
-    // ==============================
-    // PROJECT TYPE SWITCHING
-    // ==============================
+    /* ========================================================
+       PROJECT TYPE SWITCHING
+       ======================================================== */
 
-    const projectType = document.getElementById("project_type");
+    const projectType  = document.getElementById("project_type");
     const commonFields = document.getElementById("common-project-fields");
-    const linkFields = document.getElementById("link-project-fields");
-    const fileFields = document.getElementById("file-project-fields");
+    const linkFields   = document.getElementById("link-project-fields");
+    const fileFields   = document.getElementById("file-project-fields");
+
 
     function updateProjectType() {
 
@@ -15,22 +26,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Hide all project fields first
         commonFields.hidden = true;
-        linkFields.hidden = true;
-        fileFields.hidden = true;
+        linkFields.hidden   = true;
+        fileFields.hidden   = true;
 
         // Show the correct fields
         if (type === "link") {
             commonFields.hidden = false;
-            linkFields.hidden = false;
+            linkFields.hidden   = false;
         }
 
         if (type === "file") {
             commonFields.hidden = false;
-            fileFields.hidden = false;
+            fileFields.hidden   = false;
         }
     }
 
+
     if (projectType) {
+
         projectType.addEventListener("change", updateProjectType);
 
         // Handle edit mode
@@ -38,9 +51,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // ==============================
-    // CASE STUDY TOGGLE
-    // ==============================
+    /* ========================================================
+       CASE STUDY TOGGLE
+       ======================================================== */
 
     const caseStudyButton = document.getElementById("toggle-case-study");
     const caseStudyFields = document.getElementById("case-study-fields");
@@ -61,14 +74,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // ==============================
-    // PAGE SHOW / BACK-FORWARD CACHE
-    // ==============================
+    /* ========================================================
+       PAGE SHOW / BACK-FORWARD CACHE
+       ======================================================== */
 
     window.addEventListener("pageshow", function (event) {
+
         if (event.persisted) {
             window.location.reload();
         }
+
     });
 
 });

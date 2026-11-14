@@ -4,8 +4,17 @@
 
 <head>
 
+    <!-- ============================================ -->
+    <!-- META                                         -->
+    <!-- ============================================ -->
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- ============================================ -->
+    <!-- PAGE TITLE                                   -->
+    <!-- ============================================ -->
 
     <title>
         {% block title %}
@@ -13,11 +22,21 @@
         {% endblock %}
     </title>
 
+
+    <!-- ============================================ -->
+    <!-- STYLESHEETS                                  -->
+    <!-- ============================================ -->
+
     <link rel="stylesheet"
           href="{% static 'css/adminbase.css' %}">
 
     {% block extra_css %}
     {% endblock %}
+
+
+    <!-- ============================================ -->
+    <!-- JAVASCRIPT                                   -->
+    <!-- ============================================ -->
 
     <script src="{% static 'js/session_timeout.js' %}" defer></script>
 
@@ -30,10 +49,14 @@
       data-authenticated="{{ request.user.is_authenticated|yesno:'true,false' }}">
 
     <!-- ============================================ -->
-    <!-- DASHBOARD HEADER                              -->
+    <!-- DASHBOARD HEADER                             -->
     <!-- ============================================ -->
 
     <section class="dashboard-header">
+
+        <!-- ======================================== -->
+        <!-- HEADER — LEFT                            -->
+        <!-- ======================================== -->
 
         <div class="header-left">
 
@@ -59,6 +82,10 @@
         </div>
 
 
+        <!-- ======================================== -->
+        <!-- HEADER — RIGHT                           -->
+        <!-- ======================================== -->
+
         <div class="header-right">
 
             <a href="{% url 'home' %}"
@@ -83,7 +110,7 @@
     <div class="main-content">
 
         <!-- ======================================== -->
-        <!-- DASHBOARD INTRO                           -->
+        <!-- DASHBOARD INTRO                          -->
         <!-- ======================================== -->
 
         <section class="dashboard-intro">
@@ -104,14 +131,13 @@
 
 
         <!-- ======================================== -->
-        <!-- DASHBOARD MAIN LAYOUT                     -->
+        <!-- DASHBOARD MAIN LAYOUT                    -->
         <!-- ======================================== -->
 
         <section class="dashboard-main">
 
-
             <!-- ==================================== -->
-            <!-- SIDEBAR NAVIGATION                    -->
+            <!-- SIDEBAR NAVIGATION                   -->
             <!-- ==================================== -->
 
             <aside class="sidebar">
@@ -155,7 +181,7 @@
 
 
             <!-- ==================================== -->
-            <!-- PAGE CONTENT                          -->
+            <!-- PAGE CONTENT                         -->
             <!-- ==================================== -->
 
             <div class="content-area">
@@ -171,7 +197,7 @@
 
 
     <!-- ============================================ -->
-    <!-- SESSION WARNING                              -->
+    <!-- SESSION WARNING MODAL                        -->
     <!-- ============================================ -->
 
     <div id="sessionWarning"
