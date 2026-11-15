@@ -79,6 +79,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ========================================================
+       HELPERS
+       ======================================================== */
+
+    function closePanelDropdowns(panel) {
+
+        if (!panel) return;
+
+        panel.querySelectorAll(
+            ".public-skill-node.is-open, .public-skill-node.is-hover-open"
+        ).forEach((node) => {
+
+            node.classList.remove("is-open", "is-hover-open");
+
+            const parent = node.querySelector(
+                ":scope > .public-node-content.skill-parent"
+            );
+
+            if (parent) {
+                parent.setAttribute("aria-expanded", "false");
+            }
+
+        });
+    }
+
+
+    /* ========================================================
        CLONE PANELS
        ======================================================== */
 
@@ -143,11 +169,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!isEnabled || isMoving) return;
 
+        const section = document.querySelector("#skills");
+
+        // Identify the card currently being viewed.
+        const currentPanel = originalPanels[currentIndex === 1 ? 0 : 1];
+
+        // Close expanded dropdowns before switching cards.
+        closePanelDropdowns(currentPanel);
+
+        // Move to the selected card.
         isMoving = true;
 
         currentIndex += direction;
 
         updatePosition(true);
+
+        // Align the Skills section just like clicking
+        // the Skills link in the header.
+        if (section) {
+
+            requestAnimationFrame(() => {
+
+                section.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+
+            });
+        }
     }
 
 
@@ -285,7 +334,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!isEnabled || isMoving) return;
 
-        if (event.target.closest("button")) return;
+        // Do not capture pointer interactions on dropdown parents.
+        if (event.target.closest("button, .public-node-content.skill-parent")) {
+            return;
+        }
 
         if (event.pointerType === "mouse" && event.button !== 0) {
             return;
