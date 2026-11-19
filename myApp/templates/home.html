@@ -45,6 +45,7 @@
 
 {% block content %}
 
+
 <!-- ============================================ -->
 <!-- HOME / INTRO SECTION                         -->
 <!-- ============================================ -->
@@ -121,6 +122,21 @@
                     </a>
                 </div>
 
+                <!-- INTRO PANEL ARROWS -->
+                <button
+                    type="button"
+                    class="about-slider-arrow about-slider-prev"
+                    aria-label="Previous panel">
+                    &#10094;
+                </button>
+
+                <button
+                    type="button"
+                    class="about-slider-arrow about-slider-next"
+                    aria-label="Next panel">
+                    &#10095;
+                </button>
+
             </div>
 
 
@@ -176,6 +192,21 @@
                     </div>
                 </div>
 
+                <!-- PROFILE PANEL ARROWS -->
+                <button
+                    type="button"
+                    class="about-slider-arrow about-slider-prev"
+                    aria-label="Previous panel">
+                    &#10094;
+                </button>
+
+                <button
+                    type="button"
+                    class="about-slider-arrow about-slider-next"
+                    aria-label="Next panel">
+                    &#10095;
+                </button>
+
             </div>
 
         </div>
@@ -186,15 +217,6 @@
         <!-- ======================================== -->
 
         <div class="home-slider-controls">
-
-            <button
-                type="button"
-                class="about-slider-arrow about-slider-prev"
-                aria-label="Previous panel">
-
-                &#10094;
-
-            </button>
 
             <div class="home-slider-dots">
 
@@ -212,15 +234,6 @@
                 </button>
 
             </div>
-
-            <button
-                type="button"
-                class="about-slider-arrow about-slider-next"
-                aria-label="Next panel">
-
-                &#10095;
-
-            </button>
 
         </div>
 
@@ -246,6 +259,7 @@
 
             <div class="about-panel about-stats-panel">
 
+                <!-- STATISTICS CONTENT -->
                 <div class="about-stats-content">
 
                     <h2 class="about-stats-heading">
@@ -256,70 +270,66 @@
 
                         <!-- Years Experience -->
                         <div class="stat-box">
-
                             <img src="{% static 'images/Bag.png' %}" alt="">
-
                             <h3>
                                 {% if about %}
                                     {{ about.years_experience }}
                                 {% endif %}
                             </h3>
-
                             <p>Years Experience</p>
-
                         </div>
-
 
                         <!-- Projects Completed -->
                         <div class="stat-box">
-
                             <img src="{% static 'images/Award Ribbon.png' %}" alt="">
-
                             <h3>
                                 {% if about %}
                                     {{ about.projects_completed }}
                                 {% endif %}
                             </h3>
-
                             <p>Projects Completed</p>
-
                         </div>
-
 
                         <!-- Certifications -->
                         <div class="stat-box">
-
                             <img src="{% static 'images/Graduation Cap.png' %}" alt="">
-
                             <h3>
                                 {% if about %}
                                     {{ about.certifications }}
                                 {% endif %}
                             </h3>
-
                             <p>Certifications</p>
-
                         </div>
-
 
                         <!-- Location -->
                         <div class="stat-box">
-
                             <img src="{% static 'images/location.png' %}" alt="">
-
                             <h3>
                                 {% if about %}
                                     {{ about.location }}
                                 {% endif %}
                             </h3>
-
                             <p>Based In</p>
-
                         </div>
 
                     </div>
 
                 </div>
+
+                <!-- STATISTICS PANEL ARROWS -->
+                <button
+                    type="button"
+                    class="about-slider-arrow about-slider-prev"
+                    aria-label="Previous panel">
+                    &#10094;
+                </button>
+
+                <button
+                    type="button"
+                    class="about-slider-arrow about-slider-next"
+                    aria-label="Next panel">
+                    &#10095;
+                </button>
 
             </div>
 
@@ -330,6 +340,7 @@
 
             <div class="about-panel about-text-panel">
 
+                <!-- ABOUT TEXT CONTENT -->
                 <div class="about-text">
 
                     <h1>
@@ -362,6 +373,21 @@
 
                 </div>
 
+                <!-- ABOUT TEXT PANEL ARROWS -->
+                <button
+                    type="button"
+                    class="about-slider-arrow about-slider-prev"
+                    aria-label="Previous panel">
+                    &#10094;
+                </button>
+
+                <button
+                    type="button"
+                    class="about-slider-arrow about-slider-next"
+                    aria-label="Next panel">
+                    &#10095;
+                </button>
+
             </div>
 
         </div>
@@ -374,16 +400,6 @@
     <!-- ======================================== -->
 
     <div class="about-slider-navigation">
-
-        <button
-            type="button"
-            class="about-slider-arrow about-slider-prev"
-            aria-label="Previous panel">
-
-            &#10094;
-
-        </button>
-
 
         <div class="about-slider-dots">
 
@@ -401,16 +417,6 @@
             </button>
 
         </div>
-
-
-        <button
-            type="button"
-            class="about-slider-arrow about-slider-next"
-            aria-label="Next panel">
-
-            &#10095;
-
-        </button>
 
     </div>
 
@@ -1178,43 +1184,57 @@
     <div class="public-skills-slider-container">
 
         <!-- ================================== -->
-        <!-- SLIDER VIEWPORT                    -->
+        <!-- PREVIOUS ARROW                     -->
+        <!-- ================================== -->
+
+        <button
+            type="button"
+            class="skills-slider-arrow skills-slider-prev"
+            aria-label="Previous skills category">
+            &#10094;
+        </button>
+
+
+        <!-- ================================== -->
+        <!-- SLIDER                             -->
         <!-- ================================== -->
 
         <div class="public-skills-slider">
 
-            <div class="public-skills-track">
+            <!-- TRACK VIEWPORT: CLIPS OTHER PANELS -->
 
-                <!-- ================================== -->
-                <!-- PANEL 1: TECHNICAL SKILLS           -->
-                <!-- ================================== -->
+            <div class="public-skills-track-viewport">
 
-                <div class="skills-category">
+                <div class="public-skills-track">
 
-                    <div class="category-header">
+                    <!-- ============================== -->
+                    <!-- PANEL 1: TECHNICAL SKILLS      -->
+                    <!-- ============================== -->
 
-                        <h2>💻 Technical Skills</h2>
+                    <div class="skills-category">
 
-                    </div>
+                        <div class="category-header">
+                            <h2>💻 Technical Skills</h2>
+                        </div>
 
-                    {% include "public_skill_node.html" with nodes=technical_skills %}
-
-                </div>
-
-
-                <!-- ================================== -->
-                <!-- PANEL 2: OTHER SKILLS              -->
-                <!-- ================================== -->
-
-                <div class="skills-category">
-
-                    <div class="category-header">
-
-                        <h2>🎯 Other Skills</h2>
+                        {% include "public_skill_node.html" with nodes=technical_skills %}
 
                     </div>
 
-                    {% include "public_skill_node.html" with nodes=other_skills %}
+
+                    <!-- ============================== -->
+                    <!-- PANEL 2: OTHER SKILLS          -->
+                    <!-- ============================== -->
+
+                    <div class="skills-category">
+
+                        <div class="category-header">
+                            <h2>🎯 Other Skills</h2>
+                        </div>
+
+                        {% include "public_skill_node.html" with nodes=other_skills %}
+
+                    </div>
 
                 </div>
 
@@ -1223,29 +1243,37 @@
         </div>
 
 
+        <!-- ================================== -->
+        <!-- NEXT ARROW                         -->
+        <!-- ================================== -->
+
+        <button
+            type="button"
+            class="skills-slider-arrow skills-slider-next"
+            aria-label="Next skills category">
+            &#10095;
+        </button>
+
+
         <!-- ======================================== -->
-        <!-- SKILLS SLIDER NAVIGATION                -->
+        <!-- SLIDER NAVIGATION DOTS                  -->
         <!-- ======================================== -->
 
-        <div class="skills-slider-navigation">
+        <div class="skills-slider-dots" aria-label="Skills category navigation">
 
             <button
                 type="button"
-                class="skills-slider-arrow skills-slider-prev"
-                aria-label="Previous skills category">
-
-                &#10094;
-
+                class="skills-slider-dot is-active"
+                data-slide="0"
+                aria-label="Show Technical Skills"
+                aria-current="true">
             </button>
 
-
             <button
                 type="button"
-                class="skills-slider-arrow skills-slider-next"
-                aria-label="Next skills category">
-
-                &#10095;
-
+                class="skills-slider-dot"
+                data-slide="1"
+                aria-label="Show Other Skills">
             </button>
 
         </div>
@@ -1406,5 +1434,6 @@
     </div>
 
 </section>
+
 
 {% endblock %}

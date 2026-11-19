@@ -163,7 +163,7 @@
 
 .about-stats-content {
     width: 100%;
-    max-width: 520px;
+    max-width: 560px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -296,6 +296,11 @@
     display: none;
 }
 
+/* Hide About slider arrows on desktop */
+.about .about-slider-arrow {
+    display: none;
+}
+
 
 /* ============================================================
    ABOUT SLIDER — MOBILE AND TABLET
@@ -307,7 +312,7 @@
 
     .about {
         position: relative;
-        padding: 2rem;
+        padding: 2rem 0.05rem 2rem;
     }
 
     .about::before {
@@ -315,7 +320,7 @@
     }
 
 
-    /* ---- Slider track ---- */
+    /* ---- Slider container ---- */
 
     .about-slider-container {
         overflow: hidden;
@@ -323,60 +328,161 @@
         cursor: grab;
         user-select: none;
         -webkit-user-select: none;
+        height: auto;
+        transition: height 450ms ease-in-out;
     }
 
     .about-slider-container:active {
         cursor: grabbing;
     }
 
+
+    /* ---- Slides track ---- */
+
     .about-slider {
         display: flex;
-        gap: 0;
+        flex-wrap: nowrap;
+        flex-direction: row;
+        align-items: flex-start;
         width: 100%;
+        min-width: 0;
+        gap: 0;
+        overflow: visible;
+        box-sizing: border-box;
         will-change: transform;
+        touch-action: pan-y;
+        transition: height 450ms ease-in-out;
     }
 
+
+    /* ---- Individual panels ---- */
+
     .about-panel {
+        position: relative;
+        display: flex;
         flex: 0 0 100%;
         width: 100%;
         min-width: 100%;
-        display: flex;
+        max-width: 100%;
+        height: fit-content;
+        align-self: flex-start;
         align-items: center;
         justify-content: center;
+        padding-left: 3rem;
+        padding-right: 3rem;
+        box-sizing: border-box;
     }
 
 
-    /* ---- Statistics ---- */
+    /* ---- Arrow visibility ---- */
+
+    .about .about-slider-arrow:not(.is-visible) {
+        display: none;
+    }
+
+
+    /* ========================================================
+       STATISTICS CONTENT
+       ======================================================== */
 
     .about-stats-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         width: 100%;
-        max-width: 560px;
+        max-width: 620px;
+        margin: 0 auto;
+        box-sizing: border-box;
     }
 
     .about-stats-heading {
         margin-bottom: 0.9rem;
     }
 
+
+    /* ---- Statistics grid ---- */
+
     .about-stats {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-rows: repeat(2, minmax(148px, 1fr));
         width: 100%;
-        gap: 0.7rem;
+        gap: 0.75rem;
+        align-items: stretch;
     }
 
+
+    /* ---- Individual statistic cards ---- */
+
     .stat-box {
-        padding: 1.1rem 0.7rem;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        min-width: 0;
+        min-height: 148px;
+        height: 100%;
+        padding: 1rem 0.5rem;
+        gap: 0.45rem;
+        text-align: center;
+    }
+
+
+    /* ---- Card images ---- */
+
+    .stat-box img {
+        box-sizing: border-box;
+        width: 40px;
+        height: 40px;
+        flex: 0 0 40px;
+        object-fit: contain;
+        padding: 0.4rem;
+        margin: 0;
+    }
+
+
+    /* ---- Statistic values ---- */
+
+    .stat-box h3 {
+        width: 100%;
+        max-width: 100%;
+        font-size: clamp(1.1rem, 4vw, 1.45rem);
+        line-height: 1.15;
+        margin: 0;
+        overflow-wrap: anywhere;
+        word-break: normal;
+    }
+
+
+    /* ---- Card labels ---- */
+
+    .stat-box p {
+        width: 100%;
+        font-size: clamp(0.58rem, 2.2vw, 0.68rem);
+        line-height: 1.35;
+        letter-spacing: 0.06em;
+        margin: 0;
+        overflow-wrap: anywhere;
     }
 
 
     /* ========================================================
-       ABOUT ME — CENTRE THE ENTIRE CONTENT
+       ABOUT TEXT CONTENT
        ======================================================== */
 
     .about-text {
-        width: 100%;
-        max-width: 600px;
+        display: flex;
+        flex-direction: column;
         align-items: center;
         text-align: center;
         gap: 0.7rem;
+        width: 100%;
+        max-width: 650px;
+        min-width: 0;
+        box-sizing: border-box;
     }
 
     .about-text h1,
@@ -407,26 +513,10 @@
 
 
     /* ========================================================
-       SLIDER NAVIGATION
+       PANEL ARROWS — HOME-STYLE POSITIONING
        ======================================================== */
 
-    .about-slider-navigation {
-        position: absolute;
-        top: 2rem;
-        left: 2rem;
-        right: 2rem;
-        bottom: 2rem;
-
-        display: block;
-        width: auto;
-        margin: 0;
-        padding: 0;
-
-        pointer-events: none;
-        z-index: 10;
-    }
-
-    .about-slider-arrow {
+    .about .about-slider-arrow {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
@@ -441,63 +531,90 @@
 
         border: 1px solid var(--border);
         border-radius: 50%;
+
         background: var(--white);
         color: var(--text-dark);
 
-        font-size: 0.9rem;
+        font-size: 1.3rem;
+        line-height: 1;
+
         cursor: pointer;
+        box-shadow: var(--shadow-md);
+
         pointer-events: auto;
+        z-index: 11;
 
         transition:
-            background var(--transition),
-            color var(--transition),
-            border-color var(--transition);
+            background-color 0.2s ease,
+            color 0.2s ease,
+            border-color 0.2s ease;
     }
 
-    .about-slider-prev {
-        left: 0;
+    .about .about-slider-arrow.is-visible {
+        display: flex;
     }
 
-    .about-slider-next {
-        right: 0;
+    .about .about-slider-prev {
+        left: 0.35rem;
     }
 
-    .about-slider-arrow:hover {
+    .about .about-slider-next {
+        right: 0.35rem;
+    }
+
+    .about .about-slider-arrow:hover {
         background: var(--primary);
         color: #ffffff;
         border-color: var(--primary);
     }
 
-    .about-slider-dots {
-        position: absolute;
-        left: 50%;
-        bottom: 0;
-        transform: translateX(-50%);
+    .about .about-slider-arrow:active {
+        transform: translateY(-50%) scale(0.95);
+    }
 
+
+    /* ========================================================
+       SLIDER NAVIGATION — DOTS
+       ======================================================== */
+
+    .about-slider-navigation {
+        position: relative;
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        justify-content: center;
+        width: 100%;
+        min-height: 20px;
+        margin-top: 1.5rem;
+        padding: 0;
+        pointer-events: none;
+        z-index: 2;
+    }
 
+    .about-slider-dots {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.65rem;
         pointer-events: auto;
     }
 
     .about-slider-dot {
         display: block;
-        width: 8px;
-        height: 8px;
+        width: 9px;
+        height: 9px;
         padding: 0;
         border: none;
         border-radius: 50%;
         background: var(--border);
         cursor: pointer;
-
         transition:
             width var(--transition),
             background var(--transition);
     }
 
     .about-slider-dot.active {
-        width: 20px;
+        width: 22px;
         border-radius: var(--radius-full);
         background: var(--primary);
     }
@@ -506,7 +623,10 @@
 
 /* ============================================================
    ABOUT SECTION — ENTRANCE ANIMATION
-   Applies at ALL screen sizes
+   ============================================================
+
+   Applies at ALL screen sizes.
+
    ============================================================ */
 
 .about .about-stats-content,

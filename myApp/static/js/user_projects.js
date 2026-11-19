@@ -149,9 +149,9 @@
             let pointerStartY   = 0;
             let pointerCurrentX = 0;
 
-            let pointerActive        = false;
-            let dragDirectionLocked  = false;
-            let suppressClick        = false;
+            let pointerActive       = false;
+            let dragDirectionLocked = false;
+            let suppressClick       = false;
 
             let wheelDistance = 0;
 
@@ -276,8 +276,7 @@
                 allVisibleCards.forEach((card, index) => {
 
                     const isVisible = index < visibleCount;
-
-                    const isActive = index === Math.floor(visibleCount / 2);
+                    const isActive  = index === Math.floor(visibleCount / 2);
 
                     card.classList.toggle('is-active', isActive);
 
@@ -331,7 +330,7 @@
 
             function updateControls() {
 
-                const count = cards().length;
+                const count    = cards().length;
                 const canSlide = count > visibleCount;
 
                 if (previousButton) {
@@ -394,7 +393,6 @@
             function resetTrack() {
 
                 track.style.transition = 'none';
-
                 track.style.transform  = 'translate3d(0, 0, 0)';
 
                 track.offsetHeight;
@@ -411,8 +409,7 @@
                 if (animating) {
 
                     pendingFilter = category;
-
-                    queuedMoves = [];
+                    queuedMoves   = [];
 
                     return;
 
@@ -689,7 +686,7 @@
 
                 const targetStartIndex = (targetIndex - centreOffset + count) % count;
 
-                const forwardDistance = (targetStartIndex - currentIndex + count) % count;
+                const forwardDistance  = (targetStartIndex - currentIndex + count) % count;
                 const backwardDistance = (currentIndex - targetStartIndex + count) % count;
 
                 if (forwardDistance === 0) {
@@ -1027,9 +1024,7 @@
                 () => {
 
                     if (resizeFrame !== null) {
-
                         cancelAnimationFrame(resizeFrame);
-
                     }
 
                     resizeFrame = requestAnimationFrame(() => {

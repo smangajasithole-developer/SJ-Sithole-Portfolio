@@ -10,10 +10,12 @@
    - Technical Skills appears first.
    - Other Skills appears second.
    - Previous / Next arrows navigate between categories.
+   - Navigation dots select a category directly.
    - Mouse dragging works.
    - Touch swiping works.
-   - Mouse wheel navigates between categories.
+   - Touchpad horizontal scrolling works.
    - Infinite navigation in both directions.
+   - Panel position recalculates after every resize.
 
    ============================================================ */
 
@@ -27,13 +29,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!container) return;
 
-    const viewport = container.querySelector(".public-skills-slider");
-    const track    = container.querySelector(".public-skills-track");
+    const viewport      = container.querySelector(".public-skills-slider");
+    const track         = container.querySelector(".public-skills-track");
+    const dotsContainer = container.querySelector(".skills-slider-dots");
 
-    const previousButton = container.querySelector(".skills-slider-prev");
-    const nextButton     = container.querySelector(".skills-slider-next");
+    const dots = dotsContainer
+        ? Array.from(dotsContainer.querySelectorAll(".skills-slider-dot"))
+        : [];
 
-    if (!viewport || !track || !previousButton || !nextButton) {
+    if (!viewport || !track) {
         console.warn("Skills slider: Required elements not found.");
         return;
     }
@@ -52,10 +56,9 @@ document.addEventListener("DOMContentLoaded", () => {
        CONSTANTS
        ======================================================== */
 
-    const mobileBreakpoint   = 900;
-    const transitionDuration = 450;
-    const swipeThreshold     = 45;
-    const wheelThreshold     = 60;
+    const mobileBreakpoint = 900;
+    const swipeThreshold   = 45;
+    const wheelThreshold   = 50;
 
 
     /* ========================================================
@@ -72,10 +75,11 @@ document.addEventListener("DOMContentLoaded", () => {
     let isDragging   = false;
 
     let wheelDistance = 0;
-    let wheelTimeout  = null;
 
     let firstClone = null;
     let lastClone  = null;
+
+    let resizeFrame = null;
 
 
     /* ========================================================
@@ -105,6 +109,56 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ========================================================
+       GET CURRENT PANEL
+       ======================================================== */
+
+    function getCurrentPanel() {
+
+        if (currentIndex === 1) {
+            return originalPanels[0];
+        }
+
+        if (currentIndex === 2) {
+            return originalPanels[1];
+        }
+
+        if (currentIndex === 0) {
+            return firstClone;
+        }
+
+        if (currentIndex === 3) {
+            return lastClone;
+        }
+
+        return originalPanels[0];
+    }
+
+
+    /* ========================================================
+       UPDATE NAVIGATION DOTS
+       ======================================================== */
+
+    function updateDots() {
+
+        const activeIndex = currentIndex === 1 ? 0 : 1;
+
+        dots.forEach((dot, index) => {
+
+            const isActive = index === activeIndex;
+
+            dot.classList.toggle("is-active", isActive);
+
+            if (isActive) {
+                dot.setAttribute("aria-current", "true");
+            } else {
+                dot.removeAttribute("aria-current");
+            }
+
+        });
+    }
+
+
+    /* ========================================================
        CLONE PANELS
        ======================================================== */
 
@@ -120,6 +174,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         firstClone.classList.add("skills-slider-clone");
         lastClone.classList.add("skills-slider-clone");
+
+        // Clones should not receive keyboard focus.
+        firstClone.inert = true;
+        lastClone.inert  = true;
 
         track.insertBefore(firstClone, originalPanels[0]);
         track.appendChild(lastClone);
@@ -141,23 +199,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ========================================================
+       GET ACTUAL PANEL POSITION
+       ======================================================== */
+
+    function getPanelOffset(index) {
+
+        const panel = track.children[index];
+
+        if (!panel) return 0;
+
+        return panel.offsetLeft;
+    }
+
+
+    /* ========================================================
        UPDATE TRACK POSITION
        ======================================================== */
 
     function updatePosition(animate = true) {
 
-        const panels = track.children;
+        if (!isEnabled) return;
 
-        if (!panels.length) return;
-
-        const panelWidth = viewport.clientWidth;
+        const targetOffset = getPanelOffset(currentIndex);
 
         track.style.transition = animate
             ? ""
             : "none";
 
         track.style.transform =
-            `translate3d(-${currentIndex * panelWidth}px, 0, 0)`;
+            `translate3d(-${targetOffset}px, 0, 0)`;
+
+        if (!animate) {
+
+            // Force the browser to apply the non-animated position.
+            track.offsetHeight;
+
+            // Restore the CSS transition for the next navigation.
+            track.style.removeProperty("transition");
+        }
     }
 
 
@@ -167,36 +246,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function moveSlider(direction) {
 
-        if (!isEnabled || isMoving) return;
+        if (!isEnabled || isMoving || isDragging || direction === 0) {
+            return;
+        }
 
-        const section = document.querySelector("#skills");
+        const currentPanel = getCurrentPanel();
 
-        // Identify the card currently being viewed.
-        const currentPanel = originalPanels[currentIndex === 1 ? 0 : 1];
-
-        // Close expanded dropdowns before switching cards.
         closePanelDropdowns(currentPanel);
 
-        // Move to the selected card.
         isMoving = true;
 
         currentIndex += direction;
 
         updatePosition(true);
-
-        // Align the Skills section just like clicking
-        // the Skills link in the header.
-        if (section) {
-
-            requestAnimationFrame(() => {
-
-                section.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start"
-                });
-
-            });
-        }
     }
 
 
@@ -212,8 +274,63 @@ document.addEventListener("DOMContentLoaded", () => {
         moveSlider(-1);
     }
 
-    nextButton.addEventListener("click", nextSlide);
-    previousButton.addEventListener("click", previousSlide);
+
+    /* ========================================================
+       DELEGATED ARROW CLICK HANDLING
+       ======================================================== */
+
+    container.addEventListener("click", (event) => {
+
+        const arrow = event.target.closest(".skills-slider-arrow");
+
+        if (!arrow || !container.contains(arrow)) return;
+
+        event.preventDefault();
+
+        if (arrow.classList.contains("skills-slider-next")) {
+
+            nextSlide();
+
+        } else if (arrow.classList.contains("skills-slider-prev")) {
+
+            previousSlide();
+
+        }
+
+    });
+
+
+    /* ========================================================
+       NAVIGATION DOT CLICK HANDLING
+       ======================================================== */
+
+    dots.forEach((dot) => {
+
+        dot.addEventListener("click", (event) => {
+
+            event.preventDefault();
+
+            if (!isEnabled || isMoving || isDragging) return;
+
+            const slideIndex = Number(dot.dataset.slide);
+
+            if (
+                !Number.isInteger(slideIndex) ||
+                slideIndex < 0 ||
+                slideIndex >= originalPanels.length
+            ) {
+                return;
+            }
+
+            const targetIndex = slideIndex + 1;
+            const direction   = targetIndex - currentIndex;
+
+            if (direction === 0) return;
+
+            moveSlider(direction);
+        });
+
+    });
 
 
     /* ========================================================
@@ -223,6 +340,7 @@ document.addEventListener("DOMContentLoaded", () => {
     track.addEventListener("transitionend", (event) => {
 
         if (event.target !== track) return;
+        if (event.propertyName !== "transform") return;
         if (!isEnabled) return;
 
         if (currentIndex === 3) {
@@ -235,6 +353,8 @@ document.addEventListener("DOMContentLoaded", () => {
             currentIndex = 2;
             updatePosition(false);
         }
+
+        updateDots();
 
         isMoving = false;
     });
@@ -253,11 +373,11 @@ document.addEventListener("DOMContentLoaded", () => {
         createClones();
 
         currentIndex = 1;
+        isMoving     = false;
 
-        track.style.display    = "flex";
-        track.style.width      = "400%";
-        track.style.gap        = "0";
-        track.style.transition = "";
+        track.style.display = "flex";
+        track.style.width   = "400%";
+        track.style.gap     = "0";
 
         Array.from(track.children).forEach((panel) => {
 
@@ -267,7 +387,12 @@ document.addEventListener("DOMContentLoaded", () => {
             panel.style.minWidth = "25%";
         });
 
+        updateDots();
+
         requestAnimationFrame(() => {
+
+            if (!isEnabled) return;
+
             updatePosition(false);
         });
     }
@@ -284,6 +409,9 @@ document.addEventListener("DOMContentLoaded", () => {
         isEnabled  = false;
         isMoving   = false;
         isDragging = false;
+
+        wheelDistance = 0;
+        dragDistance  = 0;
 
         currentIndex = 1;
 
@@ -305,6 +433,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         viewport.classList.remove("is-dragging");
         track.classList.remove("is-dragging");
+
+        updateDots();
     }
 
 
@@ -314,14 +444,100 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function checkScreenSize() {
 
-        if (window.innerWidth <= mobileBreakpoint) {
+        const shouldEnable = window.innerWidth <= mobileBreakpoint;
+
+        if (shouldEnable && !isEnabled) {
+
             enableSlider();
-        } else {
+
+        } else if (!shouldEnable && isEnabled) {
+
             disableSlider();
         }
     }
 
-    window.addEventListener("resize", checkScreenSize);
+
+    /* ========================================================
+       RECALCULATE POSITION AFTER RESIZING
+       ======================================================== */
+
+    function refreshSliderLayout() {
+
+        if (!isEnabled) return;
+
+        // Cancel any unfinished movement during a resize.
+        isMoving = false;
+
+        // Reset drag state so an old pointer position cannot
+        // affect the newly calculated panel position.
+        isDragging    = false;
+        dragDistance  = 0;
+        wheelDistance = 0;
+
+        viewport.classList.remove("is-dragging");
+        track.classList.remove("is-dragging");
+
+        updatePosition(false);
+        updateDots();
+    }
+
+
+    function handleResize() {
+
+        checkScreenSize();
+
+        if (!isEnabled) return;
+
+        if (resizeFrame !== null) {
+            cancelAnimationFrame(resizeFrame);
+        }
+
+        resizeFrame = requestAnimationFrame(() => {
+
+            resizeFrame = null;
+
+            if (isEnabled) {
+                refreshSliderLayout();
+            }
+        });
+    }
+
+
+    window.addEventListener("resize", handleResize);
+
+
+    /* ========================================================
+       OBSERVE VIEWPORT SIZE CHANGES
+       ======================================================== */
+
+    if ("ResizeObserver" in window) {
+
+        const sliderResizeObserver = new ResizeObserver(() => {
+
+            if (!isEnabled) return;
+
+            if (resizeFrame !== null) {
+                cancelAnimationFrame(resizeFrame);
+            }
+
+            resizeFrame = requestAnimationFrame(() => {
+
+                resizeFrame = null;
+
+                if (isEnabled) {
+                    refreshSliderLayout();
+                }
+            });
+
+        });
+
+        sliderResizeObserver.observe(viewport);
+    }
+
+
+    /* ========================================================
+       INITIALISE RESPONSIVE MODE
+       ======================================================== */
 
     checkScreenSize();
 
@@ -334,7 +550,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!isEnabled || isMoving) return;
 
-        // Do not capture pointer interactions on dropdown parents.
+        // Do not capture pointer interactions on dropdown parents
+        // or navigation buttons.
         if (event.target.closest("button, .public-node-content.skill-parent")) {
             return;
         }
@@ -369,8 +586,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         dragDistance = differenceX;
 
-        const panelWidth = viewport.clientWidth;
-        const currentOffset = currentIndex * panelWidth;
+        const currentOffset = getPanelOffset(currentIndex);
 
         track.style.transform =
             `translate3d(${-(currentOffset - differenceX)}px, 0, 0)`;
@@ -409,67 +625,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ========================================================
-       MOUSE WHEEL NAVIGATION
+       TOUCHPAD HORIZONTAL SCROLLING
        ======================================================== */
 
-    function handleWheel(event) {
+    viewport.addEventListener("wheel", (event) => {
 
-        if (!isEnabled || isMoving) return;
+        if (!isEnabled || isMoving || isDragging) return;
 
-        const dominantDelta =
-            Math.abs(event.deltaX) > Math.abs(event.deltaY)
-                ? event.deltaX
-                : event.deltaY;
+        const differenceX = event.deltaX;
+        const differenceY = event.deltaY;
 
-        if (dominantDelta === 0) return;
+        // Only respond to horizontal scrolling.
+        // Normal vertical page scrolling remains unaffected.
+        if (Math.abs(differenceX) <= Math.abs(differenceY)) {
+
+            wheelDistance = 0;
+            return;
+        }
 
         event.preventDefault();
 
-        wheelDistance += dominantDelta;
+        wheelDistance += differenceX;
 
-        clearTimeout(wheelTimeout);
+        if (Math.abs(wheelDistance) >= wheelThreshold) {
 
-        wheelTimeout = setTimeout(() => {
-            wheelDistance = 0;
-        }, 180);
-
-        if (wheelDistance >= wheelThreshold) {
-
-            wheelDistance = 0;
-            nextSlide();
-
-        } else if (wheelDistance <= -wheelThreshold) {
+            if (wheelDistance > 0) {
+                nextSlide();
+            } else {
+                previousSlide();
+            }
 
             wheelDistance = 0;
-            previousSlide();
         }
-    }
 
-    viewport.addEventListener("wheel", handleWheel, { passive: false });
+    }, { passive: false });
 
 
     /* ========================================================
-       INITIAL POSITION AFTER PAGE LAYOUT
+       INITIAL POSITION AFTER PAGE LOAD
        ======================================================== */
 
     window.addEventListener("load", () => {
 
         if (isEnabled) {
-            updatePosition(false);
+            refreshSliderLayout();
         }
-    });
-
-
-    /* ========================================================
-       CLEANUP
-       ======================================================== */
-
-    window.addEventListener("beforeunload", () => {
-
-        clearTimeout(wheelTimeout);
-
-        nextButton.removeEventListener("click", nextSlide);
-        previousButton.removeEventListener("click", previousSlide);
     });
 
 });
@@ -521,7 +721,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!skillNode) return null;
 
-            return skillNode.querySelector(":scope > .public-node-content.skill-parent");
+            return skillNode.querySelector(
+                ":scope > .public-node-content.skill-parent"
+            );
         }
 
 
@@ -638,7 +840,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 updateExpandedState(node);
-
             });
 
         });
@@ -680,7 +881,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             updateExpandedState(skillNode);
-
         });
 
 
@@ -708,7 +908,6 @@ document.addEventListener("DOMContentLoaded", () => {
             event.preventDefault();
 
             parent.click();
-
         });
 
 
@@ -725,9 +924,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (skillNode) {
                 updateExpandedState(skillNode);
             }
-
         });
-
     }
 
 
@@ -745,7 +942,6 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
 
         initSkillDropdowns();
-
     }
 
 })();
@@ -806,7 +1002,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     obs.unobserve(entry.target);
                 }
-
             });
 
         },

@@ -1,8 +1,9 @@
 {% load static %}
 
+
 <!-- ============================================ -->
-<!-- PUBLIC SKILL NODE -->
-<!-- Recursive renderer for ALL skill levels -->
+<!-- PUBLIC SKILL NODE                            -->
+<!-- Recursive renderer for ALL skill levels      -->
 <!-- ============================================ -->
 
 <div class="public-skill-tree">
@@ -16,6 +17,10 @@
                 data-skill-id="{{ node.id }}"
             >
 
+                <!-- ============================================ -->
+                <!-- NODE HEADER (ICON + NAME)                    -->
+                <!-- ============================================ -->
+
                 <div
                     class="public-node-content{% if node.public_children %} skill-parent{% endif %}"
                     {% if node.public_children %}
@@ -25,6 +30,7 @@
                     {% endif %}
                 >
 
+                    <!-- ICON -->
                     {% if node.show_icon and node.icon %}
 
                         {% include "skill_icon.html" with icon_key=node.icon icon_class="public-node-icon" %}
@@ -32,6 +38,7 @@
                     {% endif %}
 
 
+                    <!-- NAME -->
                     {% if node.show %}
 
                         <div class="public-node-name">
@@ -109,6 +116,10 @@
 
                 </div>
 
+
+                <!-- ============================================ -->
+                <!-- RECURSIVE CHILDREN                           -->
+                <!-- ============================================ -->
 
                 {% if node.public_children %}
 

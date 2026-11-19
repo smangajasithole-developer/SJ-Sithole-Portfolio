@@ -14,6 +14,9 @@
    - Navigation dots show the active panel.
    - Infinite looping in both directions.
    - Horizontal mouse wheel and trackpad scrolling supported.
+   - Slider height adjusts to the active panel.
+   - Entrance animations replay whenever a panel becomes active.
+   - Home section is brought back into view after each transition.
 
    ============================================================ */
 
@@ -32,10 +35,11 @@
            ELEMENT REFERENCES
            ==================================================== */
 
-        const container = document.querySelector('.home-container');
-        const slider    = container?.querySelector('.home-slides');
+        const container   = document.querySelector('.home-container');
+        const slider      = container?.querySelector('.home-slides');
+        const homeSection = container?.closest('#home');
 
-        if (!container || !slider) {
+        if (!container || !slider || !homeSection) {
             return;
         }
 
@@ -53,15 +57,24 @@
             return;
         }
 
-        // These selectors match the existing HTML.
-        const previousButton = controls.querySelector('.about-slider-prev');
-        const nextButton     = controls.querySelector('.about-slider-next');
+        // Each panel has its own previous and next arrows.
+        const previousButtons = Array.from(
+            slider.querySelectorAll('.about-slider-prev')
+        );
+
+        const nextButtons = Array.from(
+            slider.querySelectorAll('.about-slider-next')
+        );
 
         const dots = Array.from(
             controls.querySelectorAll('.home-slider-dot')
         );
 
-        if (!previousButton || !nextButton || dots.length !== 2) {
+        if (
+            previousButtons.length !== 2 ||
+            nextButtons.length !== 2 ||
+            dots.length !== 2
+        ) {
             return;
         }
 
@@ -72,10 +85,10 @@
 
         const mobileBreakpoint = window.matchMedia('(max-width: 900px)');
 
-        const transitionDuration  = 450;
-        const swipeThreshold      = 45;
-        const dragStartThreshold  = 8;
-        const wheelResetDelay     = 180;
+        const transitionDuration = 450;
+        const swipeThreshold     = 45;
+        const dragStartThreshold = 8;
+        const wheelResetDelay    = 180;
 
 
         /* ====================================================
@@ -103,6 +116,8 @@
         let clickResetTimer    = null;
 
         let suppressClick = false;
+
+        let panelResizeObserver = null;
 
 
         /* ====================================================
@@ -136,8 +151,67 @@
 
 
         /* ====================================================
-           SLIDER POSITION
+           ACTIVE PANEL
            ==================================================== */
+
+        function getActivePanel() {
+
+            let panelIndex;
+
+            // The clone before the real first panel represents
+            // the real last panel.
+            if (currentIndex === 0) {
+
+                panelIndex = 1;
+
+            }
+
+            // The clone after the real last panel represents
+            // the real first panel.
+            else if (currentIndex === 3) {
+
+                panelIndex = 0;
+
+            }
+
+            // Real panels:
+            // Index 1 = introduction.
+            // Index 2 = profile.
+            else {
+
+                panelIndex = currentIndex - 1;
+
+            }
+
+            return originalPanels[panelIndex];
+
+        }
+
+
+        /* ====================================================
+           SLIDER POSITION AND HEIGHT
+           ==================================================== */
+
+        function updateSliderHeight() {
+
+            if (!isMobile) {
+                return;
+            }
+
+            const activePanel = getActivePanel();
+
+            if (!activePanel) {
+                return;
+            }
+
+            const panelHeight = activePanel.getBoundingClientRect().height;
+
+            if (panelHeight > 0) {
+                slider.style.height = `${panelHeight}px`;
+            }
+
+        }
+
 
         function setSliderPosition(animate = true) {
 
@@ -147,6 +221,78 @@
 
             slider.style.transform =
                 `translate3d(-${currentIndex * 100}%, 0, 0)`;
+
+            // Match the slider height to the active panel.
+            updateSliderHeight();
+
+        }
+
+
+        /* ====================================================
+           PANEL SIZE OBSERVER
+           ==================================================== */
+
+        function initializePanelResizeObserver() {
+
+            if (!('ResizeObserver' in window)) {
+                return;
+            }
+
+            if (!panelResizeObserver) {
+
+                panelResizeObserver = new ResizeObserver(() => {
+                    updateSliderHeight();
+                });
+
+            }
+
+            panelResizeObserver.disconnect();
+
+            // Observe both original panels so changes to either
+            // panel are detected, including after content loads.
+            originalPanels.forEach(panel => {
+                panelResizeObserver.observe(panel);
+            });
+
+        }
+
+
+        /* ====================================================
+           REPLAY ACTIVE PANEL ENTRANCE ANIMATIONS
+           ==================================================== */
+
+        function replayActivePanel() {
+
+            const activePanel = getActivePanel();
+
+            if (!activePanel) {
+                return;
+            }
+
+            // Remove the replay class from both real panels first.
+            originalPanels.forEach(panel => {
+                panel.classList.remove('replay-entrance');
+            });
+
+            // Force the browser to register the class removal.
+            void activePanel.offsetWidth;
+
+            // Add the class again to restart the entrance animation.
+            activePanel.classList.add('replay-entrance');
+
+        }
+
+
+        /* ====================================================
+           RETURN TO HOME SECTION
+           ==================================================== */
+
+        function returnToHomePosition() {
+
+            homeSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
 
         }
 
@@ -166,9 +312,13 @@
                 dot.classList.toggle('active', active);
 
                 if (active) {
+
                     dot.setAttribute('aria-current', 'true');
+
                 } else {
+
                     dot.removeAttribute('aria-current');
+
                 }
 
             });
@@ -176,9 +326,9 @@
         }
 
 
-        /* ====================================================
+        /* ========================================================
            TRANSITION CLEANUP
-           ==================================================== */
+           ======================================================== */
 
         function finishTransition() {
 
@@ -188,33 +338,36 @@
 
             clearTimeout(transitionFallback);
 
-            // Reset from the cloned last panel to the real first panel.
+            // Normalize the cloned last panel.
             if (currentIndex === 3) {
 
                 currentIndex = 1;
 
                 setSliderPosition(false);
 
-                // Apply the reset before another transition begins.
-                slider.getBoundingClientRect();
-
             }
 
-            // Reset from the cloned first panel to the real last panel.
+            // Normalize the cloned first panel.
             else if (currentIndex === 0) {
 
                 currentIndex = 2;
 
                 setSliderPosition(false);
 
-                slider.getBoundingClientRect();
-
             }
 
-            isAnimating   = false;
+            isAnimating = false;
+
             wheelDistance = 0;
 
+            updateSliderHeight();
+
             updateDots();
+
+            // Replay entrance animations on the newly active panel.
+            replayActivePanel();
+
+            returnToHomePosition();
 
         }
 
@@ -225,7 +378,9 @@
                 event.target === slider &&
                 event.propertyName === 'transform'
             ) {
+
                 finishTransition();
+
             }
 
         });
@@ -256,6 +411,7 @@
             updateDots();
 
             clearTimeout(transitionFallback);
+
 
             // Recovery in case transitionend does not fire.
             transitionFallback = setTimeout(
@@ -292,8 +448,14 @@
            ARROW CONTROLS
            ==================================================== */
 
-        previousButton.addEventListener('click', movePrevious);
-        nextButton.addEventListener('click', moveNext);
+        // Both panels have their own navigation arrows.
+        previousButtons.forEach(button => {
+            button.addEventListener('click', movePrevious);
+        });
+
+        nextButtons.forEach(button => {
+            button.addEventListener('click', moveNext);
+        });
 
 
         /* ====================================================
@@ -377,6 +539,7 @@
 
             const deltaX = event.clientX - startX;
             const deltaY = event.clientY - startY;
+
 
             // Determine the intended gesture direction.
             if (!pointerAxis) {
@@ -499,9 +662,13 @@
             ) {
 
                 if (finalDistance < 0) {
+
                     moveNext();
+
                 } else {
+
                     movePrevious();
+
                 }
 
             } else {
@@ -562,12 +729,14 @@
 
             wheelDistance += event.deltaX;
 
+
             // Clear accumulated movement after each gesture.
             clearTimeout(wheelResetTimer);
 
             wheelResetTimer = setTimeout(() => {
                 wheelDistance = 0;
             }, wheelResetDelay);
+
 
             if (wheelDistance >= swipeThreshold) {
 
@@ -609,18 +778,23 @@
             const firstPanel = panels[0];
             const lastPanel  = panels[1];
 
+
             // Clone the last panel before the first.
             const lastClone = createClone(lastPanel);
 
             lastClone.dataset.homeClone = 'true';
+
 
             // Clone the first panel after the last.
             const firstClone = createClone(firstPanel);
 
             firstClone.dataset.homeClone = 'true';
 
+
             slider.insertBefore(lastClone, firstPanel);
+
             slider.appendChild(firstClone);
+
 
             // Configure the mobile slider.
             slider.classList.add('home-slider-active');
@@ -632,8 +806,10 @@
             slider.style.gap           = '0';
             slider.style.overflow      = 'visible';
 
+
             // Apply touch handling to the pointer event container.
             container.style.touchAction = 'pan-y';
+
 
             slider.querySelectorAll('.home-slide').forEach(panel => {
 
@@ -641,9 +817,12 @@
                 panel.style.width     = '100%';
                 panel.style.minWidth  = '100%';
                 panel.style.maxWidth  = '100%';
+                panel.style.height    = 'fit-content';
+                panel.style.alignSelf = 'flex-start';
                 panel.style.boxSizing = 'border-box';
 
             });
+
 
             // Start on the real introduction panel.
             currentIndex = 1;
@@ -657,11 +836,23 @@
             wheelDistance = 0;
             dragDistance  = 0;
 
+
+            // Set the initial position and match the intro height.
             setSliderPosition(false);
 
             slider.getBoundingClientRect();
 
             updateDots();
+
+
+            // Observe both original panels for content-size changes.
+            initializePanelResizeObserver();
+
+
+            // Recalculate after the browser completes initial layout.
+            requestAnimationFrame(() => {
+                updateSliderHeight();
+            });
 
         }
 
@@ -676,13 +867,15 @@
             clearTimeout(wheelResetTimer);
             clearTimeout(clickResetTimer);
 
+
             removeClones();
+
 
             isMobile    = false;
             isAnimating = false;
             isDragging  = false;
+            hasDragged  = false;
 
-            hasDragged    = false;
             suppressClick = false;
 
             pointerId   = null;
@@ -690,7 +883,21 @@
 
             currentIndex = 1;
 
+
+            // Stop observing mobile panel dimensions.
+            if (panelResizeObserver) {
+                panelResizeObserver.disconnect();
+            }
+
+
+            // Remove replay animation classes.
+            originalPanels.forEach(panel => {
+                panel.classList.remove('replay-entrance');
+            });
+
+
             slider.classList.remove('home-slider-active');
+
 
             slider.style.display       = '';
             slider.style.flexWrap      = '';
@@ -700,9 +907,12 @@
             slider.style.overflow      = '';
             slider.style.transition    = '';
             slider.style.transform     = '';
+            slider.style.height        = '';
+
 
             container.style.touchAction = '';
             container.style.cursor      = '';
+
 
             originalPanels.forEach(panel => {
 
@@ -710,12 +920,16 @@
                 panel.style.width     = '';
                 panel.style.minWidth  = '';
                 panel.style.maxWidth  = '';
+                panel.style.height    = '';
+                panel.style.alignSelf = '';
                 panel.style.boxSizing = '';
 
             });
 
+
             wheelDistance = 0;
             dragDistance  = 0;
+
 
             updateDots();
 
@@ -786,65 +1000,95 @@
 
 
     /* ========================================================
-       ELEMENT REFERENCES
+       INITIALIZE HOME ENTRANCE
        ======================================================== */
 
-    const homeSection = document.querySelector('#home');
+    function initializeHomeEntrance() {
 
-    if (!homeSection) {
-        return;
-    }
+        /* ====================================================
+           ELEMENT REFERENCES
+           ==================================================== */
 
+        const homeSection = document.querySelector('#home');
 
-    /* ========================================================
-       REVEAL HOME
-       ======================================================== */
-
-    function revealHome() {
-        homeSection.classList.add('is-visible');
-    }
-
-
-    /* ========================================================
-       REDUCED MOTION / FALLBACK
-       ======================================================== */
-
-    if (
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
-        !('IntersectionObserver' in window)
-    ) {
-
-        revealHome();
-
-        return;
-    }
-
-
-    /* ========================================================
-       OBSERVER
-       ======================================================== */
-
-    const observer = new IntersectionObserver(
-        (entries, obs) => {
-
-            entries.forEach(entry => {
-
-                if (entry.isIntersecting) {
-
-                    revealHome();
-
-                    obs.unobserve(entry.target);
-
-                }
-
-            });
-
-        },
-        {
-            threshold: 0.1
+        if (!homeSection) {
+            return;
         }
-    );
 
-    observer.observe(homeSection);
+
+        /* ====================================================
+           REVEAL HOME
+           ==================================================== */
+
+        function revealHome() {
+
+            homeSection.classList.add('is-visible');
+
+        }
+
+
+        /* ====================================================
+           REDUCED MOTION / FALLBACK
+           ==================================================== */
+
+        if (
+            window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+            !('IntersectionObserver' in window)
+        ) {
+
+            revealHome();
+
+            return;
+
+        }
+
+
+        /* ====================================================
+           OBSERVER
+           ==================================================== */
+
+        const observer = new IntersectionObserver(
+            (entries, obs) => {
+
+                entries.forEach(entry => {
+
+                    if (entry.isIntersecting) {
+
+                        revealHome();
+
+                        obs.unobserve(entry.target);
+
+                    }
+
+                });
+
+            },
+            {
+                threshold: 0.1
+            }
+        );
+
+        observer.observe(homeSection);
+
+    }
+
+
+    /* ========================================================
+       DOCUMENT INITIALIZATION
+       ======================================================== */
+
+    if (document.readyState === 'loading') {
+
+        document.addEventListener(
+            'DOMContentLoaded',
+            initializeHomeEntrance,
+            { once: true }
+        );
+
+    } else {
+
+        initializeHomeEntrance();
+
+    }
 
 })();

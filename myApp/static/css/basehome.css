@@ -35,6 +35,7 @@
     --font-sans: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
+
 /* ============================================================
    RESET & BASE
    ============================================================ */
@@ -49,7 +50,9 @@
 
 html {
     scroll-behavior: smooth;
-    transition: background-color 0.35s ease, color 0.35s ease;
+    transition:
+        background-color 0.35s ease,
+        color 0.35s ease;
 }
 
 body {
@@ -62,7 +65,9 @@ body {
     flex-direction: column;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    transition: background-color 0.35s ease, color 0.35s ease;
+    transition:
+        background-color 0.35s ease,
+        color 0.35s ease;
 }
 
 img {
@@ -80,12 +85,15 @@ ul {
     list-style: none;
 }
 
+
 /* ============================================================
    HEADER — 3-COLUMN GRID (logo | nav | toggle)
-   ------------------------------------------------------------
+   ============================================================
+
    The left and right columns share equal width (1fr), so the
    center column with the nav links is always perfectly centered
    regardless of how wide the logo text or the toggle is.
+
    ============================================================ */
 
 header {
@@ -102,11 +110,16 @@ header {
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
     box-shadow: var(--shadow-sm);
-    transition: background-color 0.35s ease, border-color 0.35s ease,
-                box-shadow 0.35s ease;
+    transition:
+        background-color 0.35s ease,
+        border-color 0.35s ease,
+        box-shadow 0.35s ease;
 }
 
-/* ---- Logo / Profile (left column) ---- */
+
+/* ============================================================
+   HEADER — LOGO / PROFILE (LEFT COLUMN)
+   ============================================================ */
 
 .logo {
     display: flex;
@@ -123,7 +136,9 @@ header {
     object-fit: cover;
     border: 2.5px solid var(--primary-light);
     box-shadow: 0 0 0 3px var(--primary-glow);
-    transition: transform var(--transition), box-shadow var(--transition);
+    transition:
+        transform var(--transition),
+        box-shadow var(--transition);
     flex-shrink: 0;
 }
 
@@ -152,7 +167,10 @@ header {
     color: var(--primary);
 }
 
-/* ---- Main Navigation (center column) ---- */
+
+/* ============================================================
+   HEADER — MAIN NAVIGATION (CENTER COLUMN)
+   ============================================================ */
 
 header nav {
     justify-self: center;
@@ -172,7 +190,9 @@ header nav ul li a {
     color: var(--text-body);
     border-radius: var(--radius-full);
     position: relative;
-    transition: color var(--transition), background var(--transition);
+    transition:
+        color var(--transition),
+        background var(--transition);
     white-space: nowrap;
 }
 
@@ -198,7 +218,10 @@ header nav ul li a:hover::after {
     transform: translateX(-50%) scaleX(1);
 }
 
-/* ---- Theme toggle (right column) ---- */
+
+/* ============================================================
+   HEADER — THEME TOGGLE (RIGHT COLUMN)
+   ============================================================ */
 
 .theme-toggle {
     justify-self: end;
@@ -215,8 +238,11 @@ header nav ul li a:hover::after {
     cursor: pointer;
     overflow: hidden;
     flex-shrink: 0;
-    transition: background 0.35s ease, border-color 0.35s ease,
-                box-shadow var(--transition), transform var(--transition);
+    transition:
+        background 0.35s ease,
+        border-color 0.35s ease,
+        box-shadow var(--transition),
+        transform var(--transition);
 }
 
 .theme-toggle:hover {
@@ -242,11 +268,26 @@ header nav ul li a:hover::after {
     transform: translate(-50%, -50%) rotate(0deg);
     font-size: 1.1rem;
     line-height: 1;
-    transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    transition:
+        opacity 0.35s ease,
+        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.theme-toggle .sun  { opacity: 1; transform: translate(-50%, -50%) rotate(0deg); }
-.theme-toggle .moon { opacity: 0; transform: translate(-50%, 40%) rotate(-45deg); }
+
+/* ---- Toggle icon states (light theme) ---- */
+
+.theme-toggle .sun {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(0deg);
+}
+
+.theme-toggle .moon {
+    opacity: 0;
+    transform: translate(-50%, 40%) rotate(-45deg);
+}
+
+
+/* ---- Toggle icon states (dark theme) ---- */
 
 [data-theme="dark"] .theme-toggle .sun {
     opacity: 0;
@@ -258,6 +299,7 @@ header nav ul li a:hover::after {
     transform: translate(-50%, -50%) rotate(0deg);
 }
 
+
 /* ============================================================
    MAIN CONTENT
    ============================================================ */
@@ -267,19 +309,24 @@ main {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2.5rem 2.5rem 3rem;
-    transition: background-color 0.35s ease, color 0.35s ease;
+    padding: 2.5rem 2.5rem 0;
+    transition:
+        background-color 0.35s ease,
+        color 0.35s ease;
 }
 
+
 /* ============================================================
-   FOOTER — Centered Stacked Layout
+   FOOTER — CENTERED STACKED LAYOUT
    ============================================================ */
 
 .footer {
     background: var(--white);
     border-top: 1px solid var(--border);
     margin-top: auto;
-    transition: background-color 0.35s ease, border-color 0.35s ease;
+    transition:
+        background-color 0.35s ease,
+        border-color 0.35s ease;
 }
 
 .footer-top {
@@ -292,6 +339,11 @@ main {
     text-align: center;
     gap: 1.75rem;
 }
+
+
+/* ============================================================
+   FOOTER — BRAND / TAGLINE
+   ============================================================ */
 
 .footer-left {
     display: flex;
@@ -316,6 +368,11 @@ main {
     line-height: 1.5;
     margin: 0;
 }
+
+
+/* ============================================================
+   FOOTER — NAVIGATION
+   ============================================================ */
 
 .footer-nav ul {
     display: flex;
@@ -354,6 +411,11 @@ main {
     width: 100%;
 }
 
+
+/* ============================================================
+   FOOTER — SOCIAL LINKS
+   ============================================================ */
+
 .social-icons {
     display: flex;
     gap: 1rem;
@@ -370,8 +432,11 @@ main {
     border-radius: var(--radius-full);
     background: var(--surface);
     border: 1px solid var(--border);
-    transition: transform var(--transition), background 0.35s ease,
-                border-color 0.35s ease, box-shadow var(--transition);
+    transition:
+        transform var(--transition),
+        background 0.35s ease,
+        border-color 0.35s ease,
+        box-shadow var(--transition);
 }
 
 .social-icons a img {
@@ -392,6 +457,11 @@ main {
 .social-icons a:hover img {
     opacity: 1;
 }
+
+
+/* ============================================================
+   FOOTER — DIVIDER & BOTTOM
+   ============================================================ */
 
 .footer-line {
     border: none;
@@ -414,8 +484,9 @@ main {
     letter-spacing: 0.01em;
 }
 
+
 /* ============================================================
-   DARK THEME — override design tokens
+   DARK THEME — OVERRIDE DESIGN TOKENS
    ============================================================ */
 
 [data-theme="dark"] {
@@ -442,11 +513,13 @@ main {
     --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.55);
 }
 
+
 /* ============================================================
    RESPONSIVE — HEADER
    ============================================================ */
 
 @media (max-width: 900px) {
+
     header {
         padding: 0.75rem 1.5rem;
         gap: 1rem;
@@ -473,8 +546,10 @@ main {
 }
 
 @media (max-width: 720px) {
+
     /* On tablets, collapse to a two-row layout:
        row 1 = logo + toggle, row 2 = nav centered */
+
     header {
         grid-template-columns: 1fr auto;
         grid-template-areas:
@@ -486,7 +561,11 @@ main {
 
     .logo         { grid-area: logo; }
     .theme-toggle { grid-area: toggle; }
-    header nav    { grid-area: nav; justify-self: center; }
+
+    header nav {
+        grid-area: nav;
+        justify-self: center;
+    }
 
     header nav ul {
         flex-wrap: wrap;
@@ -500,6 +579,7 @@ main {
 }
 
 @media (max-width: 640px) {
+
     .theme-toggle {
         width: 40px;
         height: 40px;
@@ -519,11 +599,13 @@ main {
     }
 }
 
+
 /* ============================================================
-   FOOTER — RESPONSIVE
+   RESPONSIVE — FOOTER
    ============================================================ */
 
 @media (max-width: 900px) {
+
     .footer-top {
         padding: 3rem 1.5rem 2rem;
         gap: 1.5rem;
@@ -535,6 +617,7 @@ main {
 }
 
 @media (max-width: 640px) {
+
     .footer-top {
         padding: 2.5rem 1.25rem 1.75rem;
         gap: 1.35rem;
@@ -571,11 +654,13 @@ main {
     }
 }
 
+
 /* ============================================================
-   ACCESSIBILITY — Reduced Motion
+   ACCESSIBILITY — REDUCED MOTION
    ============================================================ */
 
 @media (prefers-reduced-motion: reduce) {
+
     *,
     *::before,
     *::after {

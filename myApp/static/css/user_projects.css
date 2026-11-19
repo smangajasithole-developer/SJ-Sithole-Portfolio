@@ -8,21 +8,19 @@
     max-width: 1200px;
     box-sizing: border-box;
     margin: 0 auto;
-    /* Reduced top padding */
-    padding: 2.5rem 2rem 2rem; 
+    padding: 2.5rem 2rem 2rem;
     scroll-margin-top: 90px;
     background: var(--off-white);
     display: flex;
     flex-direction: column;
-    /* Reduced gap significantly to pull sections closer together */
-    gap: 1rem; 
+    gap: 1rem;
     transition: background-color 0.35s ease;
 }
 
 .projects::before {
     content: '';
     position: absolute;
-    top: 1.25rem; 
+    top: 1.25rem;
     left: 50%;
     transform: translateX(-50%);
     width: 60px;
@@ -45,8 +43,7 @@
     text-align: center;
     display: flex;
     flex-direction: column;
-    /* Reduced gap from 1.25rem to 0.75rem */
-    gap: 0.75rem; 
+    gap: 0.75rem;
     align-items: center;
 }
 
@@ -94,8 +91,7 @@
     position: relative;
     width: 100%;
     min-width: 0;
-    /* Removed top padding to bring cards closer to filters */
-    padding: 0 3rem 1rem; 
+    padding: 0 3rem 1rem;
     box-sizing: border-box;
 }
 
@@ -300,20 +296,6 @@
 }
 
 
-/* ---- Height constraints for card children ---- */
-
-.project-tech {
-    max-height: 65px;
-    overflow: hidden;
-    flex-shrink: 0;
-}
-
-.project-info-button {
-    flex-shrink: 0;
-    margin-top: auto;
-}
-
-
 /* ============================================================
    PROJECT TECHNOLOGIES
    ============================================================ */
@@ -323,6 +305,11 @@
     flex-wrap: wrap;
     gap: 0.4rem;
     margin-top: 0.25rem;
+
+    /* Height constraints for card children */
+    max-height: 65px;
+    overflow: hidden;
+    flex-shrink: 0;
 }
 
 .tech-tag {
@@ -367,6 +354,10 @@
     border-radius: var(--radius-full);
     cursor: pointer;
     align-self: flex-start;
+
+    flex-shrink: 0;
+    margin-top: auto;
+
     transition:
         background 0.25s ease,
         color 0.25s ease,
@@ -429,11 +420,11 @@
 }
 
 .project-slider-prev {
-    left: 0;
+    left: -1rem;
 }
 
 .project-slider-next {
-    right: 0;
+    right: -1rem;
 }
 
 .project-slider-arrow:hover {
@@ -484,7 +475,6 @@
     border-radius: 50%;
     background: var(--border);
     cursor: pointer;
-
     transition:
         width 0.3s ease,
         background-color 0.3s ease,
@@ -529,7 +519,6 @@
 .other-showcase {
     display: flex;
     flex-direction: column;
-    /* Reduced gap from 1.75rem to 1rem to tighten the layout */
     gap: 1rem;
     margin-top: 1rem;
     padding-top: 2.5rem;
@@ -1193,11 +1182,11 @@ body.modal-open {
     }
 
     .project-slider-prev {
-        left: 0;
+        left: -0.5rem;
     }
 
     .project-slider-next {
-        right: 0;
+        right: -0.5rem;
     }
 
     .project-card-content {

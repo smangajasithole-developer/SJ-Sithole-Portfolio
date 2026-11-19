@@ -20,9 +20,6 @@
     const sliderContainer = aboutSection.querySelector('.about-slider-container');
     const slider          = aboutSection.querySelector('.about-slider');
 
-    const prevButton = aboutSection.querySelector('.about-slider-prev');
-    const nextButton = aboutSection.querySelector('.about-slider-next');
-
     const dots = Array.from(
         aboutSection.querySelectorAll('.about-slider-dot')
     );
@@ -38,6 +35,20 @@
 
     function showAbout() {
         aboutSection.classList.add('is-visible');
+    }
+
+
+    /* ========================================================
+       RETURN TO ABOUT SECTION POSITION
+       ======================================================== */
+
+    function returnToAboutPosition() {
+
+        aboutSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+
     }
 
 
@@ -125,12 +136,41 @@
 
 
     /* ========================================================
+       UPDATE ACTIVE PANEL HEIGHT
+       ======================================================== */
+
+    function updateActivePanelHeight() {
+
+        if (!isMobile) {
+            return;
+        }
+
+        const activePanel = slider.children[currentIndex];
+
+        if (!activePanel) {
+            return;
+        }
+
+        const panelHeight = activePanel.getBoundingClientRect().height;
+
+        if (panelHeight > 0) {
+            sliderContainer.style.height = `${panelHeight}px`;
+        }
+
+    }
+
+
+    /* ========================================================
        UPDATE NAVIGATION DOTS
        ======================================================== */
 
     function updateDots() {
 
-        const activeIndex = currentIndex === 2 ? 1 : 0;
+        // Index 0 and 2 represent the About Me panel.
+        // Index 1 and 3 represent the Statistics panel.
+
+        const activeIndex =
+            currentIndex === 0 || currentIndex === 2 ? 1 : 0;
 
         dots.forEach((dot, index) => {
 
@@ -139,10 +179,42 @@
             dot.classList.toggle('active', active);
 
             if (active) {
+
                 dot.setAttribute('aria-current', 'true');
+
             } else {
+
                 dot.removeAttribute('aria-current');
+
             }
+
+        });
+
+    }
+
+
+    /* ========================================================
+       UPDATE VISIBLE PANEL ARROWS
+       ======================================================== */
+
+    function updateArrowVisibility() {
+
+        const panels = Array.from(slider.children);
+
+        panels.forEach((panel, index) => {
+
+            const isActiveOriginalPanel =
+                (currentIndex === 1 && index === 1) ||
+                (currentIndex === 2 && index === 2);
+
+            panel.querySelectorAll('.about-slider-arrow').forEach((button) => {
+
+                button.classList.toggle(
+                    'is-visible',
+                    isActiveOriginalPanel
+                );
+
+            });
 
         });
 
@@ -161,13 +233,17 @@
 
         clearTimeout(transitionFallback);
 
+        // Normalize the cloned last panel.
         if (currentIndex === 3) {
 
             currentIndex = 1;
 
             setSliderPosition(false);
 
-        } else if (currentIndex === 0) {
+        }
+
+        // Normalize the cloned first panel.
+        else if (currentIndex === 0) {
 
             currentIndex = 2;
 
@@ -179,6 +255,10 @@
         wheelDistance = 0;
 
         updateDots();
+        updateArrowVisibility();
+
+        // Keep the About section in its correct scroll position.
+        returnToAboutPosition();
 
     }
 
@@ -212,6 +292,12 @@
         currentIndex = index;
 
         isAnimating = true;
+
+        // Update the incoming panel's height.
+        updateActivePanelHeight();
+
+        // Update the visible panel arrows.
+        updateArrowVisibility();
 
         setSliderPosition(true);
 
@@ -254,16 +340,19 @@
 
 
     /* ========================================================
-       ARROW CONTROLS
+       ARROW CONTROLS — BOTH PANELS
        ======================================================== */
 
-    if (prevButton) {
-        prevButton.addEventListener('click', movePrevious);
-    }
+    const prevButtons = aboutSection.querySelectorAll('.about-slider-prev');
+    const nextButtons = aboutSection.querySelectorAll('.about-slider-next');
 
-    if (nextButton) {
-        nextButton.addEventListener('click', moveNext);
-    }
+    prevButtons.forEach((button) => {
+        button.addEventListener('click', movePrevious);
+    });
+
+    nextButtons.forEach((button) => {
+        button.addEventListener('click', moveNext);
+    });
 
 
     /* ========================================================
@@ -331,6 +420,7 @@
         const deltaX = event.clientX - startX;
         const deltaY = event.clientY - startY;
 
+        // Allow normal vertical page scrolling.
         if (
             !hasDragged &&
             Math.abs(deltaY) > Math.abs(deltaX)
@@ -481,12 +571,14 @@
         const firstPanel = panels[0];
         const lastPanel  = panels[1];
 
+        // Clone the last panel for backward looping.
         const lastClone = lastPanel.cloneNode(true);
 
         lastClone.dataset.aboutClone = 'true';
         lastClone.setAttribute('aria-hidden', 'true');
         lastClone.inert = true;
 
+        // Clone the first panel for forward looping.
         const firstClone = firstPanel.cloneNode(true);
 
         firstClone.dataset.aboutClone = 'true';
@@ -504,6 +596,12 @@
         setSliderPosition(false);
 
         updateDots();
+        updateArrowVisibility();
+
+        // Measure the initial panel after browser layout.
+        requestAnimationFrame(() => {
+            updateActivePanelHeight();
+        });
 
     }
 
@@ -527,7 +625,15 @@
         slider.style.transition = '';
         slider.style.transform  = '';
 
+        // Restore natural desktop height.
+        sliderContainer.style.height = '';
+
         sliderContainer.style.cursor = '';
+
+        // Remove mobile-only arrow visibility classes.
+        aboutSection.querySelectorAll('.about-slider-arrow').forEach((button) => {
+            button.classList.remove('is-visible');
+        });
 
         updateDots();
 
@@ -560,6 +666,19 @@
 
 
     mobileBreakpoint.addEventListener('change', handleResponsiveChange);
+
+
+    /* ========================================================
+       UPDATE PANEL HEIGHT ON WINDOW RESIZE
+       ======================================================== */
+
+    window.addEventListener('resize', () => {
+
+        if (isMobile) {
+            updateActivePanelHeight();
+        }
+
+    });
 
 
     /* ========================================================
