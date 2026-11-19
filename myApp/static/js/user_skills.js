@@ -550,9 +550,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!isEnabled || isMoving) return;
 
-        // Do not capture pointer interactions on dropdown parents
-        // or navigation buttons.
-        if (event.target.closest("button, .public-node-content.skill-parent")) {
+        // Do not capture pointer interactions on actual buttons.
+        // Skill parent rows remain available for horizontal dragging.
+        if (event.target.closest("button")) {
             return;
         }
 

@@ -46,6 +46,7 @@
 {% block content %}
 
 
+
 <!-- ============================================ -->
 <!-- HOME / INTRO SECTION                         -->
 <!-- ============================================ -->
@@ -122,21 +123,6 @@
                     </a>
                 </div>
 
-                <!-- INTRO PANEL ARROWS -->
-                <button
-                    type="button"
-                    class="about-slider-arrow about-slider-prev"
-                    aria-label="Previous panel">
-                    &#10094;
-                </button>
-
-                <button
-                    type="button"
-                    class="about-slider-arrow about-slider-next"
-                    aria-label="Next panel">
-                    &#10095;
-                </button>
-
             </div>
 
 
@@ -192,47 +178,6 @@
                     </div>
                 </div>
 
-                <!-- PROFILE PANEL ARROWS -->
-                <button
-                    type="button"
-                    class="about-slider-arrow about-slider-prev"
-                    aria-label="Previous panel">
-                    &#10094;
-                </button>
-
-                <button
-                    type="button"
-                    class="about-slider-arrow about-slider-next"
-                    aria-label="Next panel">
-                    &#10095;
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- ======================================== -->
-        <!-- HOME SLIDER CONTROLS                     -->
-        <!-- ======================================== -->
-
-        <div class="home-slider-controls">
-
-            <div class="home-slider-dots">
-
-                <button type="button"
-                        class="home-slider-dot active"
-                        data-slide="0"
-                        aria-label="Show introduction"
-                        aria-current="true">
-                </button>
-
-                <button type="button"
-                        class="home-slider-dot"
-                        data-slide="1"
-                        aria-label="Show profile photo">
-                </button>
-
             </div>
 
         </div>
@@ -240,6 +185,8 @@
     </div>
 
 </section>
+
+
 
 
 <!-- ============================================ -->
@@ -248,179 +195,120 @@
 
 <section id="about" class="about animate-on-scroll">
 
-    <!-- ABOUT CONTENT SLIDER -->
-    <div class="about-slider-container">
+    <div class="about-container">
 
-        <div class="about-slider">
+        <!-- ================================== -->
+        <!-- PANEL 1: ABOUT INFORMATION         -->
+        <!-- ================================== -->
 
-            <!-- ================================== -->
-            <!-- PANEL 1: STATISTICS                -->
-            <!-- ================================== -->
+        <div class="about-panel about-text-panel">
 
-            <div class="about-panel about-stats-panel">
+            <!-- ABOUT TEXT CONTENT -->
+            <div class="about-text">
 
-                <!-- STATISTICS CONTENT -->
-                <div class="about-stats-content">
+                <h1>
+                    {% if about %}
+                        {{ about.heading }}
+                    {% endif %}
+                </h1>
 
-                    <h2 class="about-stats-heading">
-                        Statistics
-                    </h2>
+                <h2>
+                    {% if about %}
+                        {{ about.subheading }}
+                    {% endif %}
+                </h2>
 
-                    <div class="about-stats">
+                <p>
+                    {% if about %}
+                        {{ about.paragraph1 }}
+                    {% endif %}
+                </p>
 
-                        <!-- Years Experience -->
-                        <div class="stat-box">
-                            <img src="{% static 'images/Bag.png' %}" alt="">
-                            <h3>
-                                {% if about %}
-                                    {{ about.years_experience }}
-                                {% endif %}
-                            </h3>
-                            <p>Years Experience</p>
-                        </div>
+                <p>
+                    {% if about %}
+                        {{ about.paragraph2 }}
+                    {% endif %}
+                </p>
 
-                        <!-- Projects Completed -->
-                        <div class="stat-box">
-                            <img src="{% static 'images/Award Ribbon.png' %}" alt="">
-                            <h3>
-                                {% if about %}
-                                    {{ about.projects_completed }}
-                                {% endif %}
-                            </h3>
-                            <p>Projects Completed</p>
-                        </div>
-
-                        <!-- Certifications -->
-                        <div class="stat-box">
-                            <img src="{% static 'images/Graduation Cap.png' %}" alt="">
-                            <h3>
-                                {% if about %}
-                                    {{ about.certifications }}
-                                {% endif %}
-                            </h3>
-                            <p>Certifications</p>
-                        </div>
-
-                        <!-- Location -->
-                        <div class="stat-box">
-                            <img src="{% static 'images/location.png' %}" alt="">
-                            <h3>
-                                {% if about %}
-                                    {{ about.location }}
-                                {% endif %}
-                            </h3>
-                            <p>Based In</p>
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <!-- STATISTICS PANEL ARROWS -->
-                <button
-                    type="button"
-                    class="about-slider-arrow about-slider-prev"
-                    aria-label="Previous panel">
-                    &#10094;
-                </button>
-
-                <button
-                    type="button"
-                    class="about-slider-arrow about-slider-next"
-                    aria-label="Next panel">
-                    &#10095;
-                </button>
-
-            </div>
-
-
-            <!-- ================================== -->
-            <!-- PANEL 2: ABOUT INFORMATION         -->
-            <!-- ================================== -->
-
-            <div class="about-panel about-text-panel">
-
-                <!-- ABOUT TEXT CONTENT -->
-                <div class="about-text">
-
-                    <h1>
-                        {% if about %}
-                            {{ about.heading }}
-                        {% endif %}
-                    </h1>
-
-                    <h2>
-                        {% if about %}
-                            {{ about.subheading }}
-                        {% endif %}
-                    </h2>
-
-                    <p>
-                        {% if about %}
-                            {{ about.paragraph1 }}
-                        {% endif %}
-                    </p>
-
-                    <p>
-                        {% if about %}
-                            {{ about.paragraph2 }}
-                        {% endif %}
-                    </p>
-
-                    <a href="#contact" class="btn orange">
-                        Let's Work Together
-                    </a>
-
-                </div>
-
-                <!-- ABOUT TEXT PANEL ARROWS -->
-                <button
-                    type="button"
-                    class="about-slider-arrow about-slider-prev"
-                    aria-label="Previous panel">
-                    &#10094;
-                </button>
-
-                <button
-                    type="button"
-                    class="about-slider-arrow about-slider-next"
-                    aria-label="Next panel">
-                    &#10095;
-                </button>
+                <a href="#contact" class="btn orange">
+                    Let's Work Together
+                </a>
 
             </div>
 
         </div>
 
-    </div>
 
+        <!-- ================================== -->
+        <!-- PANEL 2: STATISTICS                -->
+        <!-- ================================== -->
 
-    <!-- ======================================== -->
-    <!-- ABOUT SLIDER NAVIGATION                  -->
-    <!-- ======================================== -->
+        <div class="about-panel about-stats-panel">
 
-    <div class="about-slider-navigation">
+            <!-- STATISTICS CONTENT -->
+            <div class="about-stats-content">
 
-        <div class="about-slider-dots">
+                <h2 class="about-stats-heading">
+                    Statistics
+                </h2>
 
-            <button
-                type="button"
-                class="about-slider-dot active"
-                aria-label="Show statistics"
-                aria-current="true">
-            </button>
+                <div class="about-stats">
 
-            <button
-                type="button"
-                class="about-slider-dot"
-                aria-label="Show about information">
-            </button>
+                    <!-- Years Experience -->
+                    <div class="stat-box">
+                        <img src="{% static 'images/Bag.png' %}" alt="">
+                        <h3>
+                            {% if about %}
+                                {{ about.years_experience }}
+                            {% endif %}
+                        </h3>
+                        <p>Years Experience</p>
+                    </div>
+
+                    <!-- Projects Completed -->
+                    <div class="stat-box">
+                        <img src="{% static 'images/Award Ribbon.png' %}" alt="">
+                        <h3>
+                            {% if about %}
+                                {{ about.projects_completed }}
+                            {% endif %}
+                        </h3>
+                        <p>Projects Completed</p>
+                    </div>
+
+                    <!-- Certifications -->
+                    <div class="stat-box">
+                        <img src="{% static 'images/Graduation Cap.png' %}" alt="">
+                        <h3>
+                            {% if about %}
+                                {{ about.certifications }}
+                            {% endif %}
+                        </h3>
+                        <p>Certifications</p>
+                    </div>
+
+                    <!-- Location -->
+                    <div class="stat-box">
+                        <img src="{% static 'images/location.png' %}" alt="">
+                        <h3>
+                            {% if about %}
+                                {{ about.location }}
+                            {% endif %}
+                        </h3>
+                        <p>Based In</p>
+                    </div>
+
+                </div>
+
+            </div>
 
         </div>
 
     </div>
 
 </section>
+
+
 
 
 <!-- ============================================ -->

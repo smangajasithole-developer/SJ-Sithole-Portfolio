@@ -1,3 +1,4 @@
+
 /* ============================================================
    ABOUT SECTION
    ============================================================ */
@@ -33,30 +34,26 @@
 
 
 /* ============================================================
-   ABOUT SLIDER — DESKTOP
+   ABOUT LAYOUT — DESKTOP
    ============================================================ */
 
-.about-slider-container {
-    width: 100%;
-    overflow: visible;
-}
-
-.about-slider {
+.about-container {
     display: grid;
     grid-template-columns: 1.15fr 0.85fr;
     gap: 1.5rem;
     align-items: center;
+    width: 100%;
 }
 
 .about-panel {
-    min-width: 0;
     width: 100%;
+    min-width: 0;
 }
 
 
 /* ---- Panel placement ---- */
 
-/* About Me — Left */
+/* About text — Left */
 .about-text-panel {
     grid-column: 1;
     grid-row: 1;
@@ -70,7 +67,7 @@
 
 
 /* ============================================================
-   ABOUT TEXT — DESKTOP
+   ABOUT TEXT
    ============================================================ */
 
 .about-text {
@@ -289,21 +286,7 @@
 
 
 /* ============================================================
-   ABOUT SLIDER NAVIGATION — DESKTOP
-   ============================================================ */
-
-.about-slider-navigation {
-    display: none;
-}
-
-/* Hide About slider arrows on desktop */
-.about .about-slider-arrow {
-    display: none;
-}
-
-
-/* ============================================================
-   ABOUT SLIDER — MOBILE AND TABLET
+   ABOUT SECTION — MOBILE AND TABLET
    ============================================================ */
 
 @media (max-width: 900px) {
@@ -312,7 +295,7 @@
 
     .about {
         position: relative;
-        padding: 2rem 0.05rem 2rem;
+        padding: 2rem 1.5rem;
     }
 
     .about::before {
@@ -320,70 +303,69 @@
     }
 
 
-    /* ---- Slider container ---- */
+    /* ---- Stacked layout ---- */
 
-    .about-slider-container {
-        overflow: hidden;
-        touch-action: pan-y;
-        cursor: grab;
-        user-select: none;
-        -webkit-user-select: none;
-        height: auto;
-        transition: height 450ms ease-in-out;
-    }
-
-    .about-slider-container:active {
-        cursor: grabbing;
+    .about-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        align-items: start;
     }
 
 
-    /* ---- Slides track ---- */
+    /* ---- About text first ---- */
 
-    .about-slider {
+    .about-text-panel {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .about-text {
         display: flex;
-        flex-wrap: nowrap;
-        flex-direction: row;
-        align-items: flex-start;
-        width: 100%;
-        min-width: 0;
-        gap: 0;
-        overflow: visible;
-        box-sizing: border-box;
-        will-change: transform;
-        touch-action: pan-y;
-        transition: height 450ms ease-in-out;
-    }
-
-
-    /* ---- Individual panels ---- */
-
-    .about-panel {
-        position: relative;
-        display: flex;
-        flex: 0 0 100%;
-        width: 100%;
-        min-width: 100%;
-        max-width: 100%;
-        height: fit-content;
-        align-self: flex-start;
+        flex-direction: column;
         align-items: center;
-        justify-content: center;
-        padding-left: 3rem;
-        padding-right: 3rem;
+        text-align: center;
+        gap: 0.7rem;
+        width: 100%;
+        max-width: 650px;
+        min-width: 0;
+        margin: 0 auto;
         box-sizing: border-box;
     }
 
+    .about-text h1,
+    .about-text h2,
+    .about-text p {
+        width: 100%;
+        text-align: center;
+    }
 
-    /* ---- Arrow visibility ---- */
+    .about-text h1::after {
+        margin-left: auto;
+        margin-right: auto;
+    }
 
-    .about .about-slider-arrow:not(.is-visible) {
-        display: none;
+    .about-text p {
+        max-width: 58ch;
+        line-height: 1.6;
+    }
+
+    .about-text p + p {
+        margin-top: 0.2rem;
+    }
+
+    .about-text .btn.orange {
+        align-self: center;
+        margin-top: 0.7rem;
     }
 
 
-    /* ========================================================
-       STATISTICS CONTENT
-       ======================================================== */
+    /* ---- Statistics second ---- */
+
+    .about-stats-panel {
+        grid-column: 1;
+        grid-row: 2;
+    }
 
     .about-stats-content {
         display: flex;
@@ -468,165 +450,11 @@
         overflow-wrap: anywhere;
     }
 
-
-    /* ========================================================
-       ABOUT TEXT CONTENT
-       ======================================================== */
-
-    .about-text {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 0.7rem;
-        width: 100%;
-        max-width: 650px;
-        min-width: 0;
-        box-sizing: border-box;
-    }
-
-    .about-text h1,
-    .about-text h2,
-    .about-text p {
-        width: 100%;
-        text-align: center;
-    }
-
-    .about-text h1::after {
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .about-text p {
-        max-width: 58ch;
-        line-height: 1.6;
-    }
-
-    .about-text p + p {
-        margin-top: 0.2rem;
-    }
-
-    .about-text .btn.orange {
-        align-self: center;
-        margin-top: 0.7rem;
-    }
-
-
-    /* ========================================================
-       PANEL ARROWS — HOME-STYLE POSITIONING
-       ======================================================== */
-
-    .about .about-slider-arrow {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        width: 36px;
-        height: 36px;
-        padding: 0;
-
-        border: 1px solid var(--border);
-        border-radius: 50%;
-
-        background: var(--white);
-        color: var(--text-dark);
-
-        font-size: 1.3rem;
-        line-height: 1;
-
-        cursor: pointer;
-        box-shadow: var(--shadow-md);
-
-        pointer-events: auto;
-        z-index: 11;
-
-        transition:
-            background-color 0.2s ease,
-            color 0.2s ease,
-            border-color 0.2s ease;
-    }
-
-    .about .about-slider-arrow.is-visible {
-        display: flex;
-    }
-
-    .about .about-slider-prev {
-        left: 0.35rem;
-    }
-
-    .about .about-slider-next {
-        right: 0.35rem;
-    }
-
-    .about .about-slider-arrow:hover {
-        background: var(--primary);
-        color: #ffffff;
-        border-color: var(--primary);
-    }
-
-    .about .about-slider-arrow:active {
-        transform: translateY(-50%) scale(0.95);
-    }
-
-
-    /* ========================================================
-       SLIDER NAVIGATION — DOTS
-       ======================================================== */
-
-    .about-slider-navigation {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        min-height: 20px;
-        margin-top: 1.5rem;
-        padding: 0;
-        pointer-events: none;
-        z-index: 2;
-    }
-
-    .about-slider-dots {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.65rem;
-        pointer-events: auto;
-    }
-
-    .about-slider-dot {
-        display: block;
-        width: 9px;
-        height: 9px;
-        padding: 0;
-        border: none;
-        border-radius: 50%;
-        background: var(--border);
-        cursor: pointer;
-        transition:
-            width var(--transition),
-            background var(--transition);
-    }
-
-    .about-slider-dot.active {
-        width: 22px;
-        border-radius: var(--radius-full);
-        background: var(--primary);
-    }
 }
 
 
 /* ============================================================
    ABOUT SECTION — ENTRANCE ANIMATION
-   ============================================================
-
-   Applies at ALL screen sizes.
-
    ============================================================ */
 
 .about .about-stats-content,
@@ -662,4 +490,5 @@
         transform: none;
         opacity: 1;
     }
+
 }

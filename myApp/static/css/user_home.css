@@ -1,3 +1,4 @@
+
 /* ============================================================
    HOME / INTRO SECTION
    ============================================================ */
@@ -63,6 +64,13 @@
     grid-template-columns: 1.15fr 0.85fr;
     gap: 1.5rem;
     align-items: center;
+}
+
+/* The slides wrapper no longer creates a slider.
+   Its two panels participate directly in the container layout. */
+
+.home-slides {
+    display: contents;
 }
 
 .home-content {
@@ -572,27 +580,7 @@
 
 
 /* ============================================================
-   HOME SLIDER — DESKTOP LAYOUT
-   ============================================================ */
-
-.home-slides {
-    display: contents;
-}
-
-.home-slider-controls {
-    display: none;
-}
-
-
-/* Hide Home slider arrows on desktop */
-
-.home .about-slider-arrow {
-    display: none;
-}
-
-
-/* ============================================================
-   HOME SLIDER — MOBILE AND TABLET
+   HOME — MOBILE AND TABLET LAYOUT
    ============================================================ */
 
 @media (max-width: 900px) {
@@ -606,56 +594,30 @@
 
     .home-container {
         position: relative;
-        display: block;
+        display: grid;
+        grid-template-columns: 1fr;
         width: 100%;
         max-width: 1200px;
         min-width: 0;
-        padding: 0 0 2rem;
+        padding: 0 1.5rem 2rem;
         box-sizing: border-box;
-        overflow: hidden;
+        align-items: start;
     }
 
 
-    /* ---- Slides track ---- */
+    /* ---- Normal stacked panels ---- */
 
     .home-slides {
-        display: flex;
-        flex-wrap: nowrap;
-        flex-direction: row;
-
-        /* Each panel keeps its own natural height. */
-        align-items: flex-start;
-
-        width: 100%;
-        min-width: 0;
-        max-width: 100%;
-        height: auto;
-        gap: 0;
-        overflow: visible;
-        box-sizing: border-box;
-        will-change: transform;
-        touch-action: pan-y;
-        cursor: grab;
-        transition: height 450ms ease-in-out;
-    }
-
-    .home-slides.dragging {
-        cursor: grabbing;
-        user-select: none;
-        -webkit-user-select: none;
+        display: contents;
     }
 
     .home-slide {
         position: relative;
         display: flex;
-        flex: 0 0 100%;
         width: 100%;
-        min-width: 100%;
+        min-width: 0;
         max-width: 100%;
-        height: fit-content;
-        align-self: flex-start;
-        padding-left: 3rem;
-        padding-right: 3rem;
+        height: auto;
         box-sizing: border-box;
     }
 
@@ -663,6 +625,7 @@
     /* ---- Centre intro content ---- */
 
     .home-content {
+        grid-row: 2;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -720,8 +683,12 @@
         font-size: 0.82rem;
     }
 
+
+    /* ---- Profile panel ---- */
+
     .home-profile {
-        padding-top: 0;
+        grid-row: 1;
+        padding-top: 1.5rem;
         padding-bottom: 0;
         min-height: 0;
     }
@@ -729,127 +696,6 @@
     .home-profile-card {
         width: min(230px, 100%);
         padding: 0.7rem;
-    }
-
-
-    /* ---- Slider controls / dots container ---- */
-
-    .home-slider-controls {
-        position: absolute;
-        inset: 0;
-        display: block;
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        pointer-events: none;
-        z-index: 10;
-    }
-
-
-    /* ---- Previous and next arrows ---- */
-
-    .home .about-slider-arrow {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        width: 36px;
-        height: 36px;
-        padding: 0;
-
-        border: 1px solid var(--border);
-        border-radius: 50%;
-
-        background: var(--white);
-        color: var(--text-dark);
-
-        font-size: 1.3rem;
-        line-height: 1;
-
-        cursor: pointer;
-        box-shadow: var(--shadow-md);
-
-        pointer-events: auto;
-        z-index: 11;
-
-        transition:
-            background-color 0.2s ease,
-            color 0.2s ease,
-            border-color 0.2s ease;
-    }
-
-    .home .about-slider-prev {
-        left: 0.35rem;
-    }
-
-    .home .about-slider-next {
-        right: 0.35rem;
-    }
-
-    .home .about-slider-arrow:hover {
-        background: var(--primary);
-        color: #ffffff;
-        border-color: var(--primary);
-    }
-
-    .home .about-slider-arrow:active {
-        transform: translateY(-50%) scale(0.95);
-    }
-
-    .home .about-slider-arrow:focus-visible,
-    .home-slider-dot:focus-visible {
-        outline: 2px solid var(--primary);
-        outline-offset: 4px;
-    }
-
-
-    /* ---- Navigation dots ---- */
-
-    .home-slider-dots {
-        position: absolute;
-        left: 50%;
-        bottom: 0;
-        transform: translateX(-50%);
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-
-        pointer-events: auto;
-        z-index: 12;
-    }
-
-    .home-slider-dot {
-        display: block;
-        width: 8px;
-        height: 8px;
-        padding: 0;
-        border: none;
-        border-radius: 50%;
-        background: var(--border);
-        cursor: pointer;
-        pointer-events: auto;
-
-        transition:
-            width 0.3s ease,
-            background-color 0.3s ease,
-            border-radius 0.3s ease;
-    }
-
-    .home-slider-dot.active {
-        width: 20px;
-        border-radius: var(--radius-full);
-        background: var(--primary);
-    }
-
-    .home-slider-dot:hover:not(.active) {
-        background: var(--primary-light);
     }
 
 
@@ -865,99 +711,7 @@
             slide-in-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) 1s forwards,
             float-card 4.5s ease-in-out 1.9s infinite;
     }
-}
 
-
-/* ============================================================
-   HOME SLIDER — REPLAY ENTRANCE ANIMATIONS
-   ============================================================
-
-   Use the individual translate property for the entrance movement.
-   This allows the floating card's transform-based float-card
-   animation to continue without competing with the entrance effect.
-
-   ============================================================ */
-
-
-/* ---- Introduction panel ---- */
-
-.home-slide.replay-entrance .home-status,
-.home-slide.replay-entrance .home-intro,
-.home-slide.replay-entrance .home-location,
-.home-slide.replay-entrance .home-actions {
-    animation: home-enter-left 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-.home-slide.replay-entrance .home-status {
-    animation-delay: 0.10s;
-}
-
-.home-slide.replay-entrance .home-intro {
-    animation-delay: 0.25s;
-}
-
-.home-slide.replay-entrance .home-location {
-    animation-delay: 0.45s;
-}
-
-.home-slide.replay-entrance .home-actions {
-    animation-delay: 0.60s;
-}
-
-
-/* ---- Profile panel ---- */
-
-.home-slide.replay-entrance .profile-glow {
-    animation: home-glow-in 1.4s ease 0.5s both;
-}
-
-.home-slide.replay-entrance .home-profile-card {
-    animation: home-enter-right 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.75s both;
-}
-
-.home-slide.replay-entrance .home-floating-card {
-    animation:
-        home-enter-right 0.9s cubic-bezier(0.22, 1, 0.36, 1) 1s both,
-        float-card 4.5s ease-in-out 1.9s infinite;
-}
-
-
-/* ============================================================
-   ENTRANCE KEYFRAMES
-   ============================================================ */
-
-@keyframes home-enter-left {
-    from {
-        opacity: 0;
-        translate: -120px 0;
-    }
-
-    to {
-        opacity: 1;
-        translate: 0 0;
-    }
-}
-
-@keyframes home-enter-right {
-    from {
-        opacity: 0;
-        translate: 120px 0;
-    }
-
-    to {
-        opacity: 1;
-        translate: 0 0;
-    }
-}
-
-@keyframes home-glow-in {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
 }
 
 
@@ -967,13 +721,30 @@
 
 @media (prefers-reduced-motion: reduce) {
 
-    .home-slides {
-        scroll-behavior: auto;
+    .home .home-status,
+    .home .home-intro,
+    .home .home-location,
+    .home .home-actions,
+    .home .profile-glow,
+    .home .home-profile-card,
+    .home .home-floating-card {
         transition: none;
+        animation: none;
     }
 
-    .home .about-slider-arrow,
-    .home-slider-dot {
-        transition: none;
+    .home .status-dot.available {
+        animation: none;
     }
+
+    .home:not(.is-visible) .home-status,
+    .home:not(.is-visible) .home-intro,
+    .home:not(.is-visible) .home-location,
+    .home:not(.is-visible) .home-actions,
+    .home:not(.is-visible) .profile-glow,
+    .home:not(.is-visible) .home-profile-card,
+    .home:not(.is-visible) .home-floating-card {
+        opacity: 1;
+        transform: none;
+    }
+
 }
