@@ -174,6 +174,23 @@
     gap: 0.6rem;
 }
 
+
+/* ============================================================
+   FLATTENED TREE — HIDDEN PARENT
+   ============================================================
+
+   When a parent has been flattened out of the tree, its
+   wrapper still exists in the DOM (so descendants keep their
+   structure), but it should not participate in flex layout
+   or add any visual footprint of its own.
+
+   ============================================================ */
+
+.public-skill-tree-flattened {
+    display: contents;
+}
+
+
 .public-skill-node {
     display: flex;
     flex-direction: column;

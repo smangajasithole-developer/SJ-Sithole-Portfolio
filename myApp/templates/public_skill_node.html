@@ -6,109 +6,117 @@
 <!-- Recursive renderer for ALL skill levels      -->
 <!-- ============================================ -->
 
-<div class="public-skill-tree">
+<div class="public-skill-tree{% if flattened %} public-skill-tree-flattened{% endif %}">
 
     {% for node in nodes %}
 
         {% if node.public_visible %}
 
-            <div
-                class="public-skill-node{% if node.public_children %} has-children{% endif %}"
-                data-skill-id="{{ node.id }}"
-            >
+            <!-- ============================================ -->
+            <!-- VISIBLE NODE (NAME OR ICON ENABLED)          -->
+            <!-- ============================================ -->
 
-                <!-- ============================================ -->
-                <!-- NODE HEADER (ICON + NAME)                    -->
-                <!-- ============================================ -->
+            {% if node.show or node.show_icon and node.icon %}
 
                 <div
-                    class="public-node-content{% if node.public_children %} skill-parent{% endif %}"
-                    {% if node.public_children %}
-                        role="button"
-                        tabindex="0"
-                        aria-expanded="false"
-                    {% endif %}
+                    class="public-skill-node{% if node.public_children %} has-children{% endif %}"
+                    data-skill-id="{{ node.id }}"
                 >
 
-                    <!-- ICON -->
-                    {% if node.show_icon and node.icon %}
+                    <!-- ============================================ -->
+                    <!-- NODE HEADER (ICON + NAME)                    -->
+                    <!-- ============================================ -->
 
-                        {% include "skill_icon.html" with icon_key=node.icon icon_class="public-node-icon" %}
+                    <div
+                        class="public-node-content{% if node.public_children %} skill-parent{% endif %}"
+                        {% if node.public_children %}
+                            role="button"
+                            tabindex="0"
+                            aria-expanded="false"
+                        {% endif %}
+                    >
 
-                    {% endif %}
+                        <!-- ICON -->
+                        {% if node.show_icon and node.icon %}
 
+                            {% include "skill_icon.html" with icon_key=node.icon icon_class="public-node-icon" %}
 
-                    <!-- NAME -->
-                    {% if node.show %}
-
-                        <div class="public-node-name">
-
-                            {% if node.display_type == "bullet" %}
-
-                                {% if node.heading == "h1" %}
-                                    <h1>• {{ node.name }}</h1>
-
-                                {% elif node.heading == "h2" %}
-                                    <h2>• {{ node.name }}</h2>
-
-                                {% elif node.heading == "h3" %}
-                                    <h3>• {{ node.name }}</h3>
-
-                                {% elif node.heading == "h4" %}
-                                    <h4>• {{ node.name }}</h4>
-
-                                {% elif node.heading == "h5" %}
-                                    <h5>• {{ node.name }}</h5>
-
-                                {% else %}
-                                    <h6>• {{ node.name }}</h6>
-                                {% endif %}
+                        {% endif %}
 
 
-                            {% elif node.display_type == "plain" %}
+                        <!-- NAME -->
+                        {% if node.show %}
 
-                                {% if node.heading == "h1" %}
-                                    <h1 style="font-weight:400;">{{ node.name }}</h1>
+                            <div class="public-node-name">
 
-                                {% elif node.heading == "h2" %}
-                                    <h2 style="font-weight:400;">{{ node.name }}</h2>
+                                {% if node.display_type == "bullet" %}
 
-                                {% elif node.heading == "h3" %}
-                                    <h3 style="font-weight:400;">{{ node.name }}</h3>
+                                    {% if node.heading == "h1" %}
+                                        <h1>• {{ node.name }}</h1>
+                                    {% elif node.heading == "h2" %}
+                                        <h2>• {{ node.name }}</h2>
+                                    {% elif node.heading == "h3" %}
+                                        <h3>• {{ node.name }}</h3>
+                                    {% elif node.heading == "h4" %}
+                                        <h4>• {{ node.name }}</h4>
+                                    {% elif node.heading == "h5" %}
+                                        <h5>• {{ node.name }}</h5>
+                                    {% else %}
+                                        <h6>• {{ node.name }}</h6>
+                                    {% endif %}
 
-                                {% elif node.heading == "h4" %}
-                                    <h4 style="font-weight:400;">{{ node.name }}</h4>
 
-                                {% elif node.heading == "h5" %}
-                                    <h5 style="font-weight:400;">{{ node.name }}</h5>
+                                {% elif node.display_type == "plain" %}
 
-                                {% else %}
-                                    <h6 style="font-weight:400;">{{ node.name }}</h6>
-                                {% endif %}
+                                    {% if node.heading == "h1" %}
+                                        <h1 style="font-weight:400;">{{ node.name }}</h1>
+                                    {% elif node.heading == "h2" %}
+                                        <h2 style="font-weight:400;">{{ node.name }}</h2>
+                                    {% elif node.heading == "h3" %}
+                                        <h3 style="font-weight:400;">{{ node.name }}</h3>
+                                    {% elif node.heading == "h4" %}
+                                        <h4 style="font-weight:400;">{{ node.name }}</h4>
+                                    {% elif node.heading == "h5" %}
+                                        <h5 style="font-weight:400;">{{ node.name }}</h5>
+                                    {% else %}
+                                        <h6 style="font-weight:400;">{{ node.name }}</h6>
+                                    {% endif %}
 
-
-                            {% else %}
-
-                                {% if node.heading == "h1" %}
-                                    <h1>{{ node.name }}</h1>
-
-                                {% elif node.heading == "h2" %}
-                                    <h2>{{ node.name }}</h2>
-
-                                {% elif node.heading == "h3" %}
-                                    <h3>{{ node.name }}</h3>
-
-                                {% elif node.heading == "h4" %}
-                                    <h4>{{ node.name }}</h4>
-
-                                {% elif node.heading == "h5" %}
-                                    <h5>{{ node.name }}</h5>
 
                                 {% else %}
-                                    <h6>{{ node.name }}</h6>
+
+                                    {% if node.heading == "h1" %}
+                                        <h1>{{ node.name }}</h1>
+                                    {% elif node.heading == "h2" %}
+                                        <h2>{{ node.name }}</h2>
+                                    {% elif node.heading == "h3" %}
+                                        <h3>{{ node.name }}</h3>
+                                    {% elif node.heading == "h4" %}
+                                        <h4>{{ node.name }}</h4>
+                                    {% elif node.heading == "h5" %}
+                                        <h5>{{ node.name }}</h5>
+                                    {% else %}
+                                        <h6>{{ node.name }}</h6>
+                                    {% endif %}
+
                                 {% endif %}
 
-                            {% endif %}
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- ============================================ -->
+                    <!-- RECURSIVE CHILDREN                           -->
+                    <!-- ============================================ -->
+
+                    {% if node.public_children %}
+
+                        <div class="public-skill-children">
+
+                            {% include "public_skill_node.html" with nodes=node.public_children %}
 
                         </div>
 
@@ -117,21 +125,16 @@
                 </div>
 
 
-                <!-- ============================================ -->
-                <!-- RECURSIVE CHILDREN                           -->
-                <!-- ============================================ -->
+            <!-- ============================================ -->
+            <!-- HIDDEN PARENT — PROMOTE VISIBLE CHILDREN     -->
+            <!-- ============================================ -->
 
-                {% if node.public_children %}
+            {% elif node.public_children %}
 
-                    <div class="public-skill-children">
+                <!-- Parent is hidden, but its visible children remain. -->
+                {% include "public_skill_node.html" with nodes=node.public_children flattened=True %}
 
-                        {% include "public_skill_node.html" with nodes=node.public_children %}
-
-                    </div>
-
-                {% endif %}
-
-            </div>
+            {% endif %}
 
         {% endif %}
 

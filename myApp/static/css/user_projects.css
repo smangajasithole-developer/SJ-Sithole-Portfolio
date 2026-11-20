@@ -344,7 +344,6 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    margin-top: 0.5rem;
     padding: 0.75rem 1.35rem;
     font-size: 0.85rem;
     font-weight: 600;
@@ -355,6 +354,7 @@
     cursor: pointer;
     align-self: flex-start;
 
+    /* Pin the button to the bottom of the card. */
     flex-shrink: 0;
     margin-top: auto;
 
@@ -945,6 +945,16 @@ body.modal-open {
 
 
 /* ============================================================
+   HIDE SLIDER CONTROLS WHEN NOT NEEDED
+   ============================================================ */
+
+.project-slider-arrow[hidden],
+.project-slider-dots[hidden] {
+    display: none !important;
+}
+
+
+/* ============================================================
    EMPTY FILTER MESSAGE
    ============================================================ */
 
@@ -1117,12 +1127,126 @@ body.modal-open {
 
     .project-card {
         flex-basis: calc((100% - 1.5rem) / 2);
+
+        height: 450px;
+        max-height: 450px;
+        min-height: 450px;
     }
 
     .project-slider-arrow {
         width: 40px;
         height: 40px;
         font-size: 1.2rem;
+    }
+}
+
+
+/* ============================================================
+   TABLET — STATIC ONE-CARD LAYOUT
+   ============================================================ */
+
+@media (min-width: 601px) and (max-width: 900px) {
+
+    /*
+       One project: centre the available card.
+       There is nothing to slide, so keep this layout static.
+    */
+
+    .project-slider.has-one-card .project-slider-track {
+        justify-content: center;
+        transform: none !important;
+    }
+
+    .project-slider.has-one-card .project-card {
+        flex: 0 0 calc((100% - 1.5rem) / 2);
+        opacity: 1;
+        transform: none;
+    }
+
+    .project-slider.has-one-card .project-card:hover {
+        transform: translateY(-3px);
+    }
+
+    .project-slider.has-one-card .project-slider-viewport {
+        cursor: default;
+    }
+}
+
+
+/* ============================================================
+   DESKTOP — STATIC ONE / TWO / THREE PROJECT LAYOUTS
+   ============================================================ */
+
+@media (min-width: 901px) {
+
+    /* Centre the track for all static layouts. */
+
+    .project-slider.has-one-card .project-slider-track,
+    .project-slider.has-two-cards .project-slider-track,
+    .project-slider.has-three-cards .project-slider-track {
+        justify-content: center;
+        transform: none !important;
+    }
+
+
+    /* One project: display it centred. */
+
+    .project-slider.has-one-card .project-card {
+        flex: 0 0 calc((100% - 3rem) / 3);
+
+        height: 500px;
+        max-height: 500px;
+        min-height: 500px;
+    }
+
+
+    /* Two projects: display both side by side. */
+
+    .project-slider.has-two-cards .project-card {
+        flex: 0 0 calc((100% - 1.5rem) / 2);
+
+        height: 600px;
+        max-height: 600px;
+        min-height: 600px;
+    }
+
+
+    /* Three projects: display all three equally. */
+
+    .project-slider.has-three-cards .project-card {
+        flex: 0 0 calc((100% - 3rem) / 3);
+
+        height: 500px;
+        max-height: 500px;
+        min-height: 500px;
+    }
+
+
+    /* All cards remain fully visible and active. */
+
+    .project-slider.has-one-card .project-card,
+    .project-slider.has-two-cards .project-card,
+    .project-slider.has-three-cards .project-card {
+        opacity: 1;
+        transform: none;
+    }
+
+
+    /* Preserve the hover effect. */
+
+    .project-slider.has-one-card .project-card:hover,
+    .project-slider.has-two-cards .project-card:hover,
+    .project-slider.has-three-cards .project-card:hover {
+        transform: translateY(-3px);
+    }
+
+
+    /* Static layouts do not need drag interaction. */
+
+    .project-slider.has-one-card .project-slider-viewport,
+    .project-slider.has-two-cards .project-slider-viewport,
+    .project-slider.has-three-cards .project-slider-viewport {
+        cursor: default;
     }
 }
 
@@ -1162,8 +1286,8 @@ body.modal-open {
         flex-basis: 100%;
 
         height: 460px;
-        max-height: 550px;
-        min-height: 550px;
+        max-height: 450px;
+        min-height: 450px;
     }
 
     .project-card.is-active {

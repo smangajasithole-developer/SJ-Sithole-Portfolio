@@ -7,9 +7,10 @@
    - Independent category filters
    - Infinite left/right navigation
    - Maximum 3 visible cards on desktop
-   - 2 visible cards on tablet
+   - 2 visible cards on tablet when at least 2 projects exist
    - 1 visible card on mobile
-   - Centre card emphasis
+   - All cards active when 3 or fewer projects exist
+   - Centre card emphasis when 4+ projects exist
    - Dynamically generated navigation dots
    - Mouse dragging and touch swiping
    - Touchpad horizontal scrolling
@@ -181,12 +182,17 @@
 
             function getVisibleCount() {
 
+                const count = cards().length;
+
                 if (window.innerWidth <= 600) {
                     return 1;
                 }
 
                 if (window.innerWidth <= 900) {
-                    return 2;
+
+                    // Tablet: show up to two cards.
+                    return Math.max(1, Math.min(count, 2));
+
                 }
 
                 return 3;
@@ -272,11 +278,41 @@
             function updateCardStates() {
 
                 const allVisibleCards = cards();
+                const count           = allVisibleCards.length;
+
+                const isDesktop = window.innerWidth > 900;
+
+                const isTablet =
+                    window.innerWidth > 600 &&
+                    window.innerWidth <= 900;
 
                 allVisibleCards.forEach((card, index) => {
 
-                    const isVisible = index < visibleCount;
-                    const isActive  = index === Math.floor(visibleCount / 2);
+                    let isVisible;
+                    let isActive;
+
+                    if (isDesktop) {
+
+                        // DESKTOP: preserve existing behaviour.
+                        isVisible = count <= 3 || index < 3;
+                        isActive  = count <= 3 || index === 1;
+
+                    } else if (isTablet) {
+
+                        // TABLET: show two cards and keep
+                        // every displayed card active.
+                        isVisible = index < visibleCount;
+                        isActive  = true;
+
+                    } else {
+
+                        // MOBILE: preserve existing behaviour.
+                        isVisible = index < visibleCount;
+
+                        isActive =
+                            index === Math.floor(visibleCount / 2);
+
+                    }
 
                     card.classList.toggle('is-active', isActive);
 
@@ -330,8 +366,30 @@
 
             function updateControls() {
 
-                const count    = cards().length;
-                const canSlide = count > visibleCount;
+                const count = cards().length;
+
+                // Apply the correct static layout based on project count.
+                slider.classList.toggle('has-one-card', count === 1);
+                slider.classList.toggle('has-two-cards', count === 2);
+                slider.classList.toggle('has-three-cards', count === 3);
+
+                const isMobile = window.innerWidth <= 600;
+
+                const isTablet =
+                    window.innerWidth > 600 &&
+                    window.innerWidth <= 900;
+
+                // MOBILE: show controls when there are at least 2 projects.
+                //
+                // TABLET: show controls only when more projects
+                // exist than can be displayed simultaneously.
+                //
+                // DESKTOP: show controls when there are at least 4 projects.
+                const canSlide = isMobile
+                    ? count >= 2
+                    : isTablet
+                        ? count > visibleCount
+                        : count >= 4;
 
                 if (previousButton) {
                     previousButton.hidden = !canSlide;
@@ -438,6 +496,9 @@
                 currentIndex  = 0;
                 queuedMoves   = [];
                 wheelDistance = 0;
+
+                // Recalculate visible cards for the selected category.
+                visibleCount = getVisibleCount();
 
                 resetTrack();
 
@@ -716,8 +777,8 @@
                ARROW CONTROLS
                ================================================ */
 
-            previousButton?.addEventListener('click', previousProject);
-            nextButton?.addEventListener('click', nextProject);
+            previousButton?.addEventListener('click', nextProject);
+            nextButton?.addEventListener('click', previousProject);
 
 
             /* ================================================
@@ -840,37 +901,138 @@
 
                 if (
                     dragDirectionLocked &&
-                    Math.abs(differenceX) >= SWIPE_THRESHOLD
+                    Math.abs(differenceX) >= SWIPE_THRESHOLD &&
+                    cards().length > visibleCount
                 ) {
 
                     suppressClick = true;
 
-                    track.style.transition = 'none';
-                    track.style.transform  = 'translate3d(0, 0, 0)';
+                    const direction = differenceX < 0 ? 1 : -1;
+                    const stepSize  = getStepSize();
 
-                    track.offsetHeight;
+                    if (!stepSize) {
 
-                    if (differenceX < 0) {
+                        track.style.transition = 'none';
+                        track.style.transform  = 'translate3d(0, 0, 0)';
 
-                        nextProject();
+                        dragDirectionLocked = false;
+
+                        return;
+
+                    }
+
+                    // Reduced-motion navigation.
+                    if (reducedMotion.matches) {
+
+                        track.style.transition = 'none';
+
+                        if (direction === 1) {
+
+                            track.appendChild(cards()[0]);
+
+                        } else {
+
+                            track.prepend(cards()[cards().length - 1]);
+
+                        }
+
+                        currentIndex = (
+                            currentIndex + direction + cards().length
+                        ) % cards().length;
+
+                        track.style.transform = 'translate3d(0, 0, 0)';
+
+                        updateControls();
 
                     } else {
 
-                        previousProject();
+                        animating = true;
+
+                        // Moving left: continue directly to the next card.
+                        if (direction === 1) {
+
+                            track.style.transition =
+                                `transform ${ANIMATION_DURATION}ms ease`;
+
+                            track.style.transform =
+                                `translate3d(-${stepSize}px, 0, 0)`;
+
+                        }
+
+                        // Moving right: prepare the previous card without
+                        // visually jumping away from the dragged position.
+                        else {
+
+                            const lastCard = cards()[cards().length - 1];
+
+                            track.prepend(lastCard);
+
+                            track.style.transition = 'none';
+
+                            track.style.transform =
+                                `translate3d(${differenceX - stepSize}px, 0, 0)`;
+
+                            track.offsetHeight;
+
+                            track.style.transition =
+                                `transform ${ANIMATION_DURATION}ms ease`;
+
+                            track.style.transform =
+                                'translate3d(0, 0, 0)';
+
+                        }
+
+                        const handleTransitionEnd = (event) => {
+
+                            if (
+                                event.target !== track ||
+                                event.propertyName !== 'transform'
+                            ) {
+                                return;
+                            }
+
+                            track.removeEventListener(
+                                'transitionend',
+                                handleTransitionEnd
+                            );
+
+                            finishMove(direction);
+
+                        };
+
+                        track.addEventListener(
+                            'transitionend',
+                            handleTransitionEnd
+                        );
+
+                        // Fallback if transitionend does not fire.
+                        window.setTimeout(() => {
+
+                            if (!animating) {
+                                return;
+                            }
+
+                            track.removeEventListener(
+                                'transitionend',
+                                handleTransitionEnd
+                            );
+
+                            finishMove(direction);
+
+                        }, ANIMATION_DURATION + 100);
 
                     }
 
                     window.setTimeout(() => {
-
                         suppressClick = false;
-
                     }, 250);
 
                 } else {
 
+                    // Return smoothly to the original position.
                     track.style.transition = reducedMotion.matches
                         ? 'none'
-                        : 'transform 0.25s ease';
+                        : `transform ${ANIMATION_DURATION}ms ease`;
 
                     track.style.transform = 'translate3d(0, 0, 0)';
 

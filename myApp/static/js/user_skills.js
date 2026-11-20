@@ -289,11 +289,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (arrow.classList.contains("skills-slider-next")) {
 
-            nextSlide();
+            previousSlide();
 
         } else if (arrow.classList.contains("skills-slider-prev")) {
 
-            previousSlide();
+            nextSlide();
 
         }
 
